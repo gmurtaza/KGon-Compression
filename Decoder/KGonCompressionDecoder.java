@@ -34,7 +34,7 @@ public class KGonCompressionDecoder {
   }
     
     
-    public ArrayList<GPSPoint> getGPSPointListInterpolated(GPSPoint firstPosition, ArrayList<Double> positionData, double epsilon, String distanceType){
+    public ArrayList<GPSPoint> getGPSPointListCodedInterpolated(GPSPoint firstPosition, ArrayList<Double> positionData, double epsilon, String distanceType){
     
         ArrayList<GPSPoint> convertedListOfGPSPoints = new ArrayList<GPSPoint>();
         GPSPoint constructedPoint = null;

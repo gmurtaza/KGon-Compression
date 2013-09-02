@@ -204,8 +204,8 @@ public class CompressionDriver {
       IOHelper.writeGridPositionDataDouble(allStreamingValues.get(0), results, "data/strict-grid-coded-"+k+".txt");
       //resultsLoose = performGridCompression(allStreamingValues, k, "loose");
       //writeGridPositionData(allStreamingValues.get(0), resultsLoose, "loose-grid-"+k+".txt");
-      ArrayList<GPSPoint> convertedPoints = gridCompressionDecoder.getGPSPointListInterpolated(allStreamingValues.get(0), results, k, distanceType);
-      ArrayList<GPSPoint> looseConvertedPoints = gridCompressionDecoder.getGPSPointListInterpolated(allStreamingValues.get(0), resultsLoose, k, "loose");
+      ArrayList<GPSPoint> convertedPoints = gridCompressionDecoder.getGPSPointListCodedInterpolated(allStreamingValues.get(0), results, k, distanceType);
+      ArrayList<GPSPoint> looseConvertedPoints = gridCompressionDecoder.getGPSPointListCodedInterpolated(allStreamingValues.get(0), resultsLoose, k, "loose");
       IOHelper.writeGridConvertedGPS(convertedPoints, "data/converted-coded"+k+".txt");
       IOHelper.writeGridConvertedGPS(whileConstructing, "data/example-grid-converted-coded-"+k+".txt");
       resultantValues = GDouglasPeuker.douglasPeucker(allStreamingValues, k);
