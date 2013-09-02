@@ -550,7 +550,10 @@ public class KGonCompression {
         DecimalFormat df = new DecimalFormat("#.##");
         Date currentTime = new Date();
         float timeDifference;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         for (int i = 0; i < source.size(); i++) {
             //This if condition nominates the first centre point to be first point
             if (i == 0) {
