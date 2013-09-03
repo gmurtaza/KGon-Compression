@@ -7,6 +7,7 @@ package Driver;
 
 import Compression.GDouglasPeuker;
 import Compression.SummarisedData;
+import Compression.WorstBinCounter;
 import GeoHelper.GeoHelper;
 import GeoHelper.GPSPoint;
 import Decoder.KGonCompressionDecoder;
@@ -193,14 +194,15 @@ public class CompressionDriver {
     ArrayList<GPSPoint> resultantValues = new ArrayList<GPSPoint>();
     ArrayList<GPSPoint> interpolatedSource;
     ArrayList<GPSPoint> whileConstructing = new ArrayList<GPSPoint>();
+     ArrayList<WorstBinCounter> binCounterArray = new ArrayList<WorstBinCounter>();
 
     String resultOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
     String resultSizeOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
     String hausDorffDistance = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n"; 
     //interpolatedSource = kgonCompressionPerformer.performInterpolation(allStreamingValues, allowedEpsilon, distanceType, resultantValues, kGonType);
     for (int k = 10; k<1500; k+=10){
-      results = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, distanceType, kGonType, allDateTimeValues);
-      resultsLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, "loose", kGonType, allDateTimeValues);
+      results = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, distanceType, kGonType, allDateTimeValues, binCounterArray);
+      resultsLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, "loose", kGonType, allDateTimeValues, binCounterArray);
       IOHelper.writeGridPositionDataDouble(allStreamingValues.get(0), results, "data/strict-grid-coded-"+k+".txt");
       //resultsLoose = performGridCompression(allStreamingValues, k, "loose");
       //writeGridPositionData(allStreamingValues.get(0), resultsLoose, "loose-grid-"+k+".txt");

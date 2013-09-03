@@ -541,7 +541,7 @@ public class KGonCompression {
     }
 
     
-    public ArrayList<Double> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues) {
+    public ArrayList<Double> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
         
         ArrayList<Double> resultantPoints = new ArrayList<Double>();
         GPSPoint currentCentre = new GPSPoint();
@@ -549,6 +549,7 @@ public class KGonCompression {
         GPSPoint firstPointForCalibration = null;
         DecimalFormat df = new DecimalFormat("#.##");
         Date currentTime = new Date();
+        int simpleDoubleBenefitCounter = 0;
         float timeDifference;
         for (int i = 0; i < source.size(); i++) {
             //This if condition nominates the first centre point to be first point
@@ -566,8 +567,9 @@ public class KGonCompression {
                 if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
                     GPSPoint tempCurrent = currentCentre;
                     if (distance > (2*getSideLengthToUse(epsilon, angle, distanceType))+getSideLengthToUse(epsilon, angle, distanceType)){
+                        int multipleOfEpsilon = (int)(distance/getSideLengthToUse(epsilon, angle, distanceType));
                         resultantPoints.add(new Double(Constants.START_FINISH_OF_STEP_COUNT));
-                        resultantPoints.add(new Double((int)(distance/getSideLengthToUse(epsilon, angle, distanceType))));
+                        resultantPoints.add(new Double(multipleOfEpsilon));
                         resultantPoints.add(new Double((df.format(angle))));
                         currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, ((int)(distance/getSideLengthToUse(epsilon, angle, distanceType)))*getSideLengthToUse(epsilon, angle, distanceType), angle);
                         //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
@@ -575,6 +577,7 @@ public class KGonCompression {
                         currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
                         System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
                         addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
+                        simpleDoubleBenefitCounter++;
                     }
                     
                     //resultantPoints.add(new Double(getTimeCode(timeDifference)));
