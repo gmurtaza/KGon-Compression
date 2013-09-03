@@ -35,6 +35,7 @@ import Helper.IOHelper;
 import Helper.Utility;
 import Helper.Pair;
 import java.util.Date;
+import java.util.HashMap;
 public class KGonCompression {
     
     /*
@@ -550,6 +551,7 @@ public class KGonCompression {
         DecimalFormat df = new DecimalFormat("#.##");
         Date currentTime = new Date();
         int simpleDoubleBenefitCounter = 0;
+        HashMap<Integer, Integer> worstCaseMap = new HashMap<Integer, Integer>();
         float timeDifference;
         for (int i = 0; i < source.size(); i++) {
             //This if condition nominates the first centre point to be first point
@@ -572,6 +574,7 @@ public class KGonCompression {
                         resultantPoints.add(new Double(multipleOfEpsilon));
                         resultantPoints.add(new Double((df.format(angle))));
                         currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, ((int)(distance/getSideLengthToUse(epsilon, angle, distanceType)))*getSideLengthToUse(epsilon, angle, distanceType), angle);
+                        recordBinCount(multipleOfEpsilon, worstCaseMap);
                         //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
                     }else{
                         currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
@@ -942,6 +945,17 @@ public class KGonCompression {
         }else{
             return false;
         }
+     }
+     
+     void recordBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
+         int evenClosestBin = (multipleOfEpsilon+1)/2;
+         if (worstCaseMap.containsKey(new Integer(evenClosestBin))){
+             int temp = worstCaseMap.get(evenClosestBin);
+             worstCaseMap.put(new Integer(evenClosestBin), new Integer(temp));
+         }else{
+             worstCaseMap.put(new Integer(evenClosestBin), new Integer(1));
+         }
+         
      }
      
 }
