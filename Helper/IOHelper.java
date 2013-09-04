@@ -182,7 +182,7 @@ public class IOHelper {
         //DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm:ss");
         String[] lineTokens = eachLine.replaceAll(" +", " ").split(separator);
         //DateTime dt = formatter.parseDateTime(lineTokens[2]+" "+lineTokens[4]);
-        Date dt = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(lineTokens[2]+" "+lineTokens[4]);
+        Date dt = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(lineTokens[13]+" "+lineTokens[15]);
         //System.out.println(dt.getTime());
         if (!lineTokens[5].equals("0.0000000") && !lineTokens[6].equals("0.0000000")){
             testDateTimeList.add(dt);

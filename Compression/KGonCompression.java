@@ -542,9 +542,10 @@ public class KGonCompression {
     }
 
     
-    public ArrayList<Double> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
+    public Pair<ArrayList<Double>, HashMap<Integer, Integer>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
         
         ArrayList<Double> resultantPoints = new ArrayList<Double>();
+        //Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair;
         GPSPoint currentCentre = new GPSPoint();
         GPSPoint firstPoint;
         GPSPoint firstPointForCalibration = null;
@@ -574,13 +575,15 @@ public class KGonCompression {
                         resultantPoints.add(new Double(multipleOfEpsilon));
                         resultantPoints.add(new Double((df.format(angle))));
                         currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, ((int)(distance/getSideLengthToUse(epsilon, angle, distanceType)))*getSideLengthToUse(epsilon, angle, distanceType), angle);
+                        System.out.println(multipleOfEpsilon);
                         recordBinCount(multipleOfEpsilon, worstCaseMap);
                         //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
                     }else{
                         currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
-                        System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
+                        //System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
                         addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
                         simpleDoubleBenefitCounter++;
+                        worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
                     }
                     
                     //resultantPoints.add(new Double(getTimeCode(timeDifference)));
@@ -590,8 +593,8 @@ public class KGonCompression {
             
             whileConstructing.add(currentCentre);
         }
-
-        return resultantPoints;
+        System.out.println("Total number of bins is: "+worstCaseMap.keySet().size());
+        return new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap);
     }
     
     /* 
@@ -948,10 +951,11 @@ public class KGonCompression {
      }
      
      void recordBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
-         int evenClosestBin = (multipleOfEpsilon+1)/2;
+         int evenClosestBin;
+        evenClosestBin = (((multipleOfEpsilon)%2)==0)?multipleOfEpsilon:multipleOfEpsilon+1;
          if (worstCaseMap.containsKey(new Integer(evenClosestBin))){
              int temp = worstCaseMap.get(evenClosestBin);
-             worstCaseMap.put(new Integer(evenClosestBin), new Integer(temp));
+             worstCaseMap.put(new Integer(evenClosestBin), new Integer(temp+1));
          }else{
              worstCaseMap.put(new Integer(evenClosestBin), new Integer(1));
          }

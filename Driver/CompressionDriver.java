@@ -13,6 +13,7 @@ import GeoHelper.GPSPoint;
 import Decoder.KGonCompressionDecoder;
 import Compression.KGonCompression;
 import Helper.IOHelper;
+import Helper.Pair;
 import java.io.*;
 import java.util.*;
 //import org.joda.time.DateTime;
@@ -45,6 +46,7 @@ public class CompressionDriver {
     int thresholdForPointRecord = 2000;
     ArrayList<GPSPoint> allStreamingValues = new ArrayList<GPSPoint>();
     ArrayList<Date> allDateTimeValues = new ArrayList<Date>();
+    String fileName = "tag1936_gps.txt";
     if (args.length >= 3){
         
   	  if (args[0].equals("-e")){
@@ -52,8 +54,8 @@ public class CompressionDriver {
            allowedEpsilon = Integer.parseInt(args[1]);
            /************************ Core compression technique ************************/
             //allStreamingValues = gridCompression.getPositionData("NN_Position.dat", " ");
-            allStreamingValues = IOHelper.getPositionData("NN_Position.dat", " ");
-            allDateTimeValues = IOHelper.getTimeData( "tag1938_gps.txt", ","); 
+            allStreamingValues = IOHelper.getPositionData(fileName, ",");
+            allDateTimeValues = IOHelper.getTimeData( fileName, ","); 
             if (args[2].equals("grid")){
               gridCompression.runSimpleGridCase(allStreamingValues, allowedEpsilon);
               //results = gridCompression.performGridCompression(allStreamingValues, allowedEpsilon);
@@ -94,10 +96,10 @@ public class CompressionDriver {
                     }
                 }
                //gridCompression.runBothAdaptiveWithThreshold(thresholdForPointRecord, allStreamingValues, allowedEpsilon, distanceType, kGonType, totalEnergyForTransfer, allDateTimeValues);
-               //gridCompression.runBothCasesWithCodedInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType);
+               //gridCompression.runBothCasesWithCodedInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType, allDateTimeValues);
                //gridCompression.runBothCasesWithInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType);
                // gridCompression.runForGettingTheVariation(allStreamingValues, allowedEpsilon);
-                gridCompression.runBothCase(allStreamingValues, allowedEpsilon, distanceType, kGonType);
+               //gridCompression.runBothCase(allStreamingValues, allowedEpsilon, distanceType, kGonType);
 
             }else if (args[2].equals("grid-interpolated")){
               /*
@@ -110,7 +112,7 @@ public class CompressionDriver {
             }else if (args[2].equals("time-distance-frequency")){
 
               //datetime.datetime(year, month, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]])
-              gridCompression.runForGettingTheVariation(allStreamingValues, allowedEpsilon);
+              gridCompression.runForGettingTheVariation(allStreamingValues, allowedEpsilon, allDateTimeValues, fileName);
              
             }else{
                CompressionDriver.usage();
@@ -130,20 +132,20 @@ public class CompressionDriver {
   /*
    * This function is run in order to get the differences in time and distance between consecutive GPS points.
    */
-  void runForGettingTheVariation(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon){
-    ArrayList<Date> allDateTimeValues = new ArrayList<Date>();
+  void runForGettingTheVariation(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, ArrayList<Date> allDateTimeValues, String fileName){
+    //ArrayList<Date> allDateTimeValues = new ArrayList<Date>();
     String valuesToWrite = "";
     for (int i=1; i<allStreamingValues.size();i++){
         if (GeoHelper.getDistance(allStreamingValues.get(i-1), allStreamingValues.get(i))<2000)
             valuesToWrite +=GeoHelper. getDistance(allStreamingValues.get(i-1), allStreamingValues.get(i))+"\n";
     }
-    IOHelper.writeToFile(valuesToWrite, "change-in-distance-without-variation.txt");
+    IOHelper.writeToFile(valuesToWrite, "change-in-distance"+fileName);
 
     valuesToWrite = "";
     for (int i=1; i<allDateTimeValues.size();i++){
      valuesToWrite += allDateTimeValues.get(i).getTime()- allDateTimeValues.get(i-1).getTime()+"\n";
     }
-    IOHelper.writeToFile(valuesToWrite, "change-in-time.txt");
+    IOHelper.writeToFile(valuesToWrite, "change-in-time"+fileName);
   }
 
   /*
@@ -189,6 +191,7 @@ public class CompressionDriver {
   void runBothCasesWithCodedInterpolation(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues){
     KGonCompression kgonCompressionPerformer = new KGonCompression();
     KGonCompressionDecoder gridCompressionDecoder = new KGonCompressionDecoder();
+    Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair;
     ArrayList<Double> results;
     ArrayList<Double> resultsLoose;
     ArrayList<GPSPoint> resultantValues = new ArrayList<GPSPoint>();
@@ -200,9 +203,9 @@ public class CompressionDriver {
     String resultSizeOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
     String hausDorffDistance = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n"; 
     //interpolatedSource = kgonCompressionPerformer.performInterpolation(allStreamingValues, allowedEpsilon, distanceType, resultantValues, kGonType);
-    for (int k = 10; k<1500; k+=10){
-      results = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, distanceType, kGonType, allDateTimeValues, binCounterArray);
-      resultsLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, "loose", kGonType, allDateTimeValues, binCounterArray);
+    for (int k = 100; k<150; k+=10){
+      results = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, distanceType, kGonType, allDateTimeValues, binCounterArray).getFirst();
+      resultsLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, "loose", kGonType, allDateTimeValues, binCounterArray).getFirst();
       IOHelper.writeGridPositionDataDouble(allStreamingValues.get(0), results, "data/strict-grid-coded-"+k+".txt");
       //resultsLoose = performGridCompression(allStreamingValues, k, "loose");
       //writeGridPositionData(allStreamingValues.get(0), resultsLoose, "loose-grid-"+k+".txt");
