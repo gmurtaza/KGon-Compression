@@ -962,4 +962,9 @@ public class KGonCompression {
          
      }
      
+     int epsilonForData(Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair, int allowableBytes){
+         
+         return 0;
+     }
+     
 }

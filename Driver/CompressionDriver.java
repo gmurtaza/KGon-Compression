@@ -203,7 +203,7 @@ public class CompressionDriver {
     String resultSizeOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
     String hausDorffDistance = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n"; 
     //interpolatedSource = kgonCompressionPerformer.performInterpolation(allStreamingValues, allowedEpsilon, distanceType, resultantValues, kGonType);
-    for (int k = 100; k<150; k+=10){
+    for (int k = 100; k<250; k+=100){
       results = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, distanceType, kGonType, allDateTimeValues, binCounterArray).getFirst();
       resultsLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, "loose", kGonType, allDateTimeValues, binCounterArray).getFirst();
       IOHelper.writeGridPositionDataDouble(allStreamingValues.get(0), results, "data/strict-grid-coded-"+k+".txt");
