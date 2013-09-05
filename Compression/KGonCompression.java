@@ -553,6 +553,9 @@ public class KGonCompression {
         Date currentTime = new Date();
         int simpleDoubleBenefitCounter = 0;
         HashMap<Integer, Integer> worstCaseMap = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> worstCaseConsecutiveMap = new HashMap<Integer, Integer>();
+        int consecutiveCount = 0;
+        boolean checkConsecutiveCount = false;
         float timeDifference;
         for (int i = 0; i < source.size(); i++) {
             //This if condition nominates the first centre point to be first point
@@ -570,20 +573,33 @@ public class KGonCompression {
                 if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
                     GPSPoint tempCurrent = currentCentre;
                     if (distance > (2*getSideLengthToUse(epsilon, angle, distanceType))+getSideLengthToUse(epsilon, angle, distanceType)){
+                        
                         int multipleOfEpsilon = (int)(distance/getSideLengthToUse(epsilon, angle, distanceType));
                         resultantPoints.add(new Double(Constants.START_FINISH_OF_STEP_COUNT));
                         resultantPoints.add(new Double(multipleOfEpsilon));
                         resultantPoints.add(new Double((df.format(angle))));
                         currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, ((int)(distance/getSideLengthToUse(epsilon, angle, distanceType)))*getSideLengthToUse(epsilon, angle, distanceType), angle);
                         System.out.println(multipleOfEpsilon);
-                        recordBinCount(multipleOfEpsilon, worstCaseMap);
+                        recordEmptyBinCount(multipleOfEpsilon, worstCaseMap);
+                        if (consecutiveCount > 0){
+                            recordConsecutivePointsCount(consecutiveCount, worstCaseConsecutiveMap);
+                            consecutiveCount = 0;
+                        }
+                        //checkConsecutiveCount = false;
                         //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
                     }else{
+                        checkConsecutiveCount = true;
                         currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
                         //System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
                         addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
                         simpleDoubleBenefitCounter++;
-                        worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
+                        //worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
+                        if (consecutiveCount == 0){
+                            consecutiveCount+=2;
+                            checkConsecutiveCount = false;
+                        }
+                        else
+                            consecutiveCount++;
                     }
                     
                     //resultantPoints.add(new Double(getTimeCode(timeDifference)));
@@ -594,7 +610,7 @@ public class KGonCompression {
             whileConstructing.add(currentCentre);
         }
         System.out.println("Total number of bins is: "+worstCaseMap.keySet().size());
-        return new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap);
+        return new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap); //using Pair helper, I am sending multiple data structures as return
     }
     
     /* 
@@ -950,7 +966,11 @@ public class KGonCompression {
         }
      }
      
-     void recordBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
+     /*
+      * This i bin counter for recording the points which have empty hexagons
+      * in between two points.
+      */
+     void recordEmptyBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
          int evenClosestBin;
         evenClosestBin = (((multipleOfEpsilon)%2)==0)?multipleOfEpsilon:multipleOfEpsilon+1;
          if (worstCaseMap.containsKey(new Integer(evenClosestBin))){
@@ -958,6 +978,30 @@ public class KGonCompression {
              worstCaseMap.put(new Integer(evenClosestBin), new Integer(temp+1));
          }else{
              worstCaseMap.put(new Integer(evenClosestBin), new Integer(1));
+         }
+         
+     }
+     
+     void recordConsecutivePointsCount(int consecutiveCount, HashMap<Integer, Integer> worstCaseMap){
+         int binDivisionStep = 2;
+         int binHeadStep = 2;
+         while(true){
+             int binDivisionResult = consecutiveCount/binDivisionStep;
+             if (binDivisionResult>0){
+                 binDivisionResult = (consecutiveCount%binDivisionStep)!=0?(consecutiveCount/binDivisionStep)+consecutiveCount%binDivisionStep:consecutiveCount/binDivisionStep;
+                 if (worstCaseMap.containsKey(new Integer(binHeadStep))){
+                    int temp = worstCaseMap.get(binHeadStep);
+                    worstCaseMap.put(new Integer(binHeadStep), new Integer(temp+(int)binDivisionResult));
+                }else{
+                    worstCaseMap.put(new Integer(binHeadStep), new Integer((int)binDivisionResult));
+                }
+                 binHeadStep +=2;
+                 binDivisionStep++;
+                         
+             }else{
+                 break;
+             }
+                 
          }
          
      }
