@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  6 SEP 2013 12:47
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  6 SEP 2013 15:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -339,51 +339,51 @@ e
 
 ]
 [2]
-Overfull \hbox (21.23637pt too wide) in paragraph at lines 564--575
+Overfull \hbox (21.23637pt too wide) in paragraph at lines 565--576
  [] 
  []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 <images/hexagon-figure.pdf, id=16, 428.32924pt x 318.64363pt>
 File: images/hexagon-figure.pdf Graphic file (type pdf)
 
 <use images/hexagon-figure.pdf>
-Package pdftex.def Info: images/hexagon-figure.pdf used on input line 632.
+Package pdftex.def Info: images/hexagon-figure.pdf used on input line 633.
 (pdftex.def)             Requested size: 144.54pt x 107.52542pt.
  [3]
-Underfull \hbox (badness 10000) in paragraph at lines 656--657
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
 [] \OT1/ptm/m/n/10 cur-rent-Cen-tre = cal-cu-late-New-Cen-
  []
 
-<images/angle-calculation.pdf, id=21, 102.49663pt x 175.34018pt>
+<images/angle-calculation.pdf, id=22, 102.49663pt x 175.34018pt>
 File: images/angle-calculation.pdf Graphic file (type pdf)
 
 <use images/angle-calculation.pdf>
-Package pdftex.def Info: images/angle-calculation.pdf used on input line 677.
+Package pdftex.def Info: images/angle-calculation.pdf used on input line 678.
 (pdftex.def)             Requested size: 144.54pt x 247.2912pt.
 
-<images/neighbours-double-epsilon.pdf, id=22, 220.06546pt x 110.37988pt>
+<images/neighbours-double-epsilon.pdf, id=23, 220.06546pt x 110.37988pt>
 File: images/neighbours-double-epsilon.pdf Graphic file (type pdf)
 
 <use images/neighbours-double-epsilon.pdf>
 Package pdftex.def Info: images/neighbours-double-epsilon.pdf used on input lin
-e 685.
+e 686.
 (pdftex.def)             Requested size: 144.54pt x 72.49724pt.
-
-Underfull \vbox (badness 1881) has occurred while \output is active []
-
  [4 <./images/hexagon-figure.pdf>]
 <images/strict-hexagon.pdf, id=238, 132.59457pt x 108.9914pt>
 File: images/strict-hexagon.pdf Graphic file (type pdf)
 
 <use images/strict-hexagon.pdf>
-Package pdftex.def Info: images/strict-hexagon.pdf used on input line 695.
+Package pdftex.def Info: images/strict-hexagon.pdf used on input line 696.
 (pdftex.def)             Requested size: 144.54pt x 118.80989pt.
 
 <images/loose-hexagon-shared.pdf, id=239, 197.15648pt x 142.31358pt>
 File: images/loose-hexagon-shared.pdf Graphic file (type pdf)
 
 <use images/loose-hexagon-shared.pdf>
-Package pdftex.def Info: images/loose-hexagon-shared.pdf used on input line 703
+Package pdftex.def Info: images/loose-hexagon-shared.pdf used on input line 704
 .
 (pdftex.def)             Requested size: 144.54pt x 104.33972pt.
 
@@ -391,44 +391,47 @@ Package pdftex.def Info: images/loose-hexagon-shared.pdf used on input line 703
 File: images/basic-points.pdf Graphic file (type pdf)
 
 <use images/basic-points.pdf>
-Package pdftex.def Info: images/basic-points.pdf used on input line 714.
+Package pdftex.def Info: images/basic-points.pdf used on input line 715.
 (pdftex.def)             Requested size: 180.67499pt x 105.10573pt.
  [5 <./images/angle-calculation.pdf> <./images/neighbours-double-epsilon.pdf> <
-./images/strict-hexagon.pdf> <./images/loose-hexagon-shared.pdf>] <images/dista
-nce-based.pdf, id=401, 690.0475pt x 417.91603pt>
+./images/strict-hexagon.pdf> <./images/loose-hexagon-shared.pdf> <./images/basi
+c-points.pdf>]
+<images/distance-based.pdf, id=458, 690.0475pt x 417.91603pt>
 File: images/distance-based.pdf Graphic file (type pdf)
 
 <use images/distance-based.pdf>
-Package pdftex.def Info: images/distance-based.pdf used on input line 726.
+Package pdftex.def Info: images/distance-based.pdf used on input line 727.
 (pdftex.def)             Requested size: 180.67499pt x 109.42082pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<images/interpolation.pdf, id=402, 218.67697pt x 69.42126pt>
+<images/interpolation.pdf, id=459, 218.67697pt x 69.42126pt>
 File: images/interpolation.pdf Graphic file (type pdf)
 
 <use images/interpolation.pdf>
-Package pdftex.def Info: images/interpolation.pdf used on input line 763.
+Package pdftex.def Info: images/interpolation.pdf used on input line 764.
 (pdftex.def)             Requested size: 144.54pt x 45.88596pt.
- [6 <./images/basic-points.pdf> <./images/distance-based.pdf> <./images/interpo
-lation.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 787--788
+
+Underfull \vbox (badness 1584) has occurred while \output is active []
+
+ [6 <./images/distance-based.pdf> <./images/interpolation.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 788--789
 
  []
 
 
-Underfull \hbox (badness 1360) in paragraph at lines 789--790
+Underfull \hbox (badness 1360) in paragraph at lines 790--791
 \OT1/ptm/m/n/10 base al-lowed ep-silon (BAE) us-ing KGON-approximation
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 789--790
+Underfull \hbox (badness 10000) in paragraph at lines 790--791
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 791--792
+Underfull \hbox (badness 10000) in paragraph at lines 792--793
 
  []
 
@@ -436,10 +439,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 791--792
 File: images/total-storage-size.pdf Graphic file (type pdf)
 
 <use images/total-storage-size.pdf>
-Package pdftex.def Info: images/total-storage-size.pdf used on input line 830.
+Package pdftex.def Info: images/total-storage-size.pdf used on input line 831.
 (pdftex.def)             Requested size: 216.81pt x 149.68602pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 834--836
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 835--837
 
  []
 
@@ -447,20 +454,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 834--836
 File: images/total-points.pdf Graphic file (type pdf)
 
 <use images/total-points.pdf>
-Package pdftex.def Info: images/total-points.pdf used on input line 839.
+Package pdftex.def Info: images/total-points.pdf used on input line 840.
 (pdftex.def)             Requested size: 216.81pt x 133.55357pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 843--844
+Underfull \hbox (badness 10000) in paragraph at lines 844--845
  \OT1/ptm/m/it/10 2) To-tal Num-ber of Ap-prox-i-mated Points: [][] \OT1/ptm/m/
 n/10 In
  []
 
 
-Underfull \hbox (badness 2080) in paragraph at lines 843--844
+Underfull \hbox (badness 2080) in paragraph at lines 844--845
 \OT1/ptm/m/n/10 fig-ure reffig:total-points, we plot the num-ber of points
  []
 
@@ -469,7 +476,7 @@ Underfull \hbox (badness 2080) in paragraph at lines 843--844
 File: images/hausdorff-distance.pdf Graphic file (type pdf)
 
 <use images/hausdorff-distance.pdf>
-Package pdftex.def Info: images/hausdorff-distance.pdf used on input line 847.
+Package pdftex.def Info: images/hausdorff-distance.pdf used on input line 848.
 (pdftex.def)             Requested size: 216.81pt x 130.82692pt.
 
 <images/total-points-loose-v-strict.pdf, id=607, 673.38643pt x 394.31284pt>
@@ -477,7 +484,7 @@ File: images/total-points-loose-v-strict.pdf Graphic file (type pdf)
 
 <use images/total-points-loose-v-strict.pdf>
 Package pdftex.def Info: images/total-points-loose-v-strict.pdf used on input l
-ine 855.
+ine 856.
 (pdftex.def)             Requested size: 216.81pt x 126.95282pt.
 
 
@@ -488,7 +495,7 @@ File: images/total-size-loose-v-strict.pdf Graphic file (type pdf)
 
 <use images/total-size-loose-v-strict.pdf>
 Package pdftex.def Info: images/total-size-loose-v-strict.pdf used on input lin
-e 863.
+e 864.
 (pdftex.def)             Requested size: 216.81pt x 128.59233pt.
  [9 <./images/total-points.pdf> <./images/hausdorff-distance.pdf> <./images/tot
 al-points-loose-v-strict.pdf> <./images/total-size-loose-v-strict.pdf>] (./ghul
@@ -512,7 +519,11 @@ Before submitting the final camera ready copy, remember to:
 
 [11
 
-] (./ghulam-percom.aux) ) 
+] (./ghulam-percom.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
  4033 strings out of 493488
  62549 string characters out of 3141326
@@ -521,19 +532,19 @@ Here is how much of TeX's memory you used:
  39701 words of font info for 76 fonts, out of 3000000 for 9000
  960 hyphenation exceptions out of 8191
  38i,9n,23p,1593b,305s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/ba
-se/8r.enc}</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-mi10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
-i7.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8
-.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.p
-fb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
-</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></u
-sr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/t
-exlive/2012/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/20
-12/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2012/texmf-d
-ist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ghulam-percom.pdf (11 pages, 1312200 bytes).
+{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
+xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texl
+ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texliv
+e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/
+2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/201
+2/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2012/t
+exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/
+fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/typ
+e1/urw/times/utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/tim
+es/utmri8a.pfb>
+Output written on ghulam-percom.pdf (11 pages, 1312060 bytes).
 PDF statistics:
  960 PDF objects out of 1000 (max. 8388607)
  565 compressed objects within 6 object streams
