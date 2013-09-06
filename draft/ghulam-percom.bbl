@@ -1,0 +1,88 @@
+\begin{thebibliography}{10}
+
+\bibitem{robo-mote}
+K.~Dantu, M.~Rahimi, H.~Shah, S.~Babel, A.~Dhariwal, and G.~Sukhatme,
+  ``Robomote: enabling mobility in sensor networks,'' in {\em Information
+  Processing in Sensor Networks, 2005. IPSN 2005. Fourth International
+  Symposium on}, pp.~404--409, 2005.
+
+\bibitem{Vasilescu05krill:an}
+I.~Vasilescu, K.~Kotay, D.~Rus, L.~Overs, P.~Sikka, M.~Dunbabin, P.~Chen, and
+  P.~Corke, ``Krill: An exploration in underwater sensor networks,'' in {\em
+  Embedded Networked Sensors, 2005. EmNetS-II. The Second IEEE Workshop on},
+  pp.~151--152, 2005.
+
+\bibitem{Anthony:2012:STC:2185677.2185747}
+D.~Anthony, W.~P. Bennett, M.~C. Vuran, M.~B. Dwyer, S.~Elbaum, A.~Lacy,
+  M.~Engels, and W.~Wehtje, ``Sensing through the continent: towards monitoring
+  migratory birds using cellular sensor networks,'' in {\em Proceedings of the
+  11th international conference on Information Processing in Sensor Networks},
+  IPSN '12, (New York, NY, USA), pp.~329--340, ACM, 2012.
+
+\bibitem{raja-ipsn}
+R.~Jurdak, P.~Sommer, B.~Kusy, N.~Kottege, C.~Crossman, A.~McKeown, and
+  D.~Westcott, ``Camazotz: Multimodal activity-based gps sampling,'' in {\em
+  Proceedings of the 12th ACM/IEEE conference on Information Processing in
+  Sensor Networks}, IPSN '13, (New York, NY, USA), ACM, 2013.
+
+\bibitem{Shilton-2008}
+L.~A. Shilton, P.~J. Latch, A.~D. A.~M. Mckeown, P.~Pert, and D.~A. Westcott,
+  ``Landscape-scale redistribution of a highly mobile threatened species,
+  pteropus conspicillatus (chiroptera, pteropodidae), in response to tropical
+  cyclone larry,'' {\em Austral Ecology}, vol.~33, pp.~549--561, June 2008.
+
+\bibitem{Cao:2006:SDR:1147679.1147681}
+H.~Cao, O.~Wolfson, and G.~Trajcevski, ``Spatio-temporal data reduction with
+  deterministic error bounds,'' {\em The VLDB Journal}, vol.~15, pp.~211--228,
+  Sept. 2006.
+
+\bibitem{peuker-73}
+``Algorithms for the reduction of the number of points required to represent a
+  digitized line or its caricature,'' {\em Cartographica: The International
+  Journal for Geographic Information and Geovisualization}, vol.~10,
+  pp.~112--122, Oct. 1973.
+
+\bibitem{geometry-1}
+P.~K. Agarwal and K.~R. Varadarajan, ``Efficient algorithms for approximating
+  polygonal chains,'' {\em Discrete and Computational Geometry}, vol.~23,
+  no.~2, pp.~273--291, 2000.
+
+\bibitem{geometry-2}
+W.~CHAN and F.~CHIN, ``Approximation of polygonal curves with minimum number of
+  line segments or minimum error,'' {\em International Journal of Computational
+  Geometry and Applications}, vol.~06, no.~01, pp.~59--77, 1996.
+
+\bibitem{vision}
+J.~D. Hobby, ``Polygonal approximations that minimize the number of
+  inflections,'' in {\em Proceedings of the fourth annual ACM-SIAM Symposium on
+  Discrete algorithms}, SODA '93, (Philadelphia, PA, USA), pp.~93--102, Society
+  for Industrial and Applied Mathematics, 1993.
+
+\bibitem{gis}
+R.~McMaster, ``Automated line generalization,'' in {\em Cartographica},
+  pp.~24--2, 1987.
+
+\bibitem{mit-ipsn}
+D.~Feldman, A.~Sugaya, and D.~Rus, ``An effective coreset compression algorithm
+  for large scale sensor networks,'' in {\em Proceedings of the 11th
+  international conference on Information Processing in Sensor Networks}, IPSN
+  '12, (New York, NY, USA), pp.~257--268, ACM, 2012.
+
+\bibitem{sarwat-fast}
+M.~Sarwat, M.~F. Mokbel, X.~Zhou, and S.~Nath, ``Fast: a generic framework for
+  flash-aware spatial trees,'' in {\em Proceedings of the 12th international
+  conference on Advances in spatial and temporal databases}, SSTD'11, (Berlin,
+  Heidelberg), pp.~149--167, Springer-Verlag, 2011.
+
+\bibitem{Nath:2009:EES:1602165.1602181}
+S.~Nath, ``Energy efficient sensor data logging with amnesic flash storage,''
+  in {\em Proceedings of the 2009 International Conference on Information
+  Processing in Sensor Networks}, IPSN '09, (Washington, DC, USA),
+  pp.~157--168, IEEE Computer Society, 2009.
+
+\bibitem{amnesic}
+T.~Palpanas, M.~Vlachos, E.~Keogh, and D.~Gunopulos, ``Streaming time series
+  summarization using user-defined amnesic functions,'' {\em Knowledge and Data
+  Engineering, IEEE Transactions on}, vol.~20, pp.~992 --1006, july 2008.
+
+\end{thebibliography}

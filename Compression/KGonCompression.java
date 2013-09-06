@@ -36,6 +36,7 @@ import Helper.Utility;
 import Helper.Pair;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 public class KGonCompression {
     
     /*
@@ -542,7 +543,7 @@ public class KGonCompression {
     }
 
     
-    public Pair<ArrayList<Double>, HashMap<Integer, Integer>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
+    public Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
         
         ArrayList<Double> resultantPoints = new ArrayList<Double>();
         //Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair;
@@ -610,7 +611,7 @@ public class KGonCompression {
             whileConstructing.add(currentCentre);
         }
         System.out.println("Total number of bins is: "+worstCaseMap.keySet().size());
-        return new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap); //using Pair helper, I am sending multiple data structures as return
+        return new Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>>( worstCaseConsecutiveMap,new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap)); //using Pair helper, I am sending multiple data structures as return
     }
     
     /* 
@@ -1006,9 +1007,40 @@ public class KGonCompression {
          
      }
      
-     int epsilonForData(Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair, int allowableBytes){
-         
-         return 0;
+     int epsilonForData(Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair, int allowableBytes){
+         int totalAllowedPoints = (allowableBytes*8)/4;
+         HashMap<Integer, Integer> binsForAccurateCounting = returningBinsWithPointsPair.getFirst();
+         HashMap<Integer, Integer> binsForEmptyCounting= returningBinsWithPointsPair.getSecond().getSecond();
+         ArrayList<Integer> allKeys = new ArrayList<Integer>();
+         allKeys.addAll(binsForAccurateCounting.keySet());
+         int epsilonMultiple = 0;
+         for (int i = 0; i<allKeys.size(); i++){
+             int pointForThisMultiple = binsForAccurateCounting.get(allKeys.get(i));
+             int emptyCount = 0;
+             ArrayList<Integer> allEmptyBinKeys = new ArrayList<Integer>();
+             allEmptyBinKeys.addAll(binsForEmptyCounting.keySet());
+             for (int j = i; j< allEmptyBinKeys.size(); j++){
+                 emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
+             }
+             if ((pointForThisMultiple+emptyCount)<= totalAllowedPoints){
+                 epsilonMultiple = allKeys.get(i);
+                 break;
+             }
+         }
+         return epsilonMultiple;
+     }
+     
+     Pair<ArrayList<GPSPoint>, Integer> allowedEpsilonAndPoints(ArrayList<GPSPoint> source, int allowedBytes, int allowedEpsilon){
+         int totalAllowedPoints = (allowedBytes*8)/64;
+         int i = 1;
+         ArrayList<GPSPoint> approximatedPoints;
+         while (true){
+             approximatedPoints = GDouglasPeuker.douglasPeucker (source,allowedEpsilon*i);
+             if (approximatedPoints.size()<=totalAllowedPoints)
+                 break;
+             i++;
+         }
+         return new Pair<ArrayList<GPSPoint>, Integer>(approximatedPoints, allowedEpsilon*i);
      }
      
 }
