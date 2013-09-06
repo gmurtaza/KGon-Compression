@@ -35,6 +35,8 @@ import Helper.IOHelper;
 import Helper.Utility;
 import Helper.Pair;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
 public class KGonCompression {
     
     /*
@@ -541,14 +543,20 @@ public class KGonCompression {
     }
 
     
-    public ArrayList<Double> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues) {
+    public Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
         
         ArrayList<Double> resultantPoints = new ArrayList<Double>();
+        //Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair;
         GPSPoint currentCentre = new GPSPoint();
         GPSPoint firstPoint;
         GPSPoint firstPointForCalibration = null;
         DecimalFormat df = new DecimalFormat("#.##");
         Date currentTime = new Date();
+        int simpleDoubleBenefitCounter = 0;
+        HashMap<Integer, Integer> worstCaseMap = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> worstCaseConsecutiveMap = new HashMap<Integer, Integer>();
+        int consecutiveCount = 0;
+        boolean checkConsecutiveCount = false;
         float timeDifference;
         for (int i = 0; i < source.size(); i++) {
             //This if condition nominates the first centre point to be first point
@@ -566,15 +574,33 @@ public class KGonCompression {
                 if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
                     GPSPoint tempCurrent = currentCentre;
                     if (distance > (2*getSideLengthToUse(epsilon, angle, distanceType))+getSideLengthToUse(epsilon, angle, distanceType)){
+                        
+                        int multipleOfEpsilon = (int)(distance/getSideLengthToUse(epsilon, angle, distanceType));
                         resultantPoints.add(new Double(Constants.START_FINISH_OF_STEP_COUNT));
-                        resultantPoints.add(new Double((int)(distance/getSideLengthToUse(epsilon, angle, distanceType))));
+                        resultantPoints.add(new Double(multipleOfEpsilon));
                         resultantPoints.add(new Double((df.format(angle))));
                         currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, ((int)(distance/getSideLengthToUse(epsilon, angle, distanceType)))*getSideLengthToUse(epsilon, angle, distanceType), angle);
+                        System.out.println(multipleOfEpsilon);
+                        recordEmptyBinCount(multipleOfEpsilon, worstCaseMap);
+                        if (consecutiveCount > 0){
+                            recordConsecutivePointsCount(consecutiveCount, worstCaseConsecutiveMap);
+                            consecutiveCount = 0;
+                        }
+                        //checkConsecutiveCount = false;
                         //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
                     }else{
+                        checkConsecutiveCount = true;
                         currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
-                        System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
+                        //System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
                         addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
+                        simpleDoubleBenefitCounter++;
+                        //worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
+                        if (consecutiveCount == 0){
+                            consecutiveCount+=2;
+                            checkConsecutiveCount = false;
+                        }
+                        else
+                            consecutiveCount++;
                     }
                     
                     //resultantPoints.add(new Double(getTimeCode(timeDifference)));
@@ -584,8 +610,8 @@ public class KGonCompression {
             
             whileConstructing.add(currentCentre);
         }
-
-        return resultantPoints;
+        System.out.println("Total number of bins is: "+worstCaseMap.keySet().size());
+        return new Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>>( worstCaseConsecutiveMap,new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap)); //using Pair helper, I am sending multiple data structures as return
     }
     
     /* 
@@ -939,6 +965,82 @@ public class KGonCompression {
         }else{
             return false;
         }
+     }
+     
+     /*
+      * This i bin counter for recording the points which have empty hexagons
+      * in between two points.
+      */
+     void recordEmptyBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
+         int evenClosestBin;
+        evenClosestBin = (((multipleOfEpsilon)%2)==0)?multipleOfEpsilon:multipleOfEpsilon+1;
+         if (worstCaseMap.containsKey(new Integer(evenClosestBin))){
+             int temp = worstCaseMap.get(evenClosestBin);
+             worstCaseMap.put(new Integer(evenClosestBin), new Integer(temp+1));
+         }else{
+             worstCaseMap.put(new Integer(evenClosestBin), new Integer(1));
+         }
+         
+     }
+     
+     void recordConsecutivePointsCount(int consecutiveCount, HashMap<Integer, Integer> worstCaseMap){
+         int binDivisionStep = 2;
+         int binHeadStep = 2;
+         while(true){
+             int binDivisionResult = consecutiveCount/binDivisionStep;
+             if (binDivisionResult>0){
+                 binDivisionResult = (consecutiveCount%binDivisionStep)!=0?(consecutiveCount/binDivisionStep)+consecutiveCount%binDivisionStep:consecutiveCount/binDivisionStep;
+                 if (worstCaseMap.containsKey(new Integer(binHeadStep))){
+                    int temp = worstCaseMap.get(binHeadStep);
+                    worstCaseMap.put(new Integer(binHeadStep), new Integer(temp+(int)binDivisionResult));
+                }else{
+                    worstCaseMap.put(new Integer(binHeadStep), new Integer((int)binDivisionResult));
+                }
+                 binHeadStep +=2;
+                 binDivisionStep++;
+                         
+             }else{
+                 break;
+             }
+                 
+         }
+         
+     }
+     
+     int epsilonForData(Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair, int allowableBytes){
+         int totalAllowedPoints = (allowableBytes*8)/4;
+         HashMap<Integer, Integer> binsForAccurateCounting = returningBinsWithPointsPair.getFirst();
+         HashMap<Integer, Integer> binsForEmptyCounting= returningBinsWithPointsPair.getSecond().getSecond();
+         ArrayList<Integer> allKeys = new ArrayList<Integer>();
+         allKeys.addAll(binsForAccurateCounting.keySet());
+         int epsilonMultiple = 0;
+         for (int i = 0; i<allKeys.size(); i++){
+             int pointForThisMultiple = binsForAccurateCounting.get(allKeys.get(i));
+             int emptyCount = 0;
+             ArrayList<Integer> allEmptyBinKeys = new ArrayList<Integer>();
+             allEmptyBinKeys.addAll(binsForEmptyCounting.keySet());
+             for (int j = i; j< allEmptyBinKeys.size(); j++){
+                 emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
+             }
+             if ((pointForThisMultiple+emptyCount)<= totalAllowedPoints){
+                 epsilonMultiple = allKeys.get(i);
+                 break;
+             }
+         }
+         return epsilonMultiple;
+     }
+     
+     Pair<ArrayList<GPSPoint>, Integer> allowedEpsilonAndPoints(ArrayList<GPSPoint> source, int allowedBytes, int allowedEpsilon){
+         int totalAllowedPoints = (allowedBytes*8)/64;
+         int i = 1;
+         ArrayList<GPSPoint> approximatedPoints;
+         while (true){
+             approximatedPoints = GDouglasPeuker.douglasPeucker (source,allowedEpsilon*i);
+             if (approximatedPoints.size()<=totalAllowedPoints)
+                 break;
+             i++;
+         }
+         return new Pair<ArrayList<GPSPoint>, Integer>(approximatedPoints, allowedEpsilon*i);
      }
      
 }

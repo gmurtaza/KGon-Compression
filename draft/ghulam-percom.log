@@ -1,0 +1,542 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  6 SEP 2013 12:47
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**ghulam-percom.tex
+(./ghulam-percom.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
+c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
+h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
+h, french, friulan, galician, german, ngerman, swissgerman, monogreek, greek, h
+ungarian, icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, ma
+rathi, oriya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, 
+kurmanji, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk,
+ polish, portuguese, romanian, romansh, russian, sanskrit, serbian, serbianc, s
+lovak, slovenian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, 
+welsh, loaded.
+(/usr/local/texlive/2012/texmf-dist/tex/latex/IEEEtran/IEEEtran.cls
+Document Class: IEEEtran 2007/03/05 V1.7a by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen102
+\@IEEEtrantmpdimenB=\dimen103
+\@IEEEtrantmpcountA=\count79
+\@IEEEtrantmpcountB=\count80
+\@IEEEtrantmptoksA=\toks14
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 366.
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen104
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen105
+\CLASSINFOnormalsizeunitybaselineskip=\dimen106
+\IEEEnormaljot=\dimen107
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 724.
+\IEEEilabelindentA=\dimen108
+\IEEEilabelindentB=\dimen109
+\IEEEilabelindent=\dimen110
+\IEEEelabelindent=\dimen111
+\IEEEdlabelindent=\dimen112
+\IEEElabelindent=\dimen113
+\IEEEiednormlabelsep=\dimen114
+\IEEEiedmathlabelsep=\dimen115
+\IEEEiedtopsep=\skip41
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@IEEEsubequation=\count85
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\c@figure=\count86
+\c@table=\count87
+\@IEEEeqnnumcols=\count88
+\@IEEEeqncolcnt=\count89
+\@IEEEtmpitemindent=\dimen116
+\c@IEEEbiography=\count90
+\@IEEEtranrubishbin=\box26
+) (/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count91
+))
+\Gin@req@height=\dimen117
+\Gin@req@width=\dimen118
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count92
+\float@exts=\toks16
+\float@box=\box27
+\@float@everytoks=\toks17
+\@floatcapt=\box28
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks18
+\c@algorithm=\count93
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count94
+\c@ALG@rem=\count95
+\c@ALG@nested=\count96
+\ALG@tlm=\skip44
+\ALG@thistlm=\skip45
+\c@ALG@Lnr=\count97
+\c@ALG@blocknr=\count98
+\c@ALG@storecount=\count99
+\c@ALG@tmpcounter=\count100
+\ALG@tmplength=\skip46
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/usr/local/texlive/2012/texmf-dist/tex/latex/mh/mathtools.sty
+Package: mathtools 2012/04/24 v1.12 mathematical typesetting tools
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count101
+\calc@Bcount=\count102
+\calc@Adimen=\dimen119
+\calc@Bdimen=\dimen120
+\calc@Askip=\skip47
+\calc@Bskip=\skip48
+LaTeX Info: Redefining \setlength on input line 76.
+LaTeX Info: Redefining \addtolength on input line 77.
+\calc@Ccount=\count103
+\calc@Cskip=\skip49
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/mh/mhsetup.sty
+Package: mhsetup 2010/01/21 v1.2a programming setup (MH)
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip50
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks19
+\ex@=\dimen121
+))
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen122
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count104
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count105
+\leftroot@=\count106
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count107
+\DOTSCASE@=\count108
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box29
+\strutbox@=\box30
+\big@size=\dimen123
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count109
+\c@MaxMatrixCols=\count110
+\dotsspace@=\muskip10
+\c@parentequation=\count111
+\dspbrk@lvl=\count112
+\tag@help=\toks20
+\row@=\count113
+\column@=\count114
+\maxfields@=\count115
+\andhelp@=\toks21
+\eqnshift@=\dimen124
+\alignsep@=\dimen125
+\tagshift@=\dimen126
+\tagwidth@=\dimen127
+\totwidth@=\dimen128
+\lineht@=\dimen129
+\@envbody=\toks22
+\multlinegap=\skip51
+\multlinetaggap=\skip52
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+\g_MT_multlinerow_int=\count116
+\l_MT_multwidth_dim=\dimen130
+\origjot=\skip53
+\l_MT_shortvdotswithinadjustabove_dim=\dimen131
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen132
+\l_MT_above_intertext_dim=\dimen133
+\l_MT_below_intertext_dim=\dimen134
+\l_MT_above_shortintertext_dim=\dimen135
+\l_MT_below_shortintertext_dim=\dimen136
+)
+(./ghulam-percom.aux)
+\openout1 = `ghulam-percom.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 353.
+LaTeX Font Info:    ... okay on input line 353.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 353.
+LaTeX Font Info:    ... okay on input line 353.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 353.
+LaTeX Font Info:    ... okay on input line 353.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 353.
+LaTeX Font Info:    ... okay on input line 353.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 353.
+LaTeX Font Info:    ... okay on input line 353.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 353.
+LaTeX Font Info:    ... okay on input line 353.
+
+(/usr/local/texlive/2012/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count117
+\scratchdimen=\dimen137
+\scratchbox=\box31
+\nofMPsegments=\count118
+\nofMParguments=\count119
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count120
+\MPscratchDim=\dimen138
+\MPnumerator=\count121
+\makeMPintoPDFobject=\count122
+\everyMPtoPDFconversion=\toks25
+) (/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+[1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+[2]
+Overfull \hbox (21.23637pt too wide) in paragraph at lines 564--575
+ [] 
+ []
+
+<images/hexagon-figure.pdf, id=16, 428.32924pt x 318.64363pt>
+File: images/hexagon-figure.pdf Graphic file (type pdf)
+
+<use images/hexagon-figure.pdf>
+Package pdftex.def Info: images/hexagon-figure.pdf used on input line 632.
+(pdftex.def)             Requested size: 144.54pt x 107.52542pt.
+ [3]
+Underfull \hbox (badness 10000) in paragraph at lines 656--657
+[] \OT1/ptm/m/n/10 cur-rent-Cen-tre = cal-cu-late-New-Cen-
+ []
+
+<images/angle-calculation.pdf, id=21, 102.49663pt x 175.34018pt>
+File: images/angle-calculation.pdf Graphic file (type pdf)
+
+<use images/angle-calculation.pdf>
+Package pdftex.def Info: images/angle-calculation.pdf used on input line 677.
+(pdftex.def)             Requested size: 144.54pt x 247.2912pt.
+
+<images/neighbours-double-epsilon.pdf, id=22, 220.06546pt x 110.37988pt>
+File: images/neighbours-double-epsilon.pdf Graphic file (type pdf)
+
+<use images/neighbours-double-epsilon.pdf>
+Package pdftex.def Info: images/neighbours-double-epsilon.pdf used on input lin
+e 685.
+(pdftex.def)             Requested size: 144.54pt x 72.49724pt.
+
+Underfull \vbox (badness 1881) has occurred while \output is active []
+
+ [4 <./images/hexagon-figure.pdf>]
+<images/strict-hexagon.pdf, id=238, 132.59457pt x 108.9914pt>
+File: images/strict-hexagon.pdf Graphic file (type pdf)
+
+<use images/strict-hexagon.pdf>
+Package pdftex.def Info: images/strict-hexagon.pdf used on input line 695.
+(pdftex.def)             Requested size: 144.54pt x 118.80989pt.
+
+<images/loose-hexagon-shared.pdf, id=239, 197.15648pt x 142.31358pt>
+File: images/loose-hexagon-shared.pdf Graphic file (type pdf)
+
+<use images/loose-hexagon-shared.pdf>
+Package pdftex.def Info: images/loose-hexagon-shared.pdf used on input line 703
+.
+(pdftex.def)             Requested size: 144.54pt x 104.33972pt.
+
+<images/basic-points.pdf, id=240, 624.0973pt x 363.07327pt>
+File: images/basic-points.pdf Graphic file (type pdf)
+
+<use images/basic-points.pdf>
+Package pdftex.def Info: images/basic-points.pdf used on input line 714.
+(pdftex.def)             Requested size: 180.67499pt x 105.10573pt.
+ [5 <./images/angle-calculation.pdf> <./images/neighbours-double-epsilon.pdf> <
+./images/strict-hexagon.pdf> <./images/loose-hexagon-shared.pdf>] <images/dista
+nce-based.pdf, id=401, 690.0475pt x 417.91603pt>
+File: images/distance-based.pdf Graphic file (type pdf)
+
+<use images/distance-based.pdf>
+Package pdftex.def Info: images/distance-based.pdf used on input line 726.
+(pdftex.def)             Requested size: 180.67499pt x 109.42082pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<images/interpolation.pdf, id=402, 218.67697pt x 69.42126pt>
+File: images/interpolation.pdf Graphic file (type pdf)
+
+<use images/interpolation.pdf>
+Package pdftex.def Info: images/interpolation.pdf used on input line 763.
+(pdftex.def)             Requested size: 144.54pt x 45.88596pt.
+ [6 <./images/basic-points.pdf> <./images/distance-based.pdf> <./images/interpo
+lation.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 787--788
+
+ []
+
+
+Underfull \hbox (badness 1360) in paragraph at lines 789--790
+\OT1/ptm/m/n/10 base al-lowed ep-silon (BAE) us-ing KGON-approximation
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 789--790
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 791--792
+
+ []
+
+[7] <images/total-storage-size.pdf, id=527, 535.93224pt x 370.01537pt>
+File: images/total-storage-size.pdf Graphic file (type pdf)
+
+<use images/total-storage-size.pdf>
+Package pdftex.def Info: images/total-storage-size.pdf used on input line 830.
+(pdftex.def)             Requested size: 216.81pt x 149.68602pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 834--836
+
+ []
+
+<images/total-points.pdf, id=528, 625.48573pt x 385.28807pt>
+File: images/total-points.pdf Graphic file (type pdf)
+
+<use images/total-points.pdf>
+Package pdftex.def Info: images/total-points.pdf used on input line 839.
+(pdftex.def)             Requested size: 216.81pt x 133.55357pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 843--844
+ \OT1/ptm/m/it/10 2) To-tal Num-ber of Ap-prox-i-mated Points: [][] \OT1/ptm/m/
+n/10 In
+ []
+
+
+Underfull \hbox (badness 2080) in paragraph at lines 843--844
+\OT1/ptm/m/n/10 fig-ure reffig:total-points, we plot the num-ber of points
+ []
+
+[8 <./images/total-storage-size.pdf>]
+<images/hausdorff-distance.pdf, id=606, 610.90723pt x 368.62694pt>
+File: images/hausdorff-distance.pdf Graphic file (type pdf)
+
+<use images/hausdorff-distance.pdf>
+Package pdftex.def Info: images/hausdorff-distance.pdf used on input line 847.
+(pdftex.def)             Requested size: 216.81pt x 130.82692pt.
+
+<images/total-points-loose-v-strict.pdf, id=607, 673.38643pt x 394.31284pt>
+File: images/total-points-loose-v-strict.pdf Graphic file (type pdf)
+
+<use images/total-points-loose-v-strict.pdf>
+Package pdftex.def Info: images/total-points-loose-v-strict.pdf used on input l
+ine 855.
+(pdftex.def)             Requested size: 216.81pt x 126.95282pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<images/total-size-loose-v-strict.pdf, id=608, 685.88216pt x 406.80865pt>
+File: images/total-size-loose-v-strict.pdf Graphic file (type pdf)
+
+<use images/total-size-loose-v-strict.pdf>
+Package pdftex.def Info: images/total-size-loose-v-strict.pdf used on input lin
+e 863.
+(pdftex.def)             Requested size: 216.81pt x 128.59233pt.
+ [9 <./images/total-points.pdf> <./images/hausdorff-distance.pdf> <./images/tot
+al-points-loose-v-strict.pdf> <./images/total-size-loose-v-strict.pdf>] (./ghul
+am-percom.bbl
+Underfull \hbox (badness 1728) in paragraph at lines 62--64
+[]\OT1/ptm/m/n/8 R. Mc-Mas-ter, ``Au-to-mated line gen-er-al-iza-tion,'' in \OT
+1/ptm/m/it/8 Car-to-graph-ica\OT1/ptm/m/n/8 ,
+ []
+
+[10])
+
+** Conference Paper **
+Before submitting the final camera ready copy, remember to:
+
+ 1. Manually equalize the lengths of two columns on the last page
+ of your paper;
+
+ 2. Ensure that any PostScript and/or PDF output post-processing
+ uses only Type 1 fonts and that every step in the generation
+ process uses the appropriate paper size.
+
+[11
+
+] (./ghulam-percom.aux) ) 
+Here is how much of TeX's memory you used:
+ 4033 strings out of 493488
+ 62549 string characters out of 3141326
+ 130764 words of memory out of 3000000
+ 7273 multiletter control sequences out of 15000+200000
+ 39701 words of font info for 76 fonts, out of 3000000 for 9000
+ 960 hyphenation exceptions out of 8191
+ 38i,9n,23p,1593b,305s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/ba
+se/8r.enc}</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i7.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8
+.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.p
+fb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></u
+sr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/t
+exlive/2012/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/20
+12/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2012/texmf-d
+ist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on ghulam-percom.pdf (11 pages, 1312200 bytes).
+PDF statistics:
+ 960 PDF objects out of 1000 (max. 8388607)
+ 565 compressed objects within 6 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
+
