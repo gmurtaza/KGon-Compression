@@ -60,17 +60,17 @@ public class HexaGon {
     
     static public GPSPoint returnPointBasedOnCodeDouble(double targetCode, GPSPoint firstPosition, String distanceType, float epsilon){
         if (targetCode == Constants.FIRST_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 0.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.getSideLengthToUse( epsilon, 0.0 ,distanceType), 0.0);
           }else if (targetCode == Constants.SECOND_NEIGHBOURING_KGON){
-            return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 60.0);
+            return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.getSideLengthToUse( epsilon, 60.0 ,distanceType), 60.0);
           }else if (targetCode == Constants.THIRD_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 120.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.getSideLengthToUse( epsilon, 120.0 ,distanceType), 120.0);
           }else if (targetCode == Constants.FOURTH_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 180.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.getSideLengthToUse( epsilon, 180.0 ,distanceType), 180.0);
           }else if (targetCode == Constants.FIFTH_NEIGHBOURING_KGON){
-            return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), -120.0);
+            return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.getSideLengthToUse( epsilon, -120.0 ,distanceType), -120.0);
           }else if (targetCode == Constants.SIXTH_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), -60.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.getSideLengthToUse( epsilon, -60.0 ,distanceType), -60.0);
           }
         return firstPosition;
     }

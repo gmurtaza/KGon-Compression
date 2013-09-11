@@ -34,6 +34,7 @@ import Constants.Constants;
 import Helper.IOHelper;
 import Helper.Utility;
 import Helper.Pair;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
@@ -580,7 +581,7 @@ public class KGonCompression {
                         resultantPoints.add(new Double(multipleOfEpsilon));
                         resultantPoints.add(new Double((df.format(angle))));
                         currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, ((int)(distance/getSideLengthToUse(epsilon, angle, distanceType)))*getSideLengthToUse(epsilon, angle, distanceType), angle);
-                        System.out.println(multipleOfEpsilon);
+                        //System.out.println(multipleOfEpsilon);
                         recordEmptyBinCount(multipleOfEpsilon, worstCaseMap);
                         if (consecutiveCount > 0){
                             recordConsecutivePointsCount(consecutiveCount, worstCaseConsecutiveMap);
@@ -590,7 +591,7 @@ public class KGonCompression {
                         //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
                     }else{
                         checkConsecutiveCount = true;
-                        currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
+                        currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
                         //System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
                         addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
                         simpleDoubleBenefitCounter++;
@@ -610,7 +611,7 @@ public class KGonCompression {
             
             whileConstructing.add(currentCentre);
         }
-        System.out.println("Total number of bins is: "+worstCaseMap.keySet().size());
+        System.out.println("Total number of empty bins is: "+worstCaseMap.keySet().size());
         return new Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>>( worstCaseConsecutiveMap,new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap)); //using Pair helper, I am sending multiple data structures as return
     }
     
@@ -968,7 +969,7 @@ public class KGonCompression {
      }
      
      /*
-      * This i bin counter for recording the points which have empty hexagons
+      * This is bin counter for recording the points which have empty hexagons
       * in between two points.
       */
      void recordEmptyBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
@@ -1007,31 +1008,54 @@ public class KGonCompression {
          
      }
      
-     int epsilonForData(Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair, int allowableBytes){
+     public int epsilonForData(Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair, int allowableBytes){
          int totalAllowedPoints = (allowableBytes*8)/4;
-         HashMap<Integer, Integer> binsForAccurateCounting = returningBinsWithPointsPair.getFirst();
-         HashMap<Integer, Integer> binsForEmptyCounting= returningBinsWithPointsPair.getSecond().getSecond();
-         ArrayList<Integer> allKeys = new ArrayList<Integer>();
-         allKeys.addAll(binsForAccurateCounting.keySet());
-         int epsilonMultiple = 0;
-         for (int i = 0; i<allKeys.size(); i++){
-             int pointForThisMultiple = binsForAccurateCounting.get(allKeys.get(i));
-             int emptyCount = 0;
-             ArrayList<Integer> allEmptyBinKeys = new ArrayList<Integer>();
-             allEmptyBinKeys.addAll(binsForEmptyCounting.keySet());
-             for (int j = i; j< allEmptyBinKeys.size(); j++){
-                 emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
-             }
-             if ((pointForThisMultiple+emptyCount)<= totalAllowedPoints){
-                 epsilonMultiple = allKeys.get(i);
-                 break;
-             }
+         System.out.println("total number of allowed points: "+totalAllowedPoints);
+         if (returningBinsWithPointsPair.getSecond().getFirst().size()<= totalAllowedPoints){
+             return 1;
+         }else{
+            HashMap<Integer, Integer> binsForAccurateCounting = returningBinsWithPointsPair.getFirst();
+            HashMap<Integer, Integer> binsForEmptyCounting= returningBinsWithPointsPair.getSecond().getSecond();
+            ArrayList<Integer> allKeys = new ArrayList<Integer>();
+            allKeys.addAll(binsForAccurateCounting.keySet());
+            Collections.sort(allKeys);
+            int epsilonMultiple = 0;
+            int i = 0;
+            int step = 0;
+            while (true){
+                int pointForThisMultiple = 0;
+                if (i < allKeys.size())
+                    pointForThisMultiple = binsForAccurateCounting.get(allKeys.get(i));
+                int emptyCount = 0;
+                ArrayList<Integer> allEmptyBinKeys = new ArrayList<Integer>();
+                allEmptyBinKeys.addAll(binsForEmptyCounting.keySet());
+                Collections.sort(allEmptyBinKeys);
+                for (int j = 0; j< allEmptyBinKeys.size(); j++){
+                    if (i < allKeys.size()){
+                       if (allEmptyBinKeys.get(j)>allKeys.get(i))
+                          emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
+                    }else{
+                        if (allEmptyBinKeys.get(j)>step)
+                          emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
+                    }
+                }
+                if ((pointForThisMultiple+emptyCount)<= totalAllowedPoints){
+                    if (i<(allKeys.size()-1))
+                       epsilonMultiple = allKeys.get(i);
+                    else
+                        epsilonMultiple = step;
+                    break;
+                }
+                i++;
+                step += 2;
+            }
+            return epsilonMultiple;
          }
-         return epsilonMultiple;
      }
      
-     Pair<ArrayList<GPSPoint>, Integer> allowedEpsilonAndPoints(ArrayList<GPSPoint> source, int allowedBytes, int allowedEpsilon){
+     public Pair<ArrayList<GPSPoint>, Integer> allowedEpsilonAndPointsDouglas(ArrayList<GPSPoint> source, int allowedBytes, int allowedEpsilon){
          int totalAllowedPoints = (allowedBytes*8)/64;
+         System.out.println("total number of allowed points douglas: "+totalAllowedPoints);
          int i = 1;
          ArrayList<GPSPoint> approximatedPoints;
          while (true){

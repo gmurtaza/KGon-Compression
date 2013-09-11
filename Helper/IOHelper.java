@@ -60,7 +60,7 @@ public class IOHelper {
       
       FileWriter fstream = new FileWriter(fileName);
       BufferedWriter out = new BufferedWriter(fstream);
-      System.out.println("total number of points: "+positionData.size());
+      //System.out.println("total number of points: "+positionData.size());
       for (int i = 0; i< positionData.size(); i++){
         out.write(positionData.get(i).getLatitude()+","+positionData.get(i).getLongitude()+"\n");   
       }

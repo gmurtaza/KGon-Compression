@@ -2,6 +2,7 @@ package Decoder;
 
 
 import Compression.HexaGon;
+import Compression.KGonCompression;
 import java.util.ArrayList;
 import GeoHelper.GPSPoint;
 import GeoHelper.GeoHelper;
@@ -44,7 +45,7 @@ public class KGonCompressionDecoder {
         for (int i = 0; i< positionData.size(); i++){
             if(goForCoded == 0){
                 if (positionData.get(i)==Constants.START_FINISH_OF_STEP_COUNT){
-                    epsilonToUse = epsilon*positionData.get(i+1);
+                    epsilonToUse = KGonCompression.getSideLengthToUse((float)epsilon, positionData.get(i+2), distanceType)*positionData.get(i+1);
                     goForCoded = 2;
                     constructedPoint = GeoHelper.getPointWithPolarDistance(firstPosition, (float)epsilonToUse, positionData.get(i+2));
                     
