@@ -610,18 +610,19 @@ in order to keep the target observations meaningful. We call it as Base Allowed 
 The second type of influence on error tolerance threshold comes from the sensor framework requirements. 
 In this case as mentioned in section~\ref{case-study}, there are strict requirements of the sensor platform. 
 The most important factor in this regard is limited energy. This puts the restriction of limited time to 
-transfer data to ground station. This means we have to fit the sensor data into this enforced size. We 
-call it as enforced-error. This enforced-error in our sensor network scenario supersedes the application-wish. 
-This prioritisation decision is based on the following scenarios:
-
-\begin{itemize}
-\item Even if the application requirement is that we need the data for entire trip with an error of 
-up to 10 meters and 2 seconds of error. And this makes the total amount of data to be far more than 
-what can be transferred considering the amount of battery left in the mote.
-\item However, if there is a strict need that no matter how much data is transferred, but the error 
-should not be greater than application-wish, then part of the data would be transferred. 
-\end{itemize}
-
+transfer data to base station. This means we have to fit the sensor data into this enforced size. We 
+call it as enforced-error. This enforced-error in our sensor network scenario supersedes the $BAE$. 
+%This prioritisation decision is based on the following scenarios:
+%
+%\begin{itemize}
+%\item Even if the application requirement is that we need the data for entire trip with an error of 
+%up to 10 meters and 2 seconds of error. And this makes the total amount of data to be far more than 
+%what can be transferred considering the amount of battery left in the mote.
+%\item However, if there is a strict need that no matter how much data is transferred, but the error 
+%should not be greater than application-wish, then part of the data would be transferred. 
+%\end{itemize}
+The important point about this enforced requirement is that it becomes known only when bat comes 
+in contact with the base station. 
 \section{Problem Formulation}\label{sec:problem}
 
 Delay Tolerant Sensor Networks which desire to track the movement of animals like the one described in 
