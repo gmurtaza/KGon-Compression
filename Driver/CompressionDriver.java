@@ -47,7 +47,10 @@ public class CompressionDriver {
     int thresholdForPointRecord = 2000;
     ArrayList<GPSPoint> allStreamingValues = new ArrayList<GPSPoint>();
     ArrayList<Date> allDateTimeValues = new ArrayList<Date>();
-    String fileName = "tag1938_gps.txt";
+    ArrayList<String> fileNameList = new ArrayList<String>();
+    //fileNameList.add("tag1937_gps.txt");
+    fileNameList.add("tag1938_gps.txt");
+    
     if (args.length >= 3){
         
   	  if (args[0].equals("-e")){
@@ -55,8 +58,7 @@ public class CompressionDriver {
            allowedEpsilon = Integer.parseInt(args[1]);
            /************************ Core compression technique ************************/
             //allStreamingValues = gridCompression.getPositionData("NN_Position.dat", " ");
-            allStreamingValues = IOHelper.getPositionData(fileName, ",");
-            allDateTimeValues = IOHelper.getTimeData( fileName, ","); 
+            
             if (args[2].equals("grid")){
               gridCompression.runSimpleGridCase(allStreamingValues, allowedEpsilon);
               //results = gridCompression.performGridCompression(allStreamingValues, allowedEpsilon);
@@ -96,9 +98,16 @@ public class CompressionDriver {
                         totalEnergyForTransfer = Integer.parseInt(args[6]);
                     }
                 }
-               //gridCompression.runBothAdaptiveWithThreshold(thresholdForPointRecord, allStreamingValues, allowedEpsilon, distanceType, kGonType, totalEnergyForTransfer, allDateTimeValues);
-               //gridCompression.runBothCasesWithCodedInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType, allDateTimeValues);
-               //gridCompression.runBothCasesWithInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType);
+                for (int f = 0; f<fileNameList.size(); f++){
+                    String fileName = fileNameList.get(f);
+                    String folderAppender = fileName.split("_")[0];
+                    allStreamingValues = IOHelper.getPositionData(fileName, ",");
+                    allDateTimeValues = IOHelper.getTimeData( fileName, ","); 
+                    //gridCompression.runBothAdaptiveWithThreshold(thresholdForPointRecord, allStreamingValues, allowedEpsilon, distanceType, kGonType, totalEnergyForTransfer, allDateTimeValues, folderAppender);
+                    //gridCompression.runBothCasesWithCodedInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType, allDateTimeValues);
+                    gridCompression.runBothCasesWithCodedInterpolationSize(allStreamingValues, allowedEpsilon, distanceType, kGonType, allDateTimeValues, thresholdForPointSize, folderAppender);
+                    //gridCompression.runBothCasesWithInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType, folderAppender);
+                }
                // gridCompression.runForGettingTheVariation(allStreamingValues, allowedEpsilon);
                //gridCompression.runBothCase(allStreamingValues, allowedEpsilon, distanceType, kGonType);
 
@@ -118,12 +127,12 @@ public class CompressionDriver {
                     }
                 }
                //gridCompression.runBothCasesWithInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType);
-               gridCompression.runBothCasesWithCodedInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType, allDateTimeValues, thresholdForPointSize);
+               //gridCompression.runBothCasesWithCodedInterpolation(allStreamingValues, allowedEpsilon, distanceType, kGonType, allDateTimeValues, thresholdForPointSize, folderAppender);
 
             }else if (args[2].equals("time-distance-frequency")){
 
               //datetime.datetime(year, month, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]])
-              gridCompression.runForGettingTheVariation(allStreamingValues, allowedEpsilon, allDateTimeValues, fileName);
+              //gridCompression.runForGettingTheVariation(allStreamingValues, allowedEpsilon, allDateTimeValues, fileName);
              
             }else{
                CompressionDriver.usage();
@@ -162,7 +171,7 @@ public class CompressionDriver {
   /*
    * This function implements the approximation by interpolation the points between the far away points
    */
-  void runBothCasesWithInterpolation(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType){
+  void runBothCasesWithInterpolation(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType, String foladerNameAppender){
     KGonCompression kgonCompressionPerformer = new KGonCompression();
     KGonCompressionDecoder gridCompressionDecoder = new KGonCompressionDecoder();
     ArrayList<Integer> results;
@@ -174,7 +183,7 @@ public class CompressionDriver {
     String resultSizeOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
     String hausDorffDistance = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n"; 
     interpolatedSource = kgonCompressionPerformer.performInterpolation(allStreamingValues, allowedEpsilon, distanceType, resultantValues, kGonType);
-    for (int k = 0; k<1500; k+=10){
+    for (int k = 10; k<1500; k+=10){
       resultsLoose= new ArrayList<Integer>();
       results = kgonCompressionPerformer.performGridCompression(interpolatedSource, k, distanceType, kGonType);
       resultsLoose = kgonCompressionPerformer.performGridCompression(interpolatedSource, k, "loose", kGonType);
@@ -188,18 +197,114 @@ public class CompressionDriver {
       resultantValues = GDouglasPeuker.douglasPeucker(allStreamingValues, k);
       IOHelper.writeDouglasPositionData(resultantValues, "data/douglas-"+k+".txt");
       resultOfBoth += k+"\t"+(looseConvertedPoints.size())+"\t"+(convertedPoints.size())+"\t"+(resultantValues.size())+"\n";
+      System.out.println(k+"\t"+(float)((resultsLoose.size()*4)/8)+"\t"+(float)((results.size()*4)/8)+"\t"+(float)((resultantValues.size()*64)/8)+"\n");
       resultSizeOfBoth += k+"\t"+(float)((resultsLoose.size()*4)/8)+"\t"+(float)((results.size()*4)/8)+"\t"+(float)((resultantValues.size()*64)/8)+"\n";
       hausDorffDistance += k+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, looseConvertedPoints)+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, convertedPoints)+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, resultantValues)+"\n";
     }
-    IOHelper.writeToFile(resultOfBoth, "interpolation-total-points-both.txt");
-    IOHelper.writeToFile(resultSizeOfBoth, "interpolation-total-size-both.txt");
-    IOHelper.writeToFile(hausDorffDistance, "interpolation-hausdorff-both.txt");
+    IOHelper.writeToFile(resultOfBoth, "data-"+foladerNameAppender+"/interpolation-total-points-both.txt");
+    IOHelper.writeToFile(resultSizeOfBoth, "data-"+foladerNameAppender+"/interpolation-total-size-both.txt");
+    IOHelper.writeToFile(hausDorffDistance, "data-"+foladerNameAppender+"/interpolation-hausdorff-both.txt");
   }
+  
   
   /*
    * This function implements the approximation by interpolation the points between the far away points alongwith codes for how far
    */
-  void runBothCasesWithCodedInterpolation(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, int thresholdForTransferData){
+  void runBothCasesWithCodedInterpolationSize(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, int thresholdForTransferData, String foladerNameAppender){
+    KGonCompression kgonCompressionPerformer = new KGonCompression();
+    KGonCompressionDecoder gridCompressionDecoder = new KGonCompressionDecoder();
+    Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair;
+    Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPairLoose;
+    Pair<ArrayList<GPSPoint>, Integer> douglasPeukerResult;
+    Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningEmptyBinsPair;
+    ArrayList<Double> results;
+    ArrayList<Double> resultsLoose;
+    ArrayList<Double> resultsLimited;
+    ArrayList<Double> resultsLooseLimited;
+    ArrayList<GPSPoint> resultantValues = new ArrayList<GPSPoint>();
+    ArrayList<GPSPoint> interpolatedSource;
+    ArrayList<GPSPoint> whileConstructing = new ArrayList<GPSPoint>();
+     ArrayList<WorstBinCounter> binCounterArray = new ArrayList<WorstBinCounter>();
+     IOHelper.writeListToFile(allStreamingValues, "original.txt");
+    String resultOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
+    String resultSizeOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
+    String hausDorffDistance = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n"; 
+    //interpolatedSource = kgonCompressionPerformer.performInterpolation(allStreamingValues, allowedEpsilon, distanceType, resultantValues, kGonType);
+    for (int k = 100; k<1500; k+=10){
+        returningBinsWithPointsPair = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, distanceType, kGonType, allDateTimeValues, binCounterArray);
+
+        //int strictNewEpsilonMultipleToUse = kgonCompressionPerformer.epsilonForData(returningBinsWithPointsPair, thresholdForTransferData);
+
+        //strictNewEpsilonMultipleToUse = strictNewEpsilonMultipleToUse*allowedEpsilon;
+
+        //System.out.println("The proposed epsilon for strict Hexagon should be: "+(strictNewEpsilonMultipleToUse));
+
+        returningBinsWithPointsPairLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, k, "loose", kGonType, allDateTimeValues, binCounterArray);
+
+        //int looseNewEpsilonMultipleToUse = kgonCompressionPerformer.epsilonForData(returningBinsWithPointsPairLoose, thresholdForTransferData);
+
+        //looseNewEpsilonMultipleToUse = looseNewEpsilonMultipleToUse*allowedEpsilon;
+
+        //System.out.println("The proposed epsilon for loose Hexagon should be: "+(looseNewEpsilonMultipleToUse));
+
+        results = returningBinsWithPointsPair.getSecond().getFirst();
+        resultsLoose = returningBinsWithPointsPairLoose.getSecond().getFirst();
+
+        ArrayList<GPSPoint> convertedPoints = gridCompressionDecoder.getGPSPointListCodedInterpolated(allStreamingValues.get(0), results, k, distanceType);
+        ArrayList<GPSPoint> looseConvertedPoints = gridCompressionDecoder.getGPSPointListCodedInterpolated(allStreamingValues.get(0), resultsLoose, k, "loose");
+
+        // after getting updated epsilon for strict hexagon, use that to get the points
+        //returningBinsWithPointsPair = kgonCompressionPerformer.performGridCompressionCodedInterpolation(convertedPoints, whileConstructing, strictNewEpsilonMultipleToUse, distanceType, kGonType, allDateTimeValues, binCounterArray);
+
+        //whileConstructing = new ArrayList<GPSPoint>();
+
+        // after getting updated epsilon for loose hexagon, use that to get the points
+        //returningBinsWithPointsPairLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(looseConvertedPoints, whileConstructing, looseNewEpsilonMultipleToUse, "loose", kGonType, allDateTimeValues, binCounterArray);
+
+        //resultsLimited = returningBinsWithPointsPair.getSecond().getFirst();
+        //resultsLooseLimited = returningBinsWithPointsPairLoose.getSecond().getFirst();
+
+
+        IOHelper.writeGridPositionDataDouble(allStreamingValues.get(0), results, "data/strict/strict-grid-coded-"+k+".txt");
+        //resultsLoose = performGridCompression(allStreamingValues, k, "loose");
+        IOHelper.writeGridPositionDataDouble(allStreamingValues.get(0), resultsLoose, "data/loose/loose-grid-coded-"+k+".txt");
+
+
+
+        //ArrayList<GPSPoint> strictConvertedPointsLimited = gridCompressionDecoder.getGPSPointListCodedInterpolated(allStreamingValues.get(0), resultsLimited, strictNewEpsilonMultipleToUse, distanceType);
+        //ArrayList<GPSPoint> looseConvertedPointsLimited = gridCompressionDecoder.getGPSPointListCodedInterpolated(allStreamingValues.get(0), resultsLooseLimited, looseNewEpsilonMultipleToUse, "loose");
+
+        IOHelper.writeGridConvertedGPS(whileConstructing, "data/loose-while-converted-coded"+k+".txt");
+        //IOHelper.writeGridConvertedGPS(strictConvertedPointsLimited, "data/strict/strict-converted-coded"+strictNewEpsilonMultipleToUse+".txt");
+        //IOHelper.writeGridConvertedGPS(looseConvertedPointsLimited, "data/loose/loose-converted-coded"+looseNewEpsilonMultipleToUse+".txt");
+        
+        IOHelper.writeGridConvertedGPS(convertedPoints, "data/strict/strict-converted-coded"+k+".txt");
+        IOHelper.writeGridConvertedGPS(looseConvertedPoints, "data/loose/loose-converted-coded"+k+".txt");
+        IOHelper.writeGridConvertedGPS(whileConstructing, "data/loose/example-grid-converted-coded-"+k+".txt");
+
+        resultantValues = GDouglasPeuker.douglasPeucker(allStreamingValues, k);
+        //System.out.println("The epsilon required for douglas peuker is: "+douglasPeukerResult.getSecond());
+        //resultantValues = douglasPeukerResult.getFirst();
+        IOHelper.writeDouglasPositionData(resultantValues, "data/douglas/douglas-"+k+".txt");
+        resultOfBoth += k+"\t"+(looseConvertedPoints.size())+"\t"+(convertedPoints.size())+"\t"+(resultantValues.size())+"\n";
+        System.out.println(k+"\t"+(float)((resultsLoose.size()*4)/8)+"\t"+(float)((results.size()*4)/8)+"\t"+(float)((resultantValues.size()*64)/8)+"\n");
+        resultSizeOfBoth += k+"\t"+(float)((resultsLoose.size()*4)/8)+"\t"+(float)((results.size()*4)/8)+"\t"+(float)((resultantValues.size()*64)/8)+"\n";
+        float looseHausdorff= GeoHelper.getHausdorffDistance(allStreamingValues, looseConvertedPoints);
+        float strictHausdorff= GeoHelper.getHausdorffDistance(allStreamingValues, convertedPoints);
+        float douglasHausdorff = GeoHelper.getHausdorffDistance(allStreamingValues, resultantValues);
+        System.out.println(k+"\t"+looseHausdorff+"\t"+strictHausdorff+"\t"+douglasHausdorff+"\n");
+        hausDorffDistance += k+"\t"+looseHausdorff+"\t"+strictHausdorff+"\t"+douglasHausdorff+"\n";
+    }
+    IOHelper.writeToFile(resultOfBoth, "data-"+foladerNameAppender+"/coded-interpolation-total-points-both.txt");
+    IOHelper.writeToFile(resultSizeOfBoth, "data-"+foladerNameAppender+"/coded-interpolation-total-size-both.txt");
+    IOHelper.writeToFile(hausDorffDistance, "data-"+foladerNameAppender+"/coded-interpolation-hausdorff-both.txt");
+  }
+  
+  /*
+   * This function implements the approximation by interpolation the points between the far away points alongwith codes for how far
+   * And runs it for energy based ocnstraints
+   */
+  void runBothCasesWithCodedInterpolation(ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, int thresholdForTransferData, String foladerNameAppender){
     KGonCompression kgonCompressionPerformer = new KGonCompression();
     KGonCompressionDecoder gridCompressionDecoder = new KGonCompressionDecoder();
     Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair;
@@ -226,7 +331,7 @@ public class CompressionDriver {
 
         strictNewEpsilonMultipleToUse = strictNewEpsilonMultipleToUse*allowedEpsilon;
 
-        System.out.println("The proposed epsilon strict Hexagon should be: "+(strictNewEpsilonMultipleToUse));
+        System.out.println("The proposed epsilon for strict Hexagon should be: "+(strictNewEpsilonMultipleToUse));
 
         returningBinsWithPointsPairLoose = kgonCompressionPerformer.performGridCompressionCodedInterpolation(allStreamingValues, whileConstructing, allowedEpsilon, "loose", kGonType, allDateTimeValues, binCounterArray);
 
@@ -234,7 +339,7 @@ public class CompressionDriver {
 
         looseNewEpsilonMultipleToUse = looseNewEpsilonMultipleToUse*allowedEpsilon;
 
-        System.out.println("The proposed epsilon loose Hexagon should be: "+(looseNewEpsilonMultipleToUse));
+        System.out.println("The proposed epsilon for loose Hexagon should be: "+(looseNewEpsilonMultipleToUse));
 
         results = returningBinsWithPointsPair.getSecond().getFirst();
         resultsLoose = returningBinsWithPointsPairLoose.getSecond().getFirst();
@@ -279,16 +384,16 @@ public class CompressionDriver {
         resultSizeOfBoth += allowedEpsilon+"\t"+(float)((resultsLoose.size()*4)/8)+"\t"+(float)((results.size()*4)/8)+"\t"+(float)((resultantValues.size()*64)/8)+"\n";
         hausDorffDistance += allowedEpsilon+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, looseConvertedPointsLimited)+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, strictConvertedPointsLimited)+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, douglasPeukerResult.getFirst())+"\n";
     //}
-    IOHelper.writeToFile(resultOfBoth, "data/coded-interpolation-total-points-both.txt");
-    IOHelper.writeToFile(resultSizeOfBoth, "data/coded-interpolation-total-size-both.txt");
-    IOHelper.writeToFile(hausDorffDistance, "data/coded-interpolation-hausdorff-both.txt");
+    IOHelper.writeToFile(resultOfBoth, "data"+foladerNameAppender+"/coded-interpolation-total-points-both.txt");
+    IOHelper.writeToFile(resultSizeOfBoth, "data"+foladerNameAppender+"/coded-interpolation-total-size-both.txt");
+    IOHelper.writeToFile(hausDorffDistance, "data"+foladerNameAppender+"/coded-interpolation-hausdorff-both.txt");
   }
   
   /*
    * This function implements the case where a particular threshold is set and if the distance between two consecutive points is more than that
    * we are going to record literal points. In all other cases it would be KGon based approximation.
    */
-  void runBothAdaptiveWithThreshold(int thresholdForPointRecord,ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType, int totalEnergyForTransfer, ArrayList<Date> allDateTimeValues){
+  void runBothAdaptiveWithThreshold(int thresholdForPointRecord,ArrayList<GPSPoint> allStreamingValues, int allowedEpsilon, String distanceType, String kGonType, int totalEnergyForTransfer, ArrayList<Date> allDateTimeValues, String foladerNameAppender){
     KGonCompression kgonCompressionPerformer = new KGonCompression();
     KGonCompressionDecoder kgonCompressionDecoder = new KGonCompressionDecoder();
     ArrayList<Integer> results;
@@ -301,12 +406,12 @@ public class CompressionDriver {
     String resultSizeOfBoth = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n";
     String hausDorffDistance = "Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\n"; 
     IOHelper.writeListToFile(allStreamingValues, "original.txt");
-    for (int k = 10; k<15; k+=50){
+    for (int k = 10; k<1500; k+=10){
       
       //resultsLoose= new ArrayList<Integer>();
       results = kgonCompressionPerformer.performFixedBinBasedCompression(allStreamingValues, gpsPointForCalibration, k, distanceType, whileConstructing, kGonType, allDateTimeValues);
       resultsLoose = kgonCompressionPerformer.performFixedBinBasedCompression(allStreamingValues, gpsPointForCalibration, k, "loose", whileConstructing, kGonType, allDateTimeValues);
-      IOHelper.writeGridPositionData(allStreamingValues.get(0), results, "data/strict-grid-fixedbin"+k+".txt");
+      IOHelper.writeGridPositionData(allStreamingValues.get(0), results, "data/strict/strict-grid-fixedbin"+k+".txt");
       //resultsLoose = performAdaptiveGridCompression(allStreamingValues, k, "loose");
       //writeGridPositionData(allStreamingValues.get(0), resultsLoose, "data/loose-grid-"+k+".txt");
       //ArrayList<GPSPoint> convertedPoints = getConvertedGPSPointListForAdaptive(allStreamingValues.get(0), resultsLoose, k, "e");
@@ -320,9 +425,9 @@ public class CompressionDriver {
       
       ArrayList<GPSPoint> convertedPoints = kgonCompressionDecoder.getConvertedGPSPointsForFixedBinBasedCompression(results, gpsPointForCalibration, k, distanceType);
       ArrayList<GPSPoint> looseConvertedPoints = kgonCompressionDecoder.getConvertedGPSPointsForFixedBinBasedCompression(resultsLoose, gpsPointForCalibration, k, "loose");
-      IOHelper.writeGridConvertedGPS(convertedPoints, "data/strict-grid-converted-fixedbin-"+k+".txt");
+      IOHelper.writeGridConvertedGPS(convertedPoints, "data/strict/strict-grid-converted-fixedbin-"+k+".txt");
       //ArrayList<GPSPoint> convertedPoints = kgonCompressionPerformer.performInterpolation(allStreamingValues, k, distanceType, whileConstructing, kGonType);
-      IOHelper.writeGridConvertedGPS(whileConstructing, "data/example-grid-converted-fixedbin-"+k+".txt");
+      //IOHelper.writeGridConvertedGPS(whileConstructing, "data/example-grid-converted-fixedbin-"+k+".txt");
       
       resultantValues = GDouglasPeuker.douglasPeucker(allStreamingValues, k);
       IOHelper.writeDouglasPositionData(resultantValues, "data/douglas-"+k+".txt");
@@ -331,9 +436,9 @@ public class CompressionDriver {
       hausDorffDistance += k+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, looseConvertedPoints)+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, convertedPoints)+"\t"+GeoHelper.getHausdorffDistance(allStreamingValues, resultantValues)+"\n";
       
     }
-    IOHelper.writeToFile(resultOfBoth, "threshold-total-points-both.txt");
-    IOHelper.writeToFile(resultSizeOfBoth, "threshold-total-size-both.txt");
-    IOHelper.writeToFile(hausDorffDistance, "threshold-hausdorff-both.txt");
+    IOHelper.writeToFile(resultOfBoth, "data-"+foladerNameAppender+"/threshold-total-points-both.txt");
+    IOHelper.writeToFile(resultSizeOfBoth, "data-"+foladerNameAppender+"/threshold-total-size-both.txt");
+    IOHelper.writeToFile(hausDorffDistance, "data-"+foladerNameAppender+"/threshold-hausdorff-both.txt");
     
   }
   

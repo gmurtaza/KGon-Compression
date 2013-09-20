@@ -353,7 +353,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Trajectory Approximation for Energy Constrained Delay Tolerant Networks for Animal Monitoring}
+\title{Trajectory Approximation for Energy Constrained Delay Tolerant Sensor Networks for Animal Monitoring}
 
 
 % author names and affiliations
@@ -438,15 +438,8 @@ The abstract goes here.
 \IEEEpeerreviewmaketitle
 \section{Introduction}\label{sec:intro}
 
-Sensor networks have been used for terrestrial \cite{robo-mote} and ocean 
-monitoring \cite{Vasilescu05krill:an} which perform tracking over extended period of time. 
-Recently sensor platforms have been built to monitor the flying animals for long periods as well 
-\cite{Anthony:2012:STC:2185677.2185747} \cite{raja-ipsn}. Generally the sensor platforms are 
-attached on these flying animals in form of a collar at a known location (generally their roosting 
-camp). And then these animals can stay away from the camp from couple of days to several months. 
-This fact that these animals can be away for months without connectivity call for the design of delay 
-tolerant hardware and software platform for monitoring these animal. The major challenge in this type 
-of problem is the limited amount on-board available energy. \\
+Sensor networks have been used for terrestrial \cite{robo-mote} and ocean monitoring \cite{Vasilescu05krill:an} which perform tracking over extended period of time. Recently sensor platforms have been built to monitor the flying animals for long periods as well \cite{Anthony:2012:STC:2185677.2185747} \cite{raja-ipsn}. Generally these platforms are attached on these flying animals in form of a collar at a known location (generally their roosting camp). And then these animals can stay away from the camp from couple of days to several months. This fact that these animals can be away for months without connectivity calls for the design of delay tolerant hardware and software platform for monitoring these animal. \\
+%The major challenge in this type of problem is the limited amount of on-board available energy. \\
 %The major challenge in developing this 
 %type of platforms is weight of sensor platform and flying pattern of these animals. For example 
 %in case of flying fox monitoring the platform can not weigh more than 30 grams to keep it from 
@@ -455,150 +448,73 @@ of problem is the limited amount on-board available energy. \\
 %along with a possibility of duration between two visits of same roosting camp to span from 
 %couple of days to several months.\
 %In this type of platform, the collars are attached to the birds at a known location and then they fly away. 
-In order to off-load data, conventional ad-hoc network type opportunistic routing is not 
-possible because of highly unpredictable flying nature of these flying animals. Therefore raja et 
-al.\cite{raja-ipsn} propose to put a ground stations near the known roosting camps. These 
-ground stations collect data from any tagged bats which come to roost near the respective camps. 
-However interval between two data gathering activities from same bird can range between couple 
-of days to several months. \\ %This behaviour is specific to these flying animals.\
+Highly mobile and unknown nature of conventional ad-hoc network type opportunistic routing is not possible for data gathering purpose.  because of highly unpredictable flying habits of these flying animals. Therefore raja et al.\cite{raja-ipsn} propose to put a ground stations near the known roosting camps. These ground stations collect data from any tagged bats which come to roost near the respective camps. However interval between two data gathering activities from same bird can range between couple of days to several months. \\ %This behaviour is specific to these flying animals.\
 
-In order to perform the monitoring, these platforms are generally equipped with accelerometer, 
-microphone, air pressure, GPS and inertial sensors \cite{raja-ipsn}. The most energy and data 
-intensive sensor among all these is GPS sensor. It is used to track the trajectory of these 
-flying animals. Considering the fact that flying foxes spread the viral disease between animal 
-of other species including humans, trajectory of these animals over a period of time is the most 
-important piece of information from application perspective. Therefore in this paper we focus 
-on GPS sensor and gathering trajectory data of flying foxes. However, we will keep the energy 
-usage of other sensors in consideration while we study the affect of energy on amount of data 
-that can be transferred to base station.\
+In order to perform the monitoring, these platforms are generally equipped with accelerometer, microphone, air pressure, GPS and inertial sensors. From an application perspective, most of the flying animal monitoring systems are motivated by tracking their mobility behaviour. For example monitoring the migratory behaviour of different type of animals, movement of crop damaging birds and movement of flying foxes to track their interactions with other species to monitor the spread of viral disease\cite{raja-ipsn}. Therefore capturing the mobility data is the most important goal of these delay tolerant sensor networks to monitor flying animals. Therefore in this paper we are going to focus on trajectory data which is got from GPS sensors in forms of latitude and longitude.
+%However, in this work we are 
+%interested in tracking the mobility data of these animal. Therefore we focus on GPS sensors.
+% Considering the fact that flying foxes spread the viral disease between animal 
+%of other species including humans, trajectory of these animals over a period of time is the most 
+%important piece of information from application perspective. Therefore in this paper we focus 
+%on GPS sensor and gathering trajectory data of flying foxes. However, we will keep the energy 
+%usage of other sensors in consideration while we study the affect of energy on amount of data 
+%that can be transferred to base station.\
 
- The data from all the sensors is recorded at a variable frequency which is adapted based on 
- the amount of energy left in sensor platform at any particular time. This sensory data is then 
- processed and stored by our resource-limited sensor platform. However very small size of this 
- platform restricts the memory, processing and energy resources on-board. Therefore data 
- processing and management becomes a major challenge in this resource-constrained environment. 
+The data from GPS sensor is recorded at a variable frequency which is adapted based on the amount of energy left in sensor platform at any particular time. This data is then processed and stored by our resource-limited sensor platform. However very small size of this platform restricts the memory, processing and energy resources on-board. Therefore data processing and management becomes a major challenge in this resource-constrained environment. 
 
-The fact that sometimes these sensors will have to save the sensor logs of up to several months
-introduces a big data management challenge. The biggest challenge in this regard is introduced 
-by limited energy. Furthermore, limited energy means limited amount of sensing, limited processing 
-of that data and then limited time to transfer the collected data. The fact that we can only 
-transfer a limited amount of data when flying animal comes in contact with base station raises the 
-important question of summarising the collected trajectory data. The important fact is that the 
-remaining energy at the time of contact with base station can be variable and is known at the time 
-of contact. Therefore we come to know about the amount of data that can be transferred at the time of 
-contact as well. Another important requirement of these type of applications is that amount of error 
-should be bounded by some approximation error. it means we can not randomly choose subset of data 
-to fit in the limit. Our It means we have to keep this variable data transfer limit in view when 
-designing approximation scheme for trajectory summarisation.
+The fact that sometimes these sensors will have to save the sensor logs of up to several months introduces a big data management challenge. The biggest challenge in this regard is introduced by limited energy. Limited energy means limited amount of sensing, limited processing of that data and then limited time to transfer the collected data. The fact that we can only transfer a limited amount of data when flying animal comes in contact with base station raises the important question of summarising the collected trajectory data. 
+
+There are two important parts in summarising the trajectory data. First is that there is some application requirement about the maximum amount of error that can be tolerated for reported trajectory. We call it Base Approximation Error ($BAE$). So one can perform the approximation at an approximation error of $BAE$ online. However generally it is not achievable because of the amount of data that can be transferred from sensor platform is dependent on the amount of energy left in the mote.
+
+One important fact is that the remaining energy at the time of contact with base station can be variable and is known only at the time of contact. Therefore we come to know about the amount of data that can be transferred at the time of contact as well. Another important requirement of these type of applications is that amount of error should be bounded by some approximation error. it means we can not randomly choose subset of data to fit in the limit. Our It means we have to keep this variable data transfer limit in view when designing approximation scheme for trajectory summarisation.
 %This problem of summarising the data to fit the size which can be transferred to base station when bats come in contact becomes even more challenging because of the variable amount of data one can transfer to the base station.\
 
 %Another important question is what to do when the limited on-board storage completely fills up. Do we discard old data or we compress all the data to make space for new data. In this kind of monitoring applications the old data is as important as the recent data. Therefore it raises the need to apply some sort of compression when the storage completely fills up. However, we have to be careful in choosing the compression technique and compression ratio as processing involved in compression requires heavily constrained energy. And compression ratio/error should be adapted based on the amount of data that can be transferred.\
 
 %Another pressing challenge affecting the design of data manager is posed by the type of storage on these platforms. These sensors have on-board storage which consists of flash chips. These flash chips are made out of blocks and each block is then further divided into small pages. In flash the read/write happens at page level but modification and deletion can be done only at block level. It means modifying a single byte in flash is going to require us to deleted the whole block and write it again. This operation is very costly in terms of energy consumption. Therefore any compression technique should look to minimise block erase operations.\
 
-Limited amount of available memory (around 10 KB) means that we can not use off-the-shelf compression 
-algorithms which are not optimised for limited available memory. Therefore, we propose to build 
-application specific approximation scheme for this type of sensor platform.\
+Limited amount of available memory (around 10 KB) means that we can not use off-the-shelf compression algorithms which are not optimised for limited available memory. Therefore, we propose to build application specific approximation scheme for this type of sensor platform.\
 
-In order to develop an approximation scheme which summarise the GPS logs to make them fit to the 
-size which can be transferred to the base station, one has to keep in mind the queries which will 
-be applied on these logs. This process will define the error bounds applied by the end user on the 
-summarisation process. Even though we have to keep the error bounds enforced by the application 
-requirements. The energy limitation also poses major restriction on the approximation error. Therefore 
-the approximation error has to be adaptive based on the available energy on the sensor platform and 
-application queries.
+In order to develop an approximation scheme which summarise the GPS logs to make them fit to the size which can be transferred to the base station, one has to keep in mind the queries which will be applied on these logs. This process will define the error bounds applied by the end user on the summarisation process. Even though we have to keep the error bounds enforced by the application requirements. The energy limitation also poses major restriction on the approximation error. Therefore the approximation error has to be adaptive based on the available energy on the sensor platform and application queries.
 
-In this paper, we present an online approximation scheme which is based on hexagon approximating 
-the sensor logs with the focus on time based GPS logs. We propose to use hexagons of the size of 
-allowed approximation error as the basic unit of approximation. Then we propose that all the GPS 
-points which fall into same hexagon should be approximated to the centre of the hexagon. In this 
-scheme the choice of hexagons serve a special purpose due to its symmetry towards its neighbours. 
-The distance from the centre of any hexagon to all its neighbouring hexagons is same. This allows 
-us to save only the direction towards next approximating hexagon. In case of hexagon the direction 
-can be saved in a number between 1-6 which can be saved in three bits as compared to typical 8 bytes 
-for a single GPS point.
+In this paper, we present an online approximation scheme which is based on hexagon approximating the sensor logs with the focus on time based GPS logs. We propose to use hexagons of the size of allowed approximation error as the basic unit of approximation. Then we propose that all the GPS points which fall into same hexagon should be approximated to the centre of the hexagon. In this scheme the choice of hexagons serve a special purpose due to its symmetry towards its neighbours. The distance from the centre of any hexagon to all its neighbouring hexagons is same. This allows us to save only the direction towards next approximating hexagon. In case of hexagon the direction can be saved in a number between 1-6 which can be saved in three bits as compared to typical 8 bytes for a single GPS point.
 
 \section{Case Study}
 \subsection{AWSN-Based Adaptive Frequency Data Gathering from Flying Foxes} \label{case-study}
-Our application case-study is Flying Fox Monitoring system explained in \cite{raja-ipsn}. 
-The major goal of this monitoring system is to deliver the position and activity information to 
-develop an early warning system against the deadly viral diseases spread by these mammals. 
-They have developed a platform named camazotz to put on-board the flying foxes in order to 
-gather this position and activity data. They hope to achieve two clear goals from this monitoring 
-platform. 1) To identify the roosting camps of these animal which are 
-generally in locations which are inaccessible otherwise. 2) Monitor the movement 
-pattern of flying foxes in order to get a more detailed knowledge of their foraging choices and interaction 
-with other species. As that is the time when they are more likely to spread the virulent diseases.\
+Our application case-study is Flying Fox Monitoring system explained in \cite{raja-ipsn}. The major goal of this monitoring system is to deliver the position and activity information to develop an early warning system against the deadly viral diseases spread by these mammals. They have developed a platform named camazotz to put on-board the flying foxes in order to gather this position and activity data. They hope to achieve two clear goals from this monitoring platform. 1) To identify the roosting camps of these animal which are generally in locations which are inaccessible otherwise. 2) Monitor the movement pattern of flying foxes in order to get a more detailed knowledge of their foraging choices and interaction with other species. As that is the time when they are more likely to spread the virulent diseases.\
 
-Considering the flying foxes roost together in big numbers (40-50K together) and they are 
-quite noisy when roosting\cite{Shilton-2008}, simple processing of mic data can be used to 
-get this information. However, in order to achieve the second goal, we need to gather high 
-resolution location and activity data over the whole period of time. The activity data in 
-this particular application includes GPS, accelerometer, air pressure and mic. The data from 
-these sensors can be used to detect the activities like orientation of bat, temperature of 
-the environment, current location of the bat and speed of the bat. In order to accurately 
-detect these activities, we need these platforms to sample data at a reasonably high frequency. 
-Sometimes as high as 100 Hz. \
+Considering the flying foxes roost together in big numbers (40-50K together) and they are quite noisy when roosting\cite{Shilton-2008}, simple processing of mic data can be used to get this information. However, in order to achieve the second goal, we need to gather high resolution location and activity data over the whole period of time. The activity data in this particular application includes GPS, accelerometer, air pressure and mic. The data from these sensors can be used to detect the activities like orientation of bat, temperature of the environment, current location of the bat and speed of the bat. In order to accurately detect these activities, we need these platforms to sample data at a reasonably high frequency. Sometimes as high as 100 Hz. \
 
 These are the 5 requirements from the sensing platforms developed for this purpose as described 
 in \cite{raja-ipsn}.
 \begin{itemize}
 \item Collect regular daytime fixes (with an accuracy of 10m) at camps to identify new camps.
-\item Collect high-frequency nighttime fixes to monitor movement patterns and landscape use, and 
-doing this with an accuracy of 10m or less using inertial sensors during fine- scale movements.
+\item Collect high-frequency nighttime fixes to monitor movement patterns and landscape use, and doing this with an accuracy of 10m or less using inertial sensors during fine- scale movements.
 \item Make daytime audio recordings to allow estimation of camp size.
 \item Operate over long periods, i.e. 12 months, and preferably longer.
 \item Provide data download capability.
 \end{itemize}
 
-The claim is that to achieve these goals, one needs clever power, sensor and data management 
-techniques. Therefore, they have built the camazotz platform such that it has two on-board small 
-solar panels. These solar panels fulfil the online energy requirements of this sensor 
-platform\cite{raja-ipsn}.\
+The claim is that to achieve these goals, one needs clever power, sensor and data management techniques. Therefore, they have built the camazotz platform such that it has two on-board small solar panels. These solar panels fulfil the online energy requirements of this sensor platform\cite{raja-ipsn}.\
 
-We need to collect the sensor readings worth months while sensor platform is on the bats. Flying foxes 
-are known to cover large areas in matter of days. One option is to use satellite based communication 
-to gather data from these platform. However, it poses a high cost in terms of power which is scarce in 
-our application scenario. The option of using cellular networks also becomes impractical because of 
-high energy and large size requirements. Therefore raja et al. propose to use a base station at known 
-roosting camps and look for bats with sensor platform there by sending periodic beacons. As soon as 
-the bat with collar comes in contact it offloads the data to base station.\\
-The fact that camazotz platform needs to provide data download capability to a base station 
-poses a requirement that battery should not be completely flat. There should be some energy in 
-the battery when it comes in range of ground station in order to transfer data to ground station
-. However, the total remaining energy when bat comes in contact with the ground 
-station is variable and only known at that time. This limited energy poses a limitation on 
-how much data can be transferred to the ground station while bat is at roosting camp.\
+We need to collect the sensor readings worth months while sensor platform is on the bats. Flying foxes are known to cover large areas in matter of days. One option is to use satellite based communication to gather data from these platform. However, it poses a high cost in terms of power which is scarce in our application scenario. The option of using cellular networks also becomes impractical because of high energy and large size requirements. Therefore raja et al. propose to use a base station at known roosting camps and look for bats with sensor platform there by sending periodic beacons. As soon as the bat with collar comes in contact it offloads the data to base station.\\
 
-This variable nature of how much data that can be transferred when the bat comes in contact with 
-ground station poses a big data management challenge. The duration between two times when bat 
-comes in contact with a ground station can span from 2 days to several months\cite{raja-ipsn}. 
-It means depending on the adaptive duty cycling the raw data can be as large as tens of Giga 
-Bytes. Considering the energy and time limitation, we need to do some approximation on this large 
-data and select smaller amount of data to send to ground station. The main challenge is that amount 
-of data that can be transferred to base station will only be known when bat comes in contact with 
-ground station.\
+The fact that camazotz platform needs to provide data download capability to a base station poses a requirement that battery should not be completely flat. There should be some energy in the battery when it comes in range of ground station in order to transfer data to ground station. However, the total remaining energy when bat comes in contact with the ground station is variable and only known at that time. This limited energy poses a limitation on how much data can be transferred to the ground station while bat is at roosting camp.\
+
+This variable nature of how much data that can be transferred when the bat comes in contact with ground station poses a big data management challenge. The duration between two times when bat comes in contact with a ground station can span from 2 days to several months\cite{raja-ipsn}. It means depending on the adaptive duty cycling the raw data can be as large as tens of Giga Bytes. Considering the energy and time limitation, we need to do some approximation on this large data and select smaller amount of data to send to ground station. The main challenge is that amount of data that can be transferred to base station will only be known when bat comes in contact with ground station.\
 
 \subsection{Data Management requirement: Application perspective}
-Along with strict requirements of approximating the data to fit the size requirements, there are 
-some data requirements posed by the application. These data requirements stem out of these queries:
+Along with strict requirements of approximating the data to fit the size requirements, there are some data requirements posed by the application. These data requirements stem out of these queries:
 \subsubsection{Where At}
-Given a time value $t$, we need to answer GPS location of the bat at that time. This particular 
-query poses the challenge that we have to keep time stamp of all the GPS values. It means that while 
-approximating the trajectory, we have to approximate time with best possible resolution which is guided 
-by our current energy budget.
+Given a time value $t$, we need to answer GPS location of the bat at that time. This particular query poses the challenge that we have to keep time stamp of all the GPS values. It means that while approximating the trajectory, we have to approximate time with best possible resolution which is guided by our current energy budget.
 \subsubsection{When At}
 Given the GPS location, we need to answer the time $t$ when bat was at that particular time. 
 \subsubsection{Intersect}
-This is a query in which which given the approximated trajectory $T$, a polygon $P$ and time $t_1$ and 
-$t_2$. We have to tell that if P intersect T between time period $t_1$ and $t_2$.
+This is a query in which which given the approximated trajectory $T$, a polygon $P$ and time $t_1$ and $t_2$. We have to tell that if P intersect T between time period $t_1$ and $t_2$.
 \subsection{Error Tolerance}
 As obvious from queries, the approximation of the sensor data has to be both distance ad time bounded. 
 %as shown in figure~\ref{time-distance}. 
-This requirement makes it a challenging problem. If the error was not to be bounded then virtually 
-there is no problem at all. We could have simply sampled the GPS points at equal distances which fit 
-in the allowed amount of data. There are two factors which influence the threshold which bounds the error 
-of approximation.\
+This requirement makes it a challenging problem. If the error was not to be bounded then virtually there is no problem at all. We could have simply sampled the GPS points at equal distances which fit in the allowed amount of data. There are two factors which influence the threshold which bounds the error of approximation.\
 
 \subsubsection{Application Bounds}
 There are certain application requirements in every sensor network. These application requirements 
@@ -795,7 +711,7 @@ boundaries of that hexagon to the centre of the hexagon.
   \includegraphics[width=2in]{images/hexagon-figure.pdf}
   \caption {Hexagon based approximation and sides coding.}\label{fig:multiple-hexagons}
 \end{figure}
-However, as soon as we encounter a point which is out side of that particular hexagon, we calculate which 
+However, as soon as we encounter a point which is outside of that particular hexagon, we calculate which 
 neighbouring hexagon among the 6 contains this point. Then we approximate that point to the centre of this 
 neighbouring hexagon. We label the neighbouring hexagons as shown in figure~\ref{fig:multiple-hexagons}. 
 This way whenever we have to move from one hexagon to next, we just have to save the label of the next 
@@ -803,7 +719,13 @@ hexagon. It means instead of storing one GPS point in terms of latitude and long
 the direction of neighbouring hexagons. With the start point already known, it is trivial to construct the 
 GPS points from transitions codes of hexagons.\\
 This seems to be enough in order to decrease the amount of data that we have to store in order to save the 
-GPS points. However we still have to make sure that 
+GPS points. However, we still	have to make sure that our approximation scheme is able to calculate the amount 
+of $\epsilon$ to be used to fit the data within the enforced data limit posed by limited energy. We propose a 
+binning based technique for this task. We achieve this by using two types of bins when performing online 
+approximation while collecting data with $BAE$ as approximation error. One type of bin is used for counting 
+the empty hexagons between two consecutive points and other is used to perform the counting of how many 
+consecutive hexagons before we enter a case where there are empty hexagons between the two consecutive 
+GPS readings. 
 
 \begin{algorithm}[ht]
 \textbf{Input:} List of GPS points, Approximation error, KGon type, Distance Type\\
@@ -837,8 +759,7 @@ $result$: Coded Values
 \subsection{Basic Algorithm}
 \label{subs:algorithm}
 
-This section describes the details of our algorithm. As described earlier that we tag the bat with sensor 
-framework at some known roosting location. It means the initial location of the bat is known from where it 
+This section describes the details of our algorithm. It means the initial location of the bat is known from where it 
 starts the trip. Therefore we consider this point to be the centre of first hexagon. It is shown at line 3 
 of algorithm~\ref{k-gon-compression}. Each hexagon looks like the one shown in figure~\ref{fig:multiple-hexagons}
 with its neighbours labeled 1-6. In figure~\ref{fig:multiple-hexagons} the centre point $s$ would be start 
