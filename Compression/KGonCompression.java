@@ -596,10 +596,8 @@ public class KGonCompression {
                         addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
                         simpleDoubleBenefitCounter++;
                         //worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
-                        if (consecutiveCount == 0){
+                        if (consecutiveCount == 0)
                             consecutiveCount+=2;
-                            checkConsecutiveCount = false;
-                        }
                         else
                             consecutiveCount++;
                     }
