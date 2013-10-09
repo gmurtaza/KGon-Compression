@@ -80,17 +80,17 @@ public class HexaGon {
      */
     static public GPSPoint newCenterOfNeighbouringHexagon(double angle, float epsilon, GPSPoint currentCentre) {
         if (angle > -30 && angle <= 30) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 0.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 0.0);
         } else if (angle > 30 && angle <= 90) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 60.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 60.0);
         } else if (angle > 90 && angle <= 150) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 120.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 120.0);
         } else if ((angle > 150 && angle <= 180) || (angle >= -180 && angle <= -150)) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 180.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 180.0);
         } else if (angle > -150 && angle <= -90) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, -120.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), -120.0);
         } else if (angle > -90 && angle <= -30) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, -60.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), -60.0);
         }
         return null;
     }

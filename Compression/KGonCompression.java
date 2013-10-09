@@ -568,8 +568,20 @@ public class KGonCompression {
                 currentTime = allDateTimeValues.get(i);
             } else {//in this case either approximation on current centre is going to happen or new centre calculation
 
-                float distance = GeoHelper.getDistance(currentCentre, source.get(i));
-                double angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
+                double distance = 0;
+                distance = GeoHelper.getDistance(currentCentre, source.get(i));
+                double angle = 0.0;
+                angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
+                
+                
+                System.out.println("This is point number: "+ i);
+                System.out.println("Current centre Longitude x Latitude is: "+currentCentre.getLongitude()+" x "+currentCentre.getLatitude());
+                System.out.println("Longitude x Latitude is: "+source.get(i).getLongitude()+" x "+source.get(i).getLatitude());
+                System.out.println("Distance between current centre and point: "+GeoHelper.getDistance(currentCentre, source.get(i))+"\t angle is: "+GeoHelper.getGPSAngle(currentCentre, source.get(i)));
+                
+                
+                
+                
                 timeDifference =  (allDateTimeValues.get(i).getTime() - currentTime.getTime())/1000;
 
                 if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
@@ -592,8 +604,11 @@ public class KGonCompression {
                     }else{
                         checkConsecutiveCount = true;
                         currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
-                        //System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
+                        
                         addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
+                        
+                        System.out.println("Resultant code is: "+resultantPoints.get(resultantPoints.size()-1));
+                        
                         simpleDoubleBenefitCounter++;
                         //worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
                         if (consecutiveCount == 0)
@@ -707,7 +722,7 @@ public class KGonCompression {
     /*
      * Calculate new centre in case difference is bigger than epsilon
      */
-    GPSPoint calculateNewCentre(GPSPoint currentCentre, GPSPoint currentPoint, float epsilon, String distanceType, String kGonType) {
+    public GPSPoint calculateNewCentre(GPSPoint currentCentre, GPSPoint currentPoint, float epsilon, String distanceType, String kGonType) {
         double angle = GeoHelper.getGPSAngle(currentCentre, currentPoint);
         //System.out.println("angle is: "+angle);
         //System.out.println(2*(float)(epsilon*Math.sin(Math.toRadians(45.0))));
@@ -725,9 +740,10 @@ public class KGonCompression {
      */
     static public float distanceToBeUsed(String distanceType, float epsilon) {
         if (distanceType.equals("exact")) {
-            return 2 * (float) (epsilon * Math.sin(Math.toRadians(45.0)));
+            float calcAmount = (float) (epsilon * Math.sin(Math.toRadians(60.0)));
+            return calcAmount;
         } else {
-            return 2 * epsilon;
+            return epsilon;
         }
     }
 
