@@ -49,7 +49,7 @@ public class GeoHelper {
   /* 
    * Adding a certain distance according to angle
    */
-  static public GPSPoint getPointWithPolarDistance(GPSPoint currentCentre, float r, double theeta){
+  static public GPSPoint getPointWithPolarDistance(GPSPoint currentCentre, double r, double theeta){
     GPSPoint newCentre = new GPSPoint();
     newCentre.setLatitude(currentCentre.getLatitude() + Math.toDegrees((r*Math.sin(Math.toRadians(theeta)))/6378137));
     newCentre.setLongitude(currentCentre.getLongitude() + Math.toDegrees((r*Math.cos(Math.toRadians(theeta)))/6378137/Math.cos(Math.toRadians(currentCentre.getLatitude()))));
@@ -57,23 +57,43 @@ public class GeoHelper {
   }
   
   /*
-   * This function returns the tangent point on the k-gon side to an outside point 
+   * This function calculates the length of the base of right triangle
    */
-
-  static public GPSPoint getTheTangentPoint(GPSPoint source_point, GPSPoint target_point1, GPSPoint target_point2){
-    if (GeoHelper. getDistance(target_point1, target_point2) < 2){
-      //System.out.println(GeoHelper. getDistance(targetPoint1, targetPoint2));
-      return target_point1;
-    }else{
-      double angle = GeoHelper.getGPSAngle(target_point1, target_point2);
-      float distance =GeoHelper. getDistance(target_point1, target_point2);
-      //System.out.println(distance);
-      if (GeoHelper. getDistance(source_point, target_point1) <GeoHelper. getDistance(source_point, target_point2)){
-        return getTheTangentPoint(source_point,target_point1,GeoHelper.getPointWithPolarDistance(target_point1, (distance/2), angle));
-      }else{
-        return getTheTangentPoint(source_point, GeoHelper.getPointWithPolarDistance(target_point1, (distance/2), angle), target_point2);
-      }
-    }
+  
+  static public double getBaseLength(double theeta, double hypot){
+      return hypot*Math.sin(Math.toRadians(theeta));
+      
+  }
+  
+  /*
+   * This function returns the tangent point on the k-gon side to an outside point 
+   * 
+   * Consider the sides 
+   * source - target1 = a
+   * source - target2 = b
+   * target1 - target2 = c
+   * 
+   */
+  
+  static public double getTheDistanceFromTangent(GPSPoint source_point, GPSPoint target_point1, GPSPoint target_point2){
+    float a = GeoHelper. getDistance(source_point, target_point1);
+    float b = GeoHelper. getDistance(source_point, target_point2);
+    float c =GeoHelper. getDistance(target_point1, target_point2);
+    float s = (a+b+c)/2;
+    return (2*Math.sqrt(s*(s-1)*(s-b)*(s-c)))/c; //sends the height back
+//    if (GeoHelper. getDistance(target_point1, target_point2) < 2){
+//      //System.out.println(GeoHelper. getDistance(targetPoint1, targetPoint2));
+//      return target_point1;
+//    }else{
+//      double angle = GeoHelper.getGPSAngle(target_point1, target_point2);
+//      float distance =GeoHelper. getDistance(target_point1, target_point2);
+//      //System.out.println(distance);
+//      if (GeoHelper. getDistance(source_point, target_point1) <GeoHelper. getDistance(source_point, target_point2)){
+//        return getTheTangentPoint(source_point,target_point1,GeoHelper.getPointWithPolarDistance(target_point1, (distance/2), angle));
+//      }else{
+//        return getTheTangentPoint(source_point, GeoHelper.getPointWithPolarDistance(target_point1, (distance/2), angle), target_point2);
+//      }
+//    }
     // System.out.println(GeoHelper. getDistance(source_point, targetPoint1));
     // System.out.println(GeoHelper. getDistance(source_point, targetPoint2));
     // System.out.println(GeoHelper. getDistance(targetPoint1, targetPoint2));
@@ -99,37 +119,51 @@ public class GeoHelper {
     float hausdorffDistance = -1;
     for (int i = 0; i < firstSet.size(); i++){
       GPSPoint source_point = firstSet.get(i);
+      GPSPoint targetPoint1 = null;
+      GPSPoint targetPoint2 = null;
       float mDistance = 10000000;
-      for (int j = 0; j < secondSet.size()-1; j++){
-        float distanceBetweenSourceAndTangent = 0;
-        GPSPoint targetPoint1 = secondSet.get(j);
-        GPSPoint targetPoint2 = secondSet.get(j+1);
+      for (int j = 0; j < secondSet.size()-2; j++){
+        double distanceBetweenSourceAndTangent = 0;
+        targetPoint1 = secondSet.get(j);
+        targetPoint2 = secondSet.get(j+1);
+        //System.out.println(j);
         double firstAngle = GeoHelper.getGPSAngle(source_point, targetPoint1);
         double secondAngle = GeoHelper.getGPSAngle(source_point, targetPoint2);
+        double interAngle = GeoHelper.getGPSAngle(targetPoint1, targetPoint2);
         //System.out.println(j);
         //System.out.println(firstAngle);
         //System.out.println(secondAngle);
         //System.out.println(GeoHelper. getDistance(source_point, targetPoint1));
-        //System.out.println(GeoHelper. getDistance(source_point, targetPoint2));
-        if (GeoHelper.isSlopeCalculationNeeded(firstAngle, secondAngle)){
-          //System.out.println("")
-          if((firstAngle == 180 || secondAngle == 180)&&(GeoHelper. getDistance(source_point, targetPoint1) < 2 ||GeoHelper. getDistance(source_point, targetPoint2) < 2)){
-            distanceBetweenSourceAndTangent = Math.min(GeoHelper. getDistance(source_point, targetPoint1),GeoHelper. getDistance(source_point, targetPoint2));
-          }else if((firstAngle == 0 || secondAngle == 0)&&(GeoHelper. getDistance(source_point, targetPoint1) < 2 ||GeoHelper. getDistance(source_point, targetPoint2) < 2)){
-            distanceBetweenSourceAndTangent = Math.min(GeoHelper. getDistance(source_point, targetPoint1),GeoHelper. getDistance(source_point, targetPoint2));
-          }else{
-            GPSPoint tangentGPSPoint = GeoHelper.getTheTangentPoint(source_point, targetPoint1, targetPoint2);
-            distanceBetweenSourceAndTangent =GeoHelper. getDistance(source_point, tangentGPSPoint);
-          }
-          }else{
-          distanceBetweenSourceAndTangent = Math.min(GeoHelper. getDistance(source_point, targetPoint1),GeoHelper. getDistance(source_point, targetPoint2));
-        }
+//        if (i == 51&&j==12 )
+//            System.out.println(GeoHelper. getDistance(source_point, targetPoint2));
+//        if (j == 51&&i==12 )
+//            System.out.println(GeoHelper. getDistance(source_point, targetPoint2));
+//        if (GeoHelper.isSlopeCalculationNeeded(firstAngle, secondAngle)){
+//          //System.out.println("")
+//          if((firstAngle == 180 || secondAngle == 180)&&(GeoHelper. getDistance(source_point, targetPoint1) < 2 ||GeoHelper. getDistance(source_point, targetPoint2) < 2)){
+//            distanceBetweenSourceAndTangent = Math.min(GeoHelper. getDistance(source_point, targetPoint1),GeoHelper. getDistance(source_point, targetPoint2));
+//          }else if((firstAngle == 0 || secondAngle == 0)&&(GeoHelper. getDistance(source_point, targetPoint1) < 2 ||GeoHelper. getDistance(source_point, targetPoint2) < 2)){
+//            distanceBetweenSourceAndTangent = Math.min(GeoHelper. getDistance(source_point, targetPoint1),GeoHelper. getDistance(source_point, targetPoint2));
+//          }else{
+            
+            distanceBetweenSourceAndTangent =Math.min(GeoHelper. getDistance(source_point, targetPoint1),GeoHelper.getTheDistanceFromTangent(source_point, targetPoint1, targetPoint2));
+            distanceBetweenSourceAndTangent =Math.min(GeoHelper. getDistance(source_point, targetPoint2),distanceBetweenSourceAndTangent);
+//          }
+//          }else{
+//          distanceBetweenSourceAndTangent = Math.min(GeoHelper. getDistance(source_point, targetPoint1),GeoHelper. getDistance(source_point, targetPoint2));
+//        }
 
         if (distanceBetweenSourceAndTangent<mDistance){
-            mDistance = distanceBetweenSourceAndTangent;
+            //System.out.println(i+"   "+j+"       "+distanceBetweenSourceAndTangent);
+            mDistance = (float)distanceBetweenSourceAndTangent;
           }
+        
       }
       if (mDistance>hausdorffDistance){
+//          System.out.println(mDistance);
+//          System.out.println("source: "+source_point.getLongitude()+" x "+source_point.getLatitude());
+//          System.out.println("target1: "+targetPoint1.getLongitude()+" x "+targetPoint1.getLatitude());
+//          System.out.println("source: "+targetPoint2.getLongitude()+" x "+targetPoint2.getLatitude());
         hausdorffDistance = mDistance;
       }
     }
@@ -142,7 +176,27 @@ public class GeoHelper {
    */
 
   static public float getHausdorffDistance(ArrayList<GPSPoint> firstSet, ArrayList<GPSPoint> secondSet){
-    return Math.max(GeoHelper.getOneSidedHausdorffDistance(firstSet, secondSet), GeoHelper.getOneSidedHausdorffDistance(secondSet, firstSet));
+      float firstSide = GeoHelper.getOneSidedHausdorffDistance(firstSet, secondSet);
+      float secondSide = GeoHelper.getOneSidedHausdorffDistance(secondSet, firstSet);
+    return Math.max(firstSide, secondSide);
+  }
+  
+  static public float getHausdorffTimeDistance(ArrayList<GPSPoint> firstSet, ArrayList<GPSPoint> secondSet){
+      float maxDist = -1;
+      for (int i = 0; i<firstSet.size(); i++){
+          int minDistance = 999999999;
+          for (int j = 0; j<secondSet.size(); j++){
+              int diff = (int) Math.abs(firstSet.get(i).getTimeStamp().getTime()-secondSet.get(j).getTimeStamp().getTime());
+              diff = diff/1000;
+              if(diff < minDistance){
+                  minDistance = diff;
+              }
+          }
+          if(minDistance>maxDist){
+              maxDist = minDistance;
+          } 
+      }
+      return maxDist;
   }
 
     

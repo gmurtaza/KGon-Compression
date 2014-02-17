@@ -41,6 +41,23 @@ public class HexaGon {
         return null;
     }
     
+    static public int getAngleFromSide(int targetCode){
+        if (targetCode == Constants.FIRST_NEIGHBOURING_KGON){
+             return 0;
+          }else if (targetCode == Constants.SECOND_NEIGHBOURING_KGON){
+            return 60;
+          }else if (targetCode == Constants.THIRD_NEIGHBOURING_KGON){
+             return 120;
+          }else if (targetCode == Constants.FOURTH_NEIGHBOURING_KGON){
+             return 180;
+          }else if (targetCode == Constants.FIFTH_NEIGHBOURING_KGON){
+            return -120;
+          }else if (targetCode == Constants.SIXTH_NEIGHBOURING_KGON){
+             return -60;
+          }
+        return 0;
+    }
+    
         static public GPSPoint returnPointBasedOnCode(int targetCode, GPSPoint firstPosition, String distanceType, float epsilon){
         if (targetCode == Constants.FIRST_NEIGHBOURING_KGON){
              return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse(epsilon, 0.0, distanceType), 0.0);
@@ -60,17 +77,17 @@ public class HexaGon {
     
     static public GPSPoint returnPointBasedOnCodeDouble(double targetCode, GPSPoint firstPosition, String distanceType, float epsilon){
         if (targetCode == Constants.FIRST_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 0.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse( epsilon, 0.0 ,distanceType), 0.0);
           }else if (targetCode == Constants.SECOND_NEIGHBOURING_KGON){
-            return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 60.0);
+            return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse( epsilon, 60.0 ,distanceType), 60.0);
           }else if (targetCode == Constants.THIRD_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 120.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse( epsilon, 120.0 ,distanceType), 120.0);
           }else if (targetCode == Constants.FOURTH_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), 180.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse( epsilon, 180.0 ,distanceType), 180.0);
           }else if (targetCode == Constants.FIFTH_NEIGHBOURING_KGON){
-            return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), -120.0);
+            return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse( epsilon, -120.0 ,distanceType), -120.0);
           }else if (targetCode == Constants.SIXTH_NEIGHBOURING_KGON){
-             return GeoHelper.getPointWithPolarDistance(firstPosition, KGonCompression.distanceToBeUsed(distanceType, epsilon), -60.0);
+             return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse( epsilon, -60.0 ,distanceType), -60.0);
           }
         return firstPosition;
     }
@@ -80,17 +97,17 @@ public class HexaGon {
      */
     static public GPSPoint newCenterOfNeighbouringHexagon(double angle, float epsilon, GPSPoint currentCentre) {
         if (angle > -30 && angle <= 30) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 0.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 0.0);
         } else if (angle > 30 && angle <= 90) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 60.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 60.0);
         } else if (angle > 90 && angle <= 150) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 120.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 120.0);
         } else if ((angle > 150 && angle <= 180) || (angle >= -180 && angle <= -150)) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, 180.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), 180.0);
         } else if (angle > -150 && angle <= -90) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, -120.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), -120.0);
         } else if (angle > -90 && angle <= -30) {
-            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * epsilon, -60.0);
+            return GeoHelper.getPointWithPolarDistance(currentCentre, 2 * KGonCompression.distanceToBeUsed("exact", epsilon), -60.0);
         }
         return null;
     }
