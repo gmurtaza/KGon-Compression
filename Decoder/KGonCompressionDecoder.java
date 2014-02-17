@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import GeoHelper.GPSPoint;
 import GeoHelper.GeoHelper;
 import Constants.Constants;
+import java.util.Date;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -35,7 +36,69 @@ public class KGonCompressionDecoder {
   }
     
     
-    public ArrayList<GPSPoint> getGPSPointListCodedInterpolated(GPSPoint firstPosition, ArrayList<Double> positionData, double epsilon, String distanceType){
+    public ArrayList<GPSPoint> getGPSPointListCodedInterpolated(GPSPoint firstPosition, ArrayList<Integer> positionData, double epsilon, String distanceType, long timeEpsilon){
+    
+        ArrayList<GPSPoint> convertedListOfGPSPoints = new ArrayList<GPSPoint>();
+        //GPSPoint constructedPoint = null;
+        double epsilonToUse = 0;
+        int goForCoded = 0;
+        boolean timeCheck = true;
+        convertedListOfGPSPoints.add(firstPosition);
+        Date currentTimeStamp = new Date(firstPosition.getTimeStamp().getTime());
+        GPSPoint constructedPoint = new GPSPoint(firstPosition.getLongitude(), firstPosition.getLatitude(), firstPosition.getTimeStamp());
+        for (int i = 0; i< positionData.size()-2; i++){
+            if(goForCoded == 0){
+                if (positionData.get(i)==Constants.START_FINISH_OF_STEP_COUNT){
+                    goForCoded = 3;
+                    //constructedPoint = KGonCompression.calculateNewCentreWithMultiples(firstPosition, epsilon, positionData.get(i+2), positionData.get(i+3), positionData.get(i+1));
+                    GPSPoint newConstructedPoint = KGonCompression.calculateNewCentreWithHexagonMultiples(firstPosition, epsilon, (int)positionData.get(i+2), (int)positionData.get(i+3), (int)positionData.get(i+1));
+                    //epsilonToUse = KGonCompression.getSideLengthToUse((float)epsilon, positionData.get(i+2), distanceType)*positionData.get(i+1);
+                    constructedPoint = new GPSPoint(newConstructedPoint.getLongitude(), newConstructedPoint.getLatitude());
+                    //constructedPoint.setTimeStamp(currentTimeStamp);
+                    //constructedPoint = GeoHelper.getPointWithPolarDistance(firstPosition, (float)epsilonToUse, positionData.get(i+2));
+                    convertedListOfGPSPoints.add(constructedPoint);
+                    firstPosition = new GPSPoint(constructedPoint.getLongitude(), constructedPoint.getLatitude(), constructedPoint.getTimeStamp());
+                    //timeCheck = false;
+                }else if (positionData.get(i)>=1 && positionData.get(i) < 7){
+                    epsilonToUse = epsilon;
+                    constructedPoint = HexaGon.returnPointBasedOnCodeDouble(positionData.get(i), firstPosition, "exact", (float)epsilonToUse);
+                    constructedPoint.setTimeStamp(currentTimeStamp);
+                    convertedListOfGPSPoints.add(constructedPoint);
+                    firstPosition = new GPSPoint(constructedPoint.getLongitude(), constructedPoint.getLatitude(), constructedPoint.getTimeStamp());
+                    //timeCheck = false;
+                }else if(positionData.get(i)==07){
+                    long newDateTime = currentTimeStamp.getTime()+ 2*timeEpsilon;
+                    currentTimeStamp = new Date(newDateTime);
+                    if (timeCheck){
+                        constructedPoint.setTimeStamp(currentTimeStamp);
+                        convertedListOfGPSPoints.add(constructedPoint);
+                        //constructedPoint = new GPSPoint();
+                    }
+                    timeCheck = true;
+                }else if(positionData.get(i)==70){
+                    long timeToSet = currentTimeStamp.getTime()+ positionData.get(i+1)*timeEpsilon;
+                    currentTimeStamp = new Date(timeToSet);
+                    i+=1;
+                    if (timeCheck){
+                        constructedPoint.setTimeStamp(currentTimeStamp);
+                        convertedListOfGPSPoints.add(constructedPoint);
+                        //constructedPoint = new GPSPoint();
+                    }
+                    timeCheck = true;
+                }
+                
+                
+            }else{
+                goForCoded--;
+            }
+        }
+        return convertedListOfGPSPoints;
+  }
+    
+    /*
+     * This is decoder for only jumped encoding
+     */
+    public ArrayList<GPSPoint> getGPSPointListCodedJumps(GPSPoint firstPosition, ArrayList<Integer> positionData, double epsilon, String distanceType){
     
         ArrayList<GPSPoint> convertedListOfGPSPoints = new ArrayList<GPSPoint>();
         GPSPoint constructedPoint = null;
@@ -44,15 +107,10 @@ public class KGonCompressionDecoder {
         convertedListOfGPSPoints.add(firstPosition);
         for (int i = 0; i< positionData.size(); i++){
             if(goForCoded == 0){
-                if (positionData.get(i)==Constants.START_FINISH_OF_STEP_COUNT){
-                    epsilonToUse = KGonCompression.getSideLengthToUse((float)epsilon, positionData.get(i+2), distanceType)*positionData.get(i+1);
-                    goForCoded = 2;
-                    constructedPoint = GeoHelper.getPointWithPolarDistance(firstPosition, (float)epsilonToUse, positionData.get(i+2));
-                    
-                }else{
-                    epsilonToUse = epsilon;
-                    constructedPoint = HexaGon.returnPointBasedOnCodeDouble(positionData.get(i), firstPosition, distanceType, (float)epsilonToUse);
-                }
+                
+                goForCoded = 2;
+                constructedPoint = KGonCompression.calculateNewCentreWithHexagonMultiples(firstPosition, epsilon, positionData.get(i+1), positionData.get(i+2), positionData.get(i));
+   
                 convertedListOfGPSPoints.add(constructedPoint);
                 firstPosition = constructedPoint;
                 

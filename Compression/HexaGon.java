@@ -41,6 +41,23 @@ public class HexaGon {
         return null;
     }
     
+    static public int getAngleFromSide(int targetCode){
+        if (targetCode == Constants.FIRST_NEIGHBOURING_KGON){
+             return 0;
+          }else if (targetCode == Constants.SECOND_NEIGHBOURING_KGON){
+            return 60;
+          }else if (targetCode == Constants.THIRD_NEIGHBOURING_KGON){
+             return 120;
+          }else if (targetCode == Constants.FOURTH_NEIGHBOURING_KGON){
+             return 180;
+          }else if (targetCode == Constants.FIFTH_NEIGHBOURING_KGON){
+            return -120;
+          }else if (targetCode == Constants.SIXTH_NEIGHBOURING_KGON){
+             return -60;
+          }
+        return 0;
+    }
+    
         static public GPSPoint returnPointBasedOnCode(int targetCode, GPSPoint firstPosition, String distanceType, float epsilon){
         if (targetCode == Constants.FIRST_NEIGHBOURING_KGON){
              return GeoHelper.getPointWithPolarDistance(firstPosition, 2*KGonCompression.getSideLengthToUse(epsilon, 0.0, distanceType), 0.0);

@@ -37,6 +37,8 @@ import Helper.Pair;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 public class KGonCompression {
     
@@ -77,7 +79,7 @@ public class KGonCompression {
                         resultantPoints.add(new Integer(holdsCode));
                     }
                      GPSPoint tempCurrent = currentCentre;
-                    currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                    currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
                     addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
 
                     whileConstructing.add(currentCentre);
@@ -115,7 +117,7 @@ public class KGonCompression {
 
 
                                 GPSPoint tempCurrent = currentCentre;
-                                currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                                currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
 
                                 addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
                                 System.out.println("Ehe epsilon is: "+epsilon+" distance from current centre is: "+GeoHelper.getDistance(currentCentre, source.get(i)));
@@ -152,7 +154,7 @@ public class KGonCompression {
                                     //HexaGon.addHexaGonPointsToConstructions(whileConstructing, epsilon, currentCentre);
 
                                     GPSPoint tempCurrent = currentCentre;
-                                    currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                                    currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
                                     addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
 
                                     whileConstructing.add(currentCentre);
@@ -192,7 +194,7 @@ public class KGonCompression {
                             //HexaGon.addHexaGonPointsToConstructions(whileConstructing, epsilon, currentCentre);
 
                            GPSPoint tempCurrent = currentCentre;
-                            currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                            currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
                             addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
 
                             whileConstructing.add(currentCentre);
@@ -257,7 +259,7 @@ public class KGonCompression {
                     HexaGon.addHexaGonPointsToConstructions(whileConstructing, epsilon, currentCentre);
 
                     GPSPoint tempCurrent = currentCentre;
-                    currentCentre = calculateNewCentre(tempCurrent, sourcePoint, getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                    currentCentre = calculateNewCentre(tempCurrent, sourcePoint, epsilon, distanceType, kGonType);
                     addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
 
                     whileConstructing.add(currentCentre);
@@ -283,7 +285,7 @@ public class KGonCompression {
                 resultantPoints.add(new Integer(holdsCode));
             }
              GPSPoint tempCurrent = currentCentre;
-            currentCentre = calculateNewCentre(tempCurrent, sourcePoint, getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+            currentCentre = calculateNewCentre(tempCurrent, sourcePoint, epsilon, distanceType, kGonType);
             addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
 
             whileConstructing.add(currentCentre);
@@ -305,7 +307,7 @@ public class KGonCompression {
 
 
         GPSPoint tempCurrent = currentCentre;
-        currentCentre = calculateNewCentre(tempCurrent, sourcePoint, getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+        currentCentre = calculateNewCentre(tempCurrent, sourcePoint, epsilon, distanceType, kGonType);
 
         addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
 
@@ -394,7 +396,7 @@ public class KGonCompression {
 
 
                             GPSPoint tempCurrent = currentCentre;
-                            currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                            currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
 
                             addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
                             
@@ -425,7 +427,7 @@ public class KGonCompression {
                         }
                         System.out.println("1111111111111111111 " + holdsCode);
                         GPSPoint tempCurrent = currentCentre;
-                        currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                        currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
                         addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
 
                         whileConstructing.add(currentCentre);
@@ -455,7 +457,7 @@ public class KGonCompression {
                             HexaGon.addHexaGonPointsToConstructions(whileConstructing, epsilon, currentCentre);
 
                             GPSPoint tempCurrent = currentCentre;
-                            currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
+                            currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
                             addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
 
                             whileConstructing.add(currentCentre);
@@ -544,9 +546,156 @@ public class KGonCompression {
     }
 
     
-    public Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
+    public Pair<HashMap<Integer, Integer>, Pair<ArrayList<Integer>, HashMap<Integer, Integer>>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<WorstBinCounter> binCounterArray, int timeEpsilon) {
         
-        ArrayList<Double> resultantPoints = new ArrayList<Double>();
+        ArrayList<Integer> resultantPoints = new ArrayList<Integer>();
+        int minJumpSize = 999999999;
+        int bitCounter = 0;
+        int chaseCounter = 0;
+        HashMap<Integer, Integer> jumpSizes = new HashMap<Integer, Integer>();
+        //Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair;
+        GPSPoint currentCentre = new GPSPoint();
+        GPSPoint firstPoint;
+        DecimalFormat df = new DecimalFormat("#.##");
+        Date currentTime = new Date();
+        int simpleDoubleBenefitCounter = 0;
+        HashMap<Integer, Integer> worstCaseMap = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> worstCaseConsecutiveMap = new HashMap<Integer, Integer>();
+        int consecutiveCount = 0;
+        boolean checkConsecutiveCount = false;
+        float timeDifference;
+        for (int i = 0; i < source.size(); i++) {
+            //This if condition nominates the first centre point to be first point
+            if (i == 0) {
+                currentCentre = source.get(i);
+                firstPoint = source.get(i);
+                currentTime = source.get(i).getTimeStamp();
+                
+            } else {
+                
+                if (i==10){
+                    System.out.println("in 10th place");
+                }
+                
+                double distance = 0;
+                distance = GeoHelper.getDistance(currentCentre, source.get(i));
+                double angle = 0.0;
+                angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
+                
+                
+                timeDifference =  (source.get(i).getTimeStamp().getTime() - currentTime.getTime());
+                
+                if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
+                    GPSPoint tempCurrent = currentCentre;
+                    
+                    if (distance > 3*getSideLengthToUse(epsilon, angle, distanceType)){
+                        
+                        int quadrant = (int)returnQuadrantCode(angle);
+                        //System.out.println("Distance is: "+distance);
+                        int multipleOfEpsilon = (int)(distance/getSideLengthToUse(epsilon, angle, distanceType));
+                        resultantPoints.add(Constants.START_FINISH_OF_STEP_COUNT);
+                        
+                        resultantPoints.add(returnQuadrantCode(angle));
+                        
+                        int xJump =  calculateHorizontalJump(distance, angle,epsilon);
+                        int yJump =  calculateVerticalJump(distance, angle,epsilon, xJump);
+                        int jumpsize = jumpSize(new Jump(xJump, yJump, 0), epsilon);
+                        
+                        if (jumpSizes.containsKey(jumpsize)){
+                            jumpSizes.put(jumpsize,jumpSizes.get(jumpsize)+1);
+                        }else{
+                            jumpSizes.put(jumpsize,+1);
+                        }
+                        
+                        if (jumpsize<minJumpSize)
+                            minJumpSize = jumpSize(new Jump(xJump, yJump, 0), epsilon);
+                        
+                        bitCounter += calcualteBitsForCodingJumpEmpty(xJump);
+                        bitCounter += calcualteBitsForCodingJumpEmpty(yJump);
+      
+                        resultantPoints.add(xJump);
+                        resultantPoints.add(yJump);
+                        currentCentre = calculateNewCentreWithHexagonMultiples(currentCentre, epsilon, xJump, yJump, quadrant);
+                        
+//                        if (GeoHelper.getDistance(currentCentre, source.get(i))>epsilon){
+//                            System.out.println("x jumps is: "+xJump);
+//                            System.out.println("y jump is: "+yJump);
+//                            System.out.println("Current Centre: "+currentCentre.getLongitude()+", "+currentCentre.getLatitude());
+//                            System.out.println("Current Point: "+source.get(i).getLongitude()+", "+source.get(i).getLatitude());
+//                            System.out.println("New Centre: "+currentCentre.getLongitude()+", "+currentCentre.getLatitude());
+//                            System.out.println("Distance is: "+GeoHelper.getDistance(currentCentre, source.get(i)));
+//                        }
+                        recordEmptyBinCount(multipleOfEpsilon, worstCaseMap);
+                        if (consecutiveCount > 0){
+                            recordConsecutivePointsCount(consecutiveCount, worstCaseConsecutiveMap);
+                            consecutiveCount = 0;
+                        }
+                        
+                        
+
+                    }else{
+                        chaseCounter +=1;
+                        bitCounter += 3;
+                        checkConsecutiveCount = true;
+                        currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
+                        
+                        addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
+                        
+//                        System.out.println("Resultant code is: "+resultantPoints.get(resultantPoints.size()-1));
+                        
+                        simpleDoubleBenefitCounter++;
+                        //worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
+                        if (consecutiveCount == 0)
+                            consecutiveCount+=2;
+                        else
+                            consecutiveCount++;
+                    }
+                    
+                    //resultantPoints.add(new Double(getTimeCode(timeDifference)));
+                    
+                    
+                }
+                if (timeDifference >= timeEpsilon && timeDifference < 2*timeEpsilon){
+                    resultantPoints.add(07);
+                    long newDateTime = currentTime.getTime()+ 2*timeEpsilon;
+                    currentTime = new Date(newDateTime);
+                    currentCentre.setTimeStamp(currentTime);
+                    //currentTime = new Date(source.get(i).getTimeStamp().getTime());
+                    bitCounter += 6;
+                }else if (timeDifference > 2*timeEpsilon){
+                    resultantPoints.add(70);
+                    resultantPoints.add((int)Math.round(timeDifference /timeEpsilon));
+                    
+                    long timeToSet = currentTime.getTime()+ (int)Math.round(timeDifference /timeEpsilon)*timeEpsilon;
+                    currentTime = new Date(timeToSet) ;
+                    currentCentre.setTimeStamp(currentTime);
+                    bitCounter += 9;
+                }
+            }
+            
+            whileConstructing.add(currentCentre);
+        }
+        //printHashMap(jumpSizes);
+        //System.out.println("Chases = "+chaseCounter);
+        resultantPoints.add(minJumpSize);
+        resultantPoints.add(bitCounter);
+        //System.out.println("Total number of empty bins is: "+worstCaseMap.keySet().size());
+        return new Pair<HashMap<Integer, Integer>, Pair<ArrayList<Integer>, HashMap<Integer, Integer>>>( worstCaseConsecutiveMap,new Pair<ArrayList<Integer>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap)); //using Pair helper, I am sending multiple data structures as return
+    }
+    
+    void printHashMap(HashMap<Integer, Integer> jumpSizes){
+        Iterator it = jumpSizes.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry)it.next();
+            System.out.println(pairs.getKey() + " = " + pairs.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+    }
+        
+    public Pair<HashMap<Integer, Integer>, Pair<ArrayList<Integer>, HashMap<Integer, Integer>>> performGridCompressionCodedJumps(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<Date> allDateTimeValues, ArrayList<WorstBinCounter> binCounterArray) {
+        
+        ArrayList<Integer> resultantPoints = new ArrayList<Integer>();
+        int bitCounter = 0;
         //Pair<ArrayList<Double>, HashMap<Integer, Integer>> returningPair;
         GPSPoint currentCentre = new GPSPoint();
         GPSPoint firstPoint;
@@ -567,55 +716,44 @@ public class KGonCompression {
                 firstPointForCalibration = new GPSPoint(firstPoint.getLongitude(), firstPoint.getLatitude());
                 currentTime = allDateTimeValues.get(i);
             } else {//in this case either approximation on current centre is going to happen or new centre calculation
-
+                //if ("145.3997379 x -16.3983188".equals(source.get(i).getLongitude()+" x "+source.get(i).getLatitude()))
+                    //System.out.println("Current centre Longitude x Latitude is: "+currentCentre.getLongitude()+" x "+currentCentre.getLatitude());
                 double distance = 0;
                 distance = GeoHelper.getDistance(currentCentre, source.get(i));
-                double angle = 0.0;
+                double angle = 0;
                 angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
-                
-                
-                System.out.println("This is point number: "+ i);
-                System.out.println("Current centre Longitude x Latitude is: "+currentCentre.getLongitude()+" x "+currentCentre.getLatitude());
-                System.out.println("Longitude x Latitude is: "+source.get(i).getLongitude()+" x "+source.get(i).getLatitude());
-                System.out.println("Distance between current centre and point: "+GeoHelper.getDistance(currentCentre, source.get(i))+"\t angle is: "+GeoHelper.getGPSAngle(currentCentre, source.get(i)));
-                
-                
                 
                 
                 timeDifference =  (allDateTimeValues.get(i).getTime() - currentTime.getTime())/1000;
 
                 if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
                     GPSPoint tempCurrent = currentCentre;
-                    if (distance > (2*getSideLengthToUse(epsilon, angle, distanceType))+getSideLengthToUse(epsilon, angle, distanceType)){
-                        
-                        int multipleOfEpsilon = (int)(distance/getSideLengthToUse(epsilon, angle, distanceType));
-                        resultantPoints.add(new Double(Constants.START_FINISH_OF_STEP_COUNT));
-                        resultantPoints.add(new Double(multipleOfEpsilon));
-                        resultantPoints.add(new Double((df.format(angle))));
-                        currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, ((int)(distance/getSideLengthToUse(epsilon, angle, distanceType)))*getSideLengthToUse(epsilon, angle, distanceType), angle);
-                        //System.out.println(multipleOfEpsilon);
-                        recordEmptyBinCount(multipleOfEpsilon, worstCaseMap);
-                        if (consecutiveCount > 0){
-                            recordConsecutivePointsCount(consecutiveCount, worstCaseConsecutiveMap);
-                            consecutiveCount = 0;
-                        }
-                        //checkConsecutiveCount = false;
-                        //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
-                    }else{
-                        checkConsecutiveCount = true;
-                        currentCentre = calculateNewCentre(tempCurrent, source.get(i), getSideLengthToUse(epsilon, angle, distanceType), distanceType, kGonType);
-                        
-                        addCurrentPointDouble(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
-                        
-                        System.out.println("Resultant code is: "+resultantPoints.get(resultantPoints.size()-1));
-                        
-                        simpleDoubleBenefitCounter++;
-                        //worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
-                        if (consecutiveCount == 0)
-                            consecutiveCount+=2;
-                        else
-                            consecutiveCount++;
-                    }
+                    int quadrant = (int)returnQuadrantCode(angle);
+                    resultantPoints.add(quadrant);
+//                    if (quadrant == 1 || quadrant == 4)
+//                        resultantPoints.add(1);
+//                    else
+//                        resultantPoints.add(0);
+                    //addHorizontalJump(resultantPoints, distance, angle, epsilon);
+                    int horizontalJump = calculateHorizontalJump(distance, angle, epsilon);
+                    bitCounter += calcualteBitsForCodingJump(horizontalJump);
+                    int verticalJump = calculateVerticalJump(distance, angle, epsilon, horizontalJump);
+                    bitCounter += calcualteBitsForCodingJump(verticalJump);
+                    resultantPoints.add(horizontalJump);
+                    resultantPoints.add(verticalJump);
+                    currentCentre = calculateNewCentreWithHexagonMultiples(tempCurrent, epsilon,horizontalJump,verticalJump,quadrant);//calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
+
+                    //addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
+
+//                        System.out.println("Resultant code is: "+resultantPoints.get(resultantPoints.size()-1));
+
+                    simpleDoubleBenefitCounter++;
+                    //worstCaseMap.put(new Integer(1), simpleDoubleBenefitCounter);
+                    if (consecutiveCount == 0)
+                        consecutiveCount+=2;
+                    else
+                        consecutiveCount++;
+                    
                     
                     //resultantPoints.add(new Double(getTimeCode(timeDifference)));
                     currentTime = allDateTimeValues.get(i);
@@ -624,44 +762,321 @@ public class KGonCompression {
             
             whileConstructing.add(currentCentre);
         }
-        System.out.println("Total number of empty bins is: "+worstCaseMap.keySet().size());
-        return new Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>>( worstCaseConsecutiveMap,new Pair<ArrayList<Double>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap)); //using Pair helper, I am sending multiple data structures as return
+        resultantPoints.add(bitCounter);
+        //System.out.println("Total number of empty bins is: "+worstCaseMap.keySet().size());
+        return new Pair<HashMap<Integer, Integer>, Pair<ArrayList<Integer>, HashMap<Integer, Integer>>>( worstCaseConsecutiveMap,new Pair<ArrayList<Integer>, HashMap<Integer, Integer>>(resultantPoints, worstCaseMap)); //using Pair helper, I am sending multiple data structures as return
     }
     
-    /* 
-     * This function implements the basic GridCompression technique. 
-     * 
+    
+//    int addHorizontalJump(ArrayList<Integer> resultantPoints,double distance,double angle,double epsilon){
+//        
+//        int horizontalJump = calculateHorizontalJump(distance, angle, epsilon);
+//        
+//        int totalBits = calcualteBitsForCodingJump(horizontalJump);
+//        
+//        
+//        return 0;
+//        
+//    }
+    /*
+     * This is for only jumped encoding
      */
-    public ArrayList<Integer> performGridCompression(ArrayList<GPSPoint> source, int epsilon, String distanceType, String kGonType) {
-        ArrayList<Integer> resultantPoints = new ArrayList<Integer>();
-        GPSPoint currentCentre = new GPSPoint();
-        GPSPoint firstPoint;
-        GPSPoint firstPointForCalibration = null;
-
-        for (int i = 0; i < source.size(); i++) {
-            //This if condition nominates the first centre point to be first point
-            if (i == 0) {
-                currentCentre = source.get(i);
-                firstPoint = source.get(i);
-                firstPointForCalibration = new GPSPoint(firstPoint.getLongitude(), firstPoint.getLatitude());
-            } else {//in this case either approximation on current centre is going to happen or new centre calculation
-
-                float distance = GeoHelper.getDistance(currentCentre, source.get(i));
-                double angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
+    int calcualteBitsForCodingJump(int jumpStep){
+        if (jumpStep <= 2)
+            return 3;
+        else if(jumpStep <= 65)
+            return 9;
+        else if (jumpStep <= 576)
+            return 12;
+        else 
+            return 15;
                 
-
-                if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
-                    GPSPoint tempCurrent = currentCentre;
-                    currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
-                    System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
-                    addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
-                    
-                }
-            }
-        }
-
-        return resultantPoints;
     }
+    
+    /*
+     * This is for the case where jumps are used for emty hexagon case
+     */
+    int calcualteBitsForCodingJumpEmpty(int numberJumps){
+        if (numberJumps <= 0)
+            return 0;
+        else if (numberJumps <= 8)
+            return 6;
+        else if(numberJumps <= 72)
+            return 12;
+        else if (numberJumps <= 584)
+            return 18;
+        else 
+            return 24;
+                
+    }
+    
+    /*
+     * This is for the case where jumps are used for emty hexagon case in Code+Jump
+     */
+    int calcualteBitsForCodingplusJump(int numberJumps){
+        if (numberJumps <= 8)
+            return 9;
+        else if(numberJumps <= 72)
+            return 12;
+        else if (numberJumps <= 584)
+            return 15;
+        else if (numberJumps <= 4608)
+            return 18;
+        else
+            return 21;
+                
+    }
+    
+    /*
+     * This fucntion gets the code for x number of hexagons
+     */
+    public int calculateHorizontalJump(double distance, double theeta, double epsilon){
+        //GeoHelper.getBaseLength(theeta, distance);
+        int horizontalHexagon = 0;
+        double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
+        //System.out.println("Converted Theeta: "+convertedTheeta);
+        System.out.println("Horizontal Distance: "+calculateAndReturnHorizontalDistance(distance, theeta));
+        int horizontalEpsilonMultiple = (int)Math.floor(calculateAndReturnHorizontalDistance(distance, theeta)/epsilon)-1;
+        // case where it is odd number of hexagons
+        if (horizontalEpsilonMultiple < 0)
+            return 0;
+        if (horizontalEpsilonMultiple%3 == 0) {
+            horizontalHexagon = (2*((horizontalEpsilonMultiple/3)+1))-1;
+        }else{
+            horizontalHexagon = (2*((horizontalEpsilonMultiple+(3-(horizontalEpsilonMultiple%3)))/3));
+        }
+        return horizontalHexagon;
+    }
+    
+    /*
+     * This fucntion gets the code for x number of hexagons while re-compression
+     */
+    public int calculateHorizontalJumpRecompression(int horizontalEpsilonMultiple){
+        //GeoHelper.getBaseLength(theeta, distance);
+        int horizontalHexagon = 0;
+        //System.out.println("Converted Theeta: "+convertedTheeta);
+        //System.out.println("Horizontal Distance: "+calculateAndReturnHorizontalDistance(distance, theeta));
+        // case where it is odd number of hexagons
+        if (horizontalEpsilonMultiple < 0)
+            return 0;
+        if (horizontalEpsilonMultiple%3 == 0) {
+            horizontalHexagon = (2*((horizontalEpsilonMultiple/3)+1))-1;
+        }else{
+            horizontalHexagon = (2*((horizontalEpsilonMultiple+(3-(horizontalEpsilonMultiple%3)))/3));
+        }
+        return horizontalHexagon;
+    }
+    
+    
+    
+    /*
+     * This fucntion gets the code for y number of hexagons
+     */
+    public int calculateVerticalJump(double distance, double theeta, double epsilon, int horizontalJump){
+        //GeoHelper.getBaseLength(theeta, distance);
+        
+        epsilon = (epsilon * Math.sin(Math.toRadians(60.0)));
+        int verticalHexagon = 0;
+        double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
+        
+        System.out.println("Vertical Distance: "+calculateAndReturnVerticalDistance(distance, theeta));
+        
+       int verticalEpsilonMultiple = (int)Math.floor(calculateAndReturnVerticalDistance(distance, theeta)/epsilon);
+       if (verticalEpsilonMultiple <= 0)
+            return 0;
+       //verticalEpsilonMultiple = horizontalJump%2 == 0?verticalEpsilonMultiple:verticalEpsilonMultiple+1; Now I am handling this at the time of calculation
+       if (horizontalJump%2 ==0){
+           verticalHexagon = verticalEpsilonMultiple%2 == 0?(int)verticalEpsilonMultiple/2:(verticalEpsilonMultiple+1)/2;
+       }else{
+           verticalHexagon = (int)(verticalEpsilonMultiple/2);
+       }
+       //:(verticalEpsilonMultiple+1)/2;
+       return verticalHexagon;
+        //return 0;
+    }
+    
+    /*
+     * This fucntion gets the code for y-axis number of hexagons while re-compression
+     */
+    public int calculateVerticalJumpRecompression(int horizontalJump, int verticalEpsilonMultiple){
+        //GeoHelper.getBaseLength(theeta, distance);
+        int verticalHexagon = 0;
+        //System.out.println("Converted Theeta: "+convertedTheeta);
+        //System.out.println("Horizontal Distance: "+calculateAndReturnHorizontalDistance(distance, theeta));
+        // case where it is odd number of hexagons
+        if (verticalEpsilonMultiple <= 0)
+            return 0;
+       //verticalEpsilonMultiple = horizontalJump%2 == 0?verticalEpsilonMultiple:verticalEpsilonMultiple+1; Now I am handling this at the time of calculation
+       if (horizontalJump%2 ==0){
+           verticalHexagon = verticalEpsilonMultiple%2 == 0?(int)verticalEpsilonMultiple/2:(verticalEpsilonMultiple+1)/2;
+       }else{
+           verticalHexagon = (int)verticalEpsilonMultiple/2;
+       }
+       //:(verticalEpsilonMultiple+1)/2;
+       return verticalHexagon;
+    }    
+//    /*
+//     * This fucntion gets the code for y number of hexagons
+//     */
+//    public double calculateVerticalJumpOddHorizontal(double distance, double theeta, double epsilon){
+//        //GeoHelper.getBaseLength(theeta, distance);
+//        epsilon = (epsilon * Math.sin(Math.toRadians(60.0)));
+//        int verticalHexagon = 0;
+//        double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
+//        
+//       int verticalEpsilonMultiple = ((int)Math.floor(GeoHelper.getBaseLength(convertedTheeta, distance)/epsilon))+1;
+//       verticalHexagon = verticalEpsilonMultiple%2 == 0?verticalEpsilonMultiple/2:(verticalEpsilonMultiple+1)/2;
+//       return verticalHexagon;
+//        //return 0;
+//    }
+    
+    
+    /*
+     * This fucntion gets the code for x number of hexagons
+     */
+    public double calculateAndReturnHorizontalMultiple(double distance, double theeta){
+        //GeoHelper.getBaseLength(theeta, distance);
+        double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
+        //System.out.println("Converted Theeta: "+convertedTheeta);
+        //System.out.println("Converted Theeta: "+(180-(90+convertedTheeta)));
+       return GeoHelper.getBaseLength((180-(90+convertedTheeta)), distance);
+        //return 0;
+    }
+    
+    /*
+     * This fucntion gets the code for y number of hexagons
+     */
+    public double calculateAndReturnVerticalMultiple(double distance, double theeta){
+        //GeoHelper.getBaseLength(theeta, distance);
+        double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
+        
+       return GeoHelper.getBaseLength(convertedTheeta, distance);
+        //return 0;
+    }
+    
+    
+    /*
+     * This fucntion gets the code for x number of hexagons
+     */
+    public double calculateAndReturnHorizontalDistance(double distance, double theeta){
+        //GeoHelper.getBaseLength(theeta, distance);
+        double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
+        //System.out.println("Converted Theeta: "+convertedTheeta);
+        //System.out.println("Converted Theeta: "+(180-(90+convertedTheeta)));
+        
+       double distanToReturn = Math.abs(theeta) <90? GeoHelper.getBaseLength((180-(90+convertedTheeta)), distance):GeoHelper.getBaseLength(convertedTheeta, distance);
+       return distanToReturn;
+    }
+    
+    /*
+     * This fucntion gets the code for y number of hexagons
+     */
+    public double calculateAndReturnVerticalDistance(double distance, double theeta){
+        //GeoHelper.getBaseLength(theeta, distance);
+        double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
+       double distanToReturn = Math.abs(theeta) > 90? GeoHelper.getBaseLength((180-(90+convertedTheeta)), distance):GeoHelper.getBaseLength(convertedTheeta, distance); 
+       return distanToReturn;
+        //return 0;
+    }
+    
+    
+    public static GPSPoint calculateNewCentreWithHexagonMultiples(GPSPoint currentCentre, double allowedEpsilon, int horizontalCode, int verticalCode, int quadrantCode){
+        double xAngle = 0.0;
+        double yAngle = 0.0;
+        if (quadrantCode == 1){
+            xAngle = 0;
+            yAngle = 90;
+        }else if (quadrantCode == 2){ 
+            xAngle = 180;
+            yAngle = 90;
+        }else if (quadrantCode == 3){ 
+            xAngle = -180;
+            yAngle = -90;
+        }else if (quadrantCode == 4){
+            xAngle = 0;
+            yAngle = -90;
+        }      
+        double verticalEpsilon = (allowedEpsilon * Math.sin(Math.toRadians(60.0))); // this is epsilon used for vetical jump as that is from the middle of side
+        
+        double totalHorizontalDistance;
+        if (horizontalCode == 1){
+            totalHorizontalDistance = allowedEpsilon;
+        }else{
+            totalHorizontalDistance = (((int)horizontalCode/2)*(2*allowedEpsilon))+(((int)horizontalCode/2)*allowedEpsilon);
+        }
+        //System.out.println("Total distance added: "+totalHorizontalDistance);
+        
+        if (horizontalCode%2 != 0)
+            totalHorizontalDistance += allowedEpsilon/2;
+            
+        //double totalVerticalDistance;
+        //we use verticalcode-1 because of the fact that 
+        double totalVerticalDistance = horizontalCode%2 == 0? (verticalCode)*(2*verticalEpsilon):((verticalCode)*(2*verticalEpsilon))+verticalEpsilon;
+        
+        GPSPoint pointWithHorizontal = GeoHelper.getPointWithPolarDistance(currentCentre, totalHorizontalDistance,xAngle);
+        //System.out.println(pointWithHorizontal.getLongitude()+", "+pointWithHorizontal.getLatitude());
+        return GeoHelper.getPointWithPolarDistance(pointWithHorizontal, totalVerticalDistance,yAngle);
+        //return null;
+    }
+    
+    
+    public static GPSPoint calculateNewCentreWithMultiples(GPSPoint currentCentre, double allowedEpsilon, double firstCode, double secondCode, double quadrantCode){
+        double xAngle = 0.0;
+        double yAngle = 0.0;
+        if (quadrantCode == 1){
+            xAngle = 0;
+            yAngle = 90;
+        }else if (quadrantCode == 2){ // The reason for seemingly reverse thing is mapping on the first qudrant while multple calculatoin
+            xAngle = 90;
+            yAngle = 180;
+        }else if (quadrantCode == 3){ // The reason for seemingly reverse thing is mapping on the first qudrant while multple calculatoin
+            xAngle = -90;
+            yAngle = -180;
+        }else if (quadrantCode == 4){
+            xAngle = 0;
+            yAngle = -90;
+        }
+        GPSPoint pointWithHorizontal = GeoHelper.getPointWithPolarDistance(currentCentre, firstCode*allowedEpsilon,xAngle);
+        return GeoHelper.getPointWithPolarDistance(pointWithHorizontal, secondCode*allowedEpsilon,yAngle);
+        //return null;
+    }
+    
+    /*
+     * This function returns the quadtrant code for angle
+     */
+    public int returnQuadrantCode(double angle){
+        if (angle > 90){
+            return 2;
+        }else if (angle > 0 && angle <= 90){
+            return 1;
+        }else if (angle <= 0 && angle > -90){
+            return 4;
+        }else if (angle < -90 ){
+            return 3;
+        }
+        return 0;
+    }
+    
+    public boolean addOrSubtractHorizontal(int firstCode, int secondCode){
+        if ((firstCode==1||firstCode==4)&&(secondCode==1||secondCode==4)){
+            return true;
+        }else if((firstCode==2||firstCode==3)&&(secondCode==2||secondCode==3)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean addOrSubtractVertical(int firstCode, int secondCode){
+        if ((firstCode==1||firstCode==2)&&(secondCode==1||secondCode==2)){
+            return true;
+        }else if((firstCode==4||firstCode==3)&&(secondCode==4||secondCode==3)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 
     GPSPoint getExistingCentre(GPSPoint firstPositionHere, GPSPoint currentCentre, ArrayList<Integer> resultantPoints, float epsilon, String distanceType) {
         GPSPoint constructedPoint = null;
@@ -705,13 +1120,15 @@ public class KGonCompression {
                 return epsilon;
             } else {
                 // first calculate (AB) then calculate hypotteneous
-                ab = (float) (epsilon * Math.sin(Math.toRadians(45.0)));
+                ab = (float) (epsilon * Math.sin(Math.toRadians(60.0)));
                 if ((Math.abs(theeta) % 30.0) == 0) {
                     return ab;
                 } else if (Math.abs(theeta) < 30) {
                     return (float) (ab / Math.sin(Math.toRadians(180 - (90 + Math.abs(theeta)))));
                 } else {
-                    return (float) (ab / Math.sin(Math.toRadians(180 - (90 + (45 - (Math.abs(theeta) % 30))))));
+                    double calc = 180 - (90 - (Math.abs(theeta) % 30));
+                    double divisor = Math.sin(Math.toRadians(calc));
+                    return (float) (ab / divisor);
                 }
             }
         } else {
@@ -764,17 +1181,839 @@ public class KGonCompression {
     /*
      * This function assigns the value between 0 and 5 to the currrent point movement with double variant
      */
-    void addCurrentPointDouble(ArrayList<Double> resultantPoints, GPSPoint tempCurrent, GPSPoint currentCentre, String kGonType) {
+    void addCurrentPointDouble(ArrayList<Integer> resultantPoints, GPSPoint tempCurrent, GPSPoint currentCentre, String kGonType) {
         double angle = GeoHelper.getGPSAngle(tempCurrent, currentCentre);
 
         if (kGonType.equals("Hexa")) {
-            resultantPoints.add((double)HexaGon.transitionCodeForSide(angle));
+            resultantPoints.add(HexaGon.transitionCodeForSide(angle));
         } else if (kGonType.equals("Octa")) {
-            resultantPoints.add((double)OctaGon.transitionCodeForSide(angle));
+            resultantPoints.add(OctaGon.transitionCodeForSide(angle));
         }
 
     }
     
+    
+    Pair<Integer, GPSPoint> handleCodeBasedSteps(ArrayList<Integer> resultantPoints,GPSPoint sourcePoint, GPSPoint currentCentre, float epsilonTouse,String distanceType,String kGonType, int holdsSizeCode, int currentCode){
+        if(holdsSizeCode == currentCode){
+            GPSPoint tempCurrent = currentCentre;
+            currentCentre = calculateNewCentre(tempCurrent, sourcePoint, epsilonTouse, distanceType, kGonType);
+            addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
+        //}else if(holdsSizeCode == Constants.CODE_FOR_THIRD_SIZE){
+          //  resultantPoints.add(new Integer(0));
+        }else{
+            resultantPoints.add(new Integer(holdsSizeCode));
+            holdsSizeCode = currentCode;
+            resultantPoints.add(new Integer(holdsSizeCode));
+            GPSPoint tempCurrent = currentCentre;
+            currentCentre = calculateNewCentre(tempCurrent, sourcePoint, epsilonTouse, distanceType, kGonType);
+            addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
+            //resultantPoints.add(new Integer(0));
+
+        }
+        return new Pair<Integer, GPSPoint>(holdsSizeCode, currentCentre);
+    }
+    
+    
+     public ArrayList<GPSPoint> performInterpolation(ArrayList<GPSPoint> source, int epsilon, String distanceType, ArrayList<GPSPoint> whileConstructing, String kGonType) {
+        ArrayList<GPSPoint> resultantPoints = new ArrayList<GPSPoint>();
+        GPSPoint currentCentre = new GPSPoint();
+        
+        for (int i = 0; i < source.size(); i++) {//source.size(); i++) {
+            //This if condition nominates the first centre point to be first point
+            if (i == 0) {
+                currentCentre = source.get(i);
+                resultantPoints.add(source.get(i));
+            } else {//in this case either approximation on current centre is going to happen or new centre calculation
+
+                float distance = GeoHelper.getDistance(currentCentre, source.get(i));
+                double angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
+
+                if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
+                    while(distance > getSideLengthToUse(epsilon, angle, distanceType)){
+                       currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, getSideLengthToUse(epsilon, angle, distanceType), angle);
+                       resultantPoints.add(currentCentre);
+                       
+                       distance = GeoHelper.getDistance(currentCentre, source.get(i));
+                       angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
+                    }   
+
+                    } else {
+                    resultantPoints.add(source.get(i));
+                }
+            }
+        
+        }
+        
+        
+        
+        return resultantPoints;
+     }
+     
+     int getTimeCode(float distance){
+         
+         if (Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_FIRST_TIME_STEP){
+            return Constants.CODE_FOR_FIRST_TIME_SIZE;
+        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_SECOND_TIME_STEP){
+            return Constants.CODE_FOR_SECOND_TIME_SIZE;
+        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_THIRD_TIME_STEP){
+            return Constants.CODE_FOR_THIRD_TIME_SIZE;
+        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_FOURTH_TIME_STEP){
+            return Constants.CODE_FOR_FOURTH_TIME_SIZE;
+        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_FIFTH_TIME_STEP){
+            return Constants.CODE_FOR_FIFTH_TIME_SIZE;
+        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_SIXTH_TIME_STEP){
+            return Constants.CODE_FOR_SIXTH_TIME_SIZE;
+        }
+         
+        
+         return 0;
+     }
+    
+     int getNewTimeCode(float distance, float timeEpsilon){
+         
+         return 0;
+     }
+     
+     boolean isItThisCode(int timeCode, float distance){
+        if (distance >= timeCode-100 && distance <= timeCode+100){
+            return true;
+        }else{
+            return false;
+        }
+     }
+     
+     /*
+      * This is bin counter for recording the points which have empty hexagons
+      * in between two points.
+      */
+     void recordEmptyBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
+         int evenClosestBin;
+        evenClosestBin = (((multipleOfEpsilon)%2)==0)?multipleOfEpsilon:multipleOfEpsilon+1;
+         if (worstCaseMap.containsKey(new Integer(evenClosestBin))){
+             int temp = worstCaseMap.get(evenClosestBin);
+             worstCaseMap.put(new Integer(evenClosestBin), new Integer(temp+1));
+         }else{
+             worstCaseMap.put(new Integer(evenClosestBin), new Integer(1));
+         }
+         
+     }
+     
+     /*
+      * This counter helps counting the gain by consecutive bin counts
+      */
+     void recordConsecutivePointsCount(int consecutiveCount, HashMap<Integer, Integer> worstCaseMap){
+         int binDivisionStep = 2;
+         int binHeadStep = 2;
+         while(true){
+             int binDivisionResult = consecutiveCount/binDivisionStep;
+             if (binDivisionResult>0){
+                 binDivisionResult = (consecutiveCount%binDivisionStep)!=0?(consecutiveCount/binDivisionStep)+consecutiveCount%binDivisionStep:consecutiveCount/binDivisionStep;
+                 if (worstCaseMap.containsKey(new Integer(binHeadStep))){
+                    int temp = worstCaseMap.get(binHeadStep);
+                    worstCaseMap.put(new Integer(binHeadStep), new Integer(temp+(int)binDivisionResult));
+                }else{
+                    worstCaseMap.put(new Integer(binHeadStep), new Integer((int)binDivisionResult));
+                }
+                 binHeadStep +=2;
+                 binDivisionStep++;
+                         
+             }else{
+                 break;
+             }
+                 
+         }
+         
+     }
+     
+     
+     public int jumpSize(Jump focusedJump, int allowedEpsilon){
+//         double verticalEpsilon = (allowedEpsilon * Math.sin(Math.toRadians(60.0))); // this is epsilon used for vetical jump as that is from the middle of side
+//        
+//        double totalHorizontalDistance;
+//        if (focusedJump.getXjump() == 1){
+//            totalHorizontalDistance = allowedEpsilon;
+//        }else{
+//            totalHorizontalDistance = (((int)focusedJump.getXjump()/2)*(2*allowedEpsilon))+(((int)focusedJump.getXjump()/2)*allowedEpsilon);
+//        }
+//        //System.out.println("Total distance added: "+totalHorizontalDistance);
+//        
+//        if (focusedJump.getXjump()%2 != 0)
+//            totalHorizontalDistance += allowedEpsilon/2;
+//            
+//        //double totalVerticalDistance;
+//        //we use verticalcode-1 because of the fact that 
+//        double totalVerticalDistance = focusedJump.getXjump()%2 == 0? (focusedJump.getYjump())*(2*focusedJump.getYjump()):((focusedJump.getYjump())*(2*verticalEpsilon))+verticalEpsilon;
+//        
+//        return (int)Math.sqrt((totalHorizontalDistance*totalHorizontalDistance)+(totalVerticalDistance*totalVerticalDistance));
+         return focusedJump.getXjump()+focusedJump.getYjump();
+     }
+     
+     public Jump getEpsilonMultipleForRecompression(Jump firstJump){
+        int firstHorizontalMultiple = firstJump.xJump%2 == 0?((int)firstJump.xJump/2)*(2)+(int)firstJump.xJump/2:((int)firstJump.xJump/2)*(2)+(int)firstJump.xJump/2+1;
+        int firstVerticalMultiple = firstJump.xJump%2 == 0? (firstJump.yJump)*(2):((firstJump.yJump)*(2))-1;
+        return new Jump(firstHorizontalMultiple,firstVerticalMultiple,firstJump.getQuadrant());
+     }
+     /*
+      * This function merges two jumps
+      */
+     public Jump mergeJumps(Jump firstJump, Jump secondJump){
+         Jump resultantJump = new Jump();
+         
+         int resultantQuadrant = 0;
+        int firstHorizontalMultiple = firstJump.xJump%2 == 0?((int)firstJump.xJump/2)*(2)+(int)firstJump.xJump/2:((int)firstJump.xJump/2)*(2)+(int)firstJump.xJump/2+1;
+        int firstVerticalMultiple = firstJump.xJump%2 == 0? (firstJump.yJump)*(2):((firstJump.yJump)*(2))-1;
+        int secondHorizontalMultiple = secondJump.xJump%2 == 0?((int)secondJump.xJump/2)*(2)+(int)secondJump.xJump/2:((int)secondJump.xJump/2)*(2)+(int)secondJump.xJump/2+1;
+        int secondVerticalMultiple = secondJump.xJump%2 == 0? (secondJump.yJump)*(2):((secondJump.yJump)*(2))-1;
+        int resultantHorizontalMultiple = 0;
+        if(addOrSubtractHorizontal(firstJump.quadrant,secondJump.quadrant)){
+            resultantHorizontalMultiple = firstHorizontalMultiple+secondHorizontalMultiple;
+          }else{
+            if(firstHorizontalMultiple>secondHorizontalMultiple){
+                resultantHorizontalMultiple = firstHorizontalMultiple-secondHorizontalMultiple;
+            }else{
+                resultantHorizontalMultiple = secondHorizontalMultiple-firstHorizontalMultiple;
+            }
+        }
+        int resultantVerticalMultiple;
+        if (addOrSubtractVertical(firstJump.quadrant,secondJump.quadrant)){
+            resultantVerticalMultiple = firstVerticalMultiple+secondVerticalMultiple;
+        }else{
+            if (firstVerticalMultiple>secondVerticalMultiple){
+                resultantVerticalMultiple = firstVerticalMultiple-secondVerticalMultiple;
+            }else{
+                resultantVerticalMultiple = secondVerticalMultiple-firstVerticalMultiple;
+            }
+        }
+        
+        if(firstJump.quadrant==1&&secondJump.quadrant==1){
+            resultantQuadrant = 1;
+        }else if(firstJump.quadrant==2&&secondJump.quadrant==2){
+            resultantQuadrant = 2;
+        }else if(firstJump.quadrant==3&&secondJump.quadrant==3){
+            resultantQuadrant = 3;
+        }else if(firstJump.quadrant==4&&secondJump.quadrant==4){
+            resultantQuadrant = 4;
+        }else if(firstJump.quadrant==1&&secondJump.quadrant==2){
+            if (firstHorizontalMultiple > secondHorizontalMultiple){
+                resultantQuadrant = 1;
+            }else{
+                resultantQuadrant = 2;
+            }
+        }else if(firstJump.quadrant==1&&secondJump.quadrant==3){
+            if (firstHorizontalMultiple > secondHorizontalMultiple){
+                    resultantQuadrant = 1;
+                
+            } else{
+                    resultantQuadrant = 3;
+                
+            }
+        }else if(firstJump.quadrant==1&&secondJump.quadrant==4){
+            if (firstVerticalMultiple>secondVerticalMultiple){
+                resultantQuadrant = 1;
+            }else{
+                resultantQuadrant = 4;
+            }
+
+        }else if(firstJump.quadrant==2&&secondJump.quadrant==1){
+            if (firstHorizontalMultiple > secondHorizontalMultiple){
+                resultantQuadrant = 2;
+        }else {
+                resultantQuadrant = 1;
+            }   
+        }else if(firstJump.quadrant==2&&secondJump.quadrant==3){
+            if (firstVerticalMultiple > secondVerticalMultiple){
+                    resultantQuadrant = 2;
+            }else{
+                    resultantQuadrant = 3;
+                
+            }
+        }else if(firstJump.quadrant==2&&secondJump.quadrant==4){
+            if (firstHorizontalMultiple > secondHorizontalMultiple){
+                    resultantQuadrant = 2;
+            }else{
+                    resultantQuadrant = 4;
+                
+            }
+        }else if(firstJump.quadrant==3&&secondJump.quadrant==1){
+            if (firstHorizontalMultiple > secondHorizontalMultiple){
+                    resultantQuadrant = 3;
+                
+            }else{   
+                resultantQuadrant = 1;
+                
+            }
+        }else if(firstJump.quadrant==3&&secondJump.quadrant==2){
+            if (firstVerticalMultiple>secondVerticalMultiple){
+                resultantQuadrant = 3;
+            }else{
+                resultantQuadrant = 2;
+            }
+
+        }else if(firstJump.quadrant==3&&secondJump.quadrant==4){
+            if (firstHorizontalMultiple>secondHorizontalMultiple){
+                resultantQuadrant = 3;
+            }else{
+                resultantQuadrant = 4;
+            }
+
+        }else if(firstJump.quadrant==4&&secondJump.quadrant==1){
+            if (firstVerticalMultiple>secondVerticalMultiple){
+                resultantQuadrant = 4;
+            }else{
+                resultantQuadrant = 1;
+            }
+
+        }else if(firstJump.quadrant==4&&secondJump.quadrant==2){
+            if (firstHorizontalMultiple > secondHorizontalMultiple){
+                    resultantQuadrant = 4;
+                
+            }else{
+                    resultantQuadrant = 2;
+                
+            }
+        }else if(firstJump.quadrant==4&&secondJump.quadrant==3){
+            if (firstHorizontalMultiple>secondHorizontalMultiple){
+                resultantQuadrant = 4;
+            }else{
+                resultantQuadrant = 3;
+            }
+
+        }int xJump = calculateHorizontalJumpRecompression(resultantHorizontalMultiple);
+        resultantJump.setXjump(xJump);
+        resultantJump.setYjump(calculateVerticalJumpRecompression(xJump,resultantVerticalMultiple));
+        resultantJump.setQuadrant(resultantQuadrant);
+        return resultantJump;
+     }
+     
+     public Jump chaseToJump(int chase){
+         return new Jump(1,1,returnQuadrantCode(HexaGon.getAngleFromSide(chase)));
+     }
+     
+     public Jump convertSimpleJump(Jump simpleJump, int epsilonTimes)
+     {
+         Jump resultantJump = new Jump();
+         int newHorizontalHexagons = simpleJump.getXjump()/epsilonTimes;
+         if(simpleJump.getXjump()%2 != 0){
+            if (newHorizontalHexagons%2 !=0){
+                resultantJump.setXjump(newHorizontalHexagons+1);
+            }else{
+                resultantJump.setXjump(newHorizontalHexagons);
+            }
+         }else{
+             resultantJump.setXjump(newHorizontalHexagons);
+         }
+         int newVerticalHexagon = simpleJump.getYjump()/epsilonTimes;
+         if (resultantJump.getXjump()%2 != 0){
+             if (simpleJump.getYjump()%2 != 0){
+                 resultantJump.setYjump(newVerticalHexagon+1);
+             }else{
+                 resultantJump.setYjump(newVerticalHexagon);
+             }
+         }else{
+             if(simpleJump.getXjump()!= 1){
+                 resultantJump.setYjump(newVerticalHexagon);
+             }else{
+                 resultantJump.setYjump(0);
+                 
+             }
+         }
+         
+         //simpleJump.setYjump(newVerticalHexagon);
+         resultantJump.setQuadrant(simpleJump.getQuadrant());
+         return resultantJump;
+         
+     } 
+     
+     public int chaseForJump(Jump resultantJump){
+         if((resultantJump.getXjump()==1)&&(resultantJump.getYjump()==0)){
+             if (resultantJump.getQuadrant() == 1 || resultantJump.getQuadrant() == 4){
+                 return 1;
+             }else{
+                 return 3;
+             }
+         }else if ((resultantJump.getXjump()==0)&&(resultantJump.getYjump()==1)){
+             if (resultantJump.getQuadrant() == 1 || resultantJump.getQuadrant() == 2){
+                 return 2;
+             }else{
+                 return 5;
+             }
+         }else if ((resultantJump.getXjump()==1)&&(resultantJump.getYjump()==1)){
+             if (resultantJump.getQuadrant() == 1){
+                 return 1;
+             }else if (resultantJump.getQuadrant() == 2){
+                 return 3;
+             }else if (resultantJump.getQuadrant() == 3){
+                 return 4;
+             }else if (resultantJump.getQuadrant() == 4){
+                 return 6;
+             }
+         }
+         return 0;
+     }
+     
+     public ArrayList<Integer> convertToDesierdLimit(int trajectorySize, int allowableBytes, int oldEpsilon, ArrayList<Integer> approximatedPoints){
+        
+         while(trajectorySize>allowableBytes){
+             approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+             oldEpsilon=2*oldEpsilon;
+             trajectorySize = approximatedPoints.remove(approximatedPoints.size()-1);
+         }
+         approximatedPoints.add(trajectorySize);
+         approximatedPoints.add(oldEpsilon);
+         return approximatedPoints;
+//         if (trajectorySize < 2*allowableBytes ){
+//            approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+//            approximatedPoints.add(2*oldEpsilon);
+//            return approximatedPoints;
+//        }else if(trajectorySize < 4*allowableBytes ){
+//            approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(4*oldEpsilon, 2*oldEpsilon, approximatedPoints);
+//            approximatedPoints.add(4*oldEpsilon);
+//            return approximatedPoints;
+//        }else if(trajectorySize < 8*allowableBytes ){
+//            approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(4*oldEpsilon, 2*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(8*oldEpsilon, 4*oldEpsilon, approximatedPoints);
+//            approximatedPoints.add(8*oldEpsilon);
+//            return approximatedPoints;
+//        }else if(trajectorySize < 16*allowableBytes ){
+//            approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(4*oldEpsilon, 2*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(8*oldEpsilon, 4*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(16*oldEpsilon, 8*oldEpsilon, approximatedPoints);
+//            approximatedPoints.add(16*oldEpsilon);
+//            return approximatedPoints;
+//        }else if(trajectorySize < 32*allowableBytes ){
+//            approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(4*oldEpsilon, 2*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(8*oldEpsilon, 4*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(16*oldEpsilon, 8*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(32*oldEpsilon, 16*oldEpsilon, approximatedPoints);
+//            approximatedPoints.add(32*oldEpsilon);
+//            return approximatedPoints;
+//        }else if(trajectorySize < 64*allowableBytes ){
+//            approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(4*oldEpsilon, 2*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(8*oldEpsilon, 4*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(16*oldEpsilon, 8*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(32*oldEpsilon, 16*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(64*oldEpsilon, 32*oldEpsilon, approximatedPoints);
+//            approximatedPoints.add(64*oldEpsilon);
+//            return approximatedPoints;
+//        }else{
+//            approximatedPoints = convertToDesiredEpsilon(2*oldEpsilon, oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(4*oldEpsilon, 2*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(8*oldEpsilon, 4*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(16*oldEpsilon, 8*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(32*oldEpsilon, 16*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(64*oldEpsilon, 32*oldEpsilon, approximatedPoints);
+//            approximatedPoints = convertToDesiredEpsilon(128*oldEpsilon, 64*oldEpsilon, approximatedPoints);
+//            approximatedPoints.add(128*oldEpsilon);
+//            return approximatedPoints;
+//        }
+        //return null;    
+     }
+     
+     /*
+      * This function does the re-compression with new chase increasing recompression
+      */
+     public ArrayList<Integer> convertToDesiredEpsilon(int newEpsilon, int oldEpsilon, ArrayList<Integer> approximatedPoints){
+         Jump nearestJump = null;
+         boolean jumpFromCentre = true;
+         boolean chaseFromCentre = true;
+         int reverseChaseCode=0;
+         int reCompressionSize = 0;
+         int nextMinJump = 999999999;
+         ArrayList<Integer> mergedArrayList = new ArrayList<Integer>();
+         for (int i = 0; i < approximatedPoints.size(); i++){
+             int curentValue = approximatedPoints.get(i);
+             if (curentValue>=1 && curentValue < 7 ){
+                 if (chaseFromCentre){
+                     reverseChaseCode = (curentValue+3)%6;
+                     reverseChaseCode = reverseChaseCode+6;
+                     chaseFromCentre = false;
+                     jumpFromCentre = false;
+                 }else{
+                     
+                     if(curentValue == (reverseChaseCode%6==0?6:reverseChaseCode%6)){
+                         chaseFromCentre = true;
+                         jumpFromCentre = true;
+                     }else if(curentValue == ((reverseChaseCode+1)%6==0?6:(reverseChaseCode+1)%6)){
+                         reverseChaseCode =((reverseChaseCode-1)%6==0?6:(reverseChaseCode-1)%6);
+                         chaseFromCentre = false;
+                         jumpFromCentre = false;
+                     }else if(curentValue == ((reverseChaseCode-1)%6==0?6:(reverseChaseCode-1)%6)){
+                         reverseChaseCode =(reverseChaseCode+1)%6==0?6:(reverseChaseCode+1)%6;
+                         chaseFromCentre = false;
+                         jumpFromCentre = false;
+                     }else if(curentValue == ((reverseChaseCode+2)%6==0?6:(reverseChaseCode+2)%6)){
+                         mergedArrayList.add(((reverseChaseCode+3)%6==0?6:(reverseChaseCode+3)%6));
+                         reverseChaseCode = ((reverseChaseCode-2)%6==0?6:(reverseChaseCode-2)%6);
+                         chaseFromCentre = false;
+                         jumpFromCentre = false;
+                         reCompressionSize +=3;
+                     }else if(curentValue == ((reverseChaseCode-2)%6==0?6:(reverseChaseCode-2)%6)){
+                         mergedArrayList.add(((reverseChaseCode+3)%6==0?6:(reverseChaseCode+3)%6));
+                         reverseChaseCode = ((reverseChaseCode+2)%6==0?6:(reverseChaseCode+2)%6);
+                         chaseFromCentre = false;
+                         jumpFromCentre = false;
+                         reCompressionSize +=3;
+                     }else if(curentValue == ((reverseChaseCode+3)%6==0?6:(reverseChaseCode+3)%6)){
+                         mergedArrayList.add(((reverseChaseCode+3)%6==0?6:(reverseChaseCode+3)%6));
+                         chaseFromCentre = true;
+                         jumpFromCentre = true;
+                         reCompressionSize +=3;
+                     }
+                 }
+                 
+             }else if(curentValue == Constants.START_FINISH_OF_STEP_COUNT){
+                 Jump newJump = new Jump((int)approximatedPoints.get(i+2), (int)approximatedPoints.get(i+3),(int)approximatedPoints.get(i+1));
+                 i+=3;
+                 if(jumpFromCentre == true){// This is the case where it is a simple jump conversion of one size to another
+                     //Jump epsilonMultipleJump = getEpsilonMultipleForRecompression(newJump);
+                     Jump resultantJump = convertSimpleJump(newJump, newEpsilon/oldEpsilon);
+                     int chaseJump = chaseForJump(resultantJump);
+                     if(chaseJump!=0){
+                         mergedArrayList.add(chaseJump);
+                         reCompressionSize +=3;
+                     }else{
+                         mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+                         mergedArrayList.add(resultantJump.getQuadrant());
+                         mergedArrayList.add(resultantJump.getXjump());
+                         mergedArrayList.add(resultantJump.getYjump());
+                         reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getXjump());
+                         reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getYjump());
+                     }
+                     
+                 }else{
+                     if (reverseChaseCode==6){
+                         if (newJump.getQuadrant() == 1){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 2){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 3){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 4){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }
+                         
+                     }else if(reverseChaseCode==5){
+                         if (newJump.getQuadrant() == 1){
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 2){
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 3){
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 4){
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }
+                     }else if(reverseChaseCode==4){
+                         if (newJump.getQuadrant() == 1){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 2){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 3){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 4){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }
+                     }else if(reverseChaseCode==3){
+                         if (newJump.getQuadrant() == 1){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 2){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 3){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 4){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }
+                     }else if(reverseChaseCode==2){
+                         if (newJump.getQuadrant() == 1){
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 2){
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 3){
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }else if (newJump.getQuadrant() == 4){
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }
+                     }else if(reverseChaseCode==1){
+                         if (newJump.getQuadrant() == 1){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 2){
+                            newJump.setXjump(newJump.getXjump()+1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 3){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()-1);
+                         }else if (newJump.getQuadrant() == 4){
+                            newJump.setXjump(newJump.getXjump()-1);
+                            newJump.setYjump(newJump.getYjump()+1);
+                         }
+                     }
+//                    newJump.setXjump(newJump.getXjump()+1);
+//                    newJump.setYjump(newJump.getYjump()+1);
+                    //Jump epsilonMultipleJump = getEpsilonMultipleForRecompression(newJump);
+                    Jump resultantJump = convertSimpleJump(newJump, newEpsilon/oldEpsilon);
+                    int chaseJump = chaseForJump(resultantJump);
+                    if(chaseJump!=0){
+                        mergedArrayList.add(chaseJump);
+                        reCompressionSize +=3;
+                    }else{
+                        mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+                        mergedArrayList.add(resultantJump.getQuadrant());
+                        mergedArrayList.add(resultantJump.getXjump());
+                        mergedArrayList.add(resultantJump.getYjump());
+                        reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getXjump());
+                        reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getYjump());
+                    }
+                 }
+                 jumpFromCentre = true;
+                 chaseFromCentre = true;
+             }
+         }
+         mergedArrayList.add(reCompressionSize);
+         return mergedArrayList;
+     }
+     
+     public ArrayList<Integer> dataApproximatedToLimits(int allowableBytes, int minJumpSize, ArrayList<Integer> approximatedPoints, int totalSize, int allowedEpsilon){
+         Pair<ArrayList<Integer>, Integer> approximatedPointsChases = dataApproximationChases( allowableBytes, minJumpSize, approximatedPoints, totalSize, allowedEpsilon);
+         approximatedPoints = approximatedPointsChases.getFirst();
+         minJumpSize = approximatedPointsChases.getSecond();
+         int recompressionSize = approximatedPoints.get(approximatedPoints.size()-1);
+         //int recompressionSize = totalSize;
+         //approximatedPoints.remove(approximatedPoints.size()-1);
+         if (recompressionSize>allowableBytes*8){
+             while (recompressionSize>allowableBytes*8){
+                 approximatedPoints.remove(approximatedPoints.size()-1);
+                 Pair<ArrayList<Integer>, Integer> approximatedPointsJumps = dataApproximationJumps( allowableBytes, minJumpSize, approximatedPoints, recompressionSize, allowedEpsilon);
+                 approximatedPoints = approximatedPointsJumps.getFirst();
+                 minJumpSize = approximatedPointsJumps.getSecond();
+                 recompressionSize = approximatedPoints.get(approximatedPoints.size()-1);
+             }
+         }else{
+             return approximatedPoints;
+         }
+         return approximatedPoints;
+     }
+     
+     /*
+      * Energy based epsilon calculation for jumps
+      * 
+      */
+     
+     public Pair<ArrayList<Integer>, Integer> dataApproximationChases(int allowableBytes, int minJumpSize, ArrayList<Integer> approximatedPoints, int totalSize, int allowedEpsilon){
+         Jump nearestJump = null;
+         int reCompressionSize = 0;
+         int nextMinJump = 999999999;
+         ArrayList<Integer> mergedArrayList = new ArrayList<Integer>();
+         for (int i = 0; i < approximatedPoints.size(); i++){
+             if (approximatedPoints.get(i)>=1 && approximatedPoints.get(i) < 7 ){
+                 totalSize -= 3;
+                 Jump jumpForChase = chaseToJump(approximatedPoints.get(i));
+                 if (nearestJump!=null){
+                     nearestJump = mergeJumps(nearestJump,jumpForChase);
+                     
+                 }else{
+                     nearestJump = jumpForChase;
+                 }
+                 if (totalSize+reCompressionSize<allowableBytes*8){
+                     mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+                     mergedArrayList.add(nearestJump.getQuadrant());
+                     mergedArrayList.add(nearestJump.getXjump());
+                     mergedArrayList.add(nearestJump.getYjump());
+                     mergedArrayList.addAll(approximatedPoints.subList(i+1, approximatedPoints.size()-1));
+                     break;
+                 }
+             }else if(approximatedPoints.get(i) == Constants.START_FINISH_OF_STEP_COUNT){
+                 if (nearestJump!=null){
+                     mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+                     mergedArrayList.add(nearestJump.getQuadrant());
+                     mergedArrayList.add(nearestJump.getXjump());
+                     mergedArrayList.add(nearestJump.getYjump());
+                     reCompressionSize +=calcualteBitsForCodingJumpEmpty(nearestJump.getXjump());
+                     reCompressionSize +=calcualteBitsForCodingJumpEmpty(nearestJump.getYjump());
+                     int jumpSize = jumpSize(nearestJump, allowedEpsilon);
+//                     if (jumpSize == 3)
+//                         System.out.println("here");
+                     if (nextMinJump > jumpSize){
+                        nextMinJump = nearestJump.getXjump()+nearestJump.getYjump();
+                     }
+                 }
+                 
+                 nearestJump = new Jump((int)approximatedPoints.get(i+2), (int)approximatedPoints.get(i+3),(int)approximatedPoints.get(i+1));
+                 totalSize -= calcualteBitsForCodingJumpEmpty((int)approximatedPoints.get(i+2));
+                 totalSize -= calcualteBitsForCodingJumpEmpty((int)approximatedPoints.get(i+3));
+                 i+=3;
+                 
+                 
+             }
+         }
+         mergedArrayList.add(reCompressionSize);
+         return new Pair<ArrayList<Integer>, Integer>(mergedArrayList, nextMinJump);
+     }
+     
+     /*
+      * Energy based epsilon calculation for chases
+      * 
+      */
+     
+     public Pair<ArrayList<Integer>, Integer> dataApproximationJumps(int allowableBytes, int minJumpSize, ArrayList<Integer> approximatedPoints, int totalSize, int allowedEpsilon){
+         //Jump nearestJump = null;
+         int reCompressionSize = 0;
+         int nextMinJump = 999999999;
+         Jump currentJump= null;
+         boolean firstCheck = true;
+         
+         ArrayList<Integer> mergedArrayList = new ArrayList<Integer>();
+         
+         
+         for (int i = 0; i < approximatedPoints.size()-3; i++){
+             if(approximatedPoints.get(i) == Constants.START_FINISH_OF_STEP_COUNT){
+                 if (firstCheck == true){
+                    currentJump = new Jump(approximatedPoints.get(i+2),approximatedPoints.get(i+3), approximatedPoints.get(i+1));
+                    firstCheck = false;
+                    i+=3;
+                 }else{
+                    Jump nearestJump = new Jump(approximatedPoints.get(i+2),approximatedPoints.get(i+3), approximatedPoints.get(i+1));
+                    int jumpSize = jumpSize(currentJump, allowedEpsilon);
+                    int nearestJumpSize = jumpSize(nearestJump, allowedEpsilon);
+//                    if(i==48)
+//                       System.out.println("here");
+                    if((jumpSize == minJumpSize) || (nearestJumpSize == minJumpSize)){
+                        
+                        if(mergeJumps(nearestJump,currentJump).getQuadrant()==0)
+                            System.out.println("here");
+                        
+                        currentJump = mergeJumps(nearestJump,currentJump);
+                        
+                        i+=3;
+                        if (totalSize<allowableBytes*8){
+                            mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+                            mergedArrayList.add(currentJump.getQuadrant());
+                            mergedArrayList.add(currentJump.getXjump());
+                            mergedArrayList.add(currentJump.getYjump());
+                            reCompressionSize +=calcualteBitsForCodingJumpEmpty(currentJump.getXjump());
+                            reCompressionSize +=calcualteBitsForCodingJumpEmpty(currentJump.getYjump());
+                            if (approximatedPoints.size()-1 > i+1){
+                               mergedArrayList.addAll(approximatedPoints.subList(i+1, approximatedPoints.size()));
+                               reCompressionSize += returnSizeOfList(new ArrayList<Integer>(approximatedPoints.subList(i+1, approximatedPoints.size())));
+                            }
+                            break;
+                        }
+                    }else{
+                        mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+                        mergedArrayList.add(currentJump.getQuadrant());
+                        mergedArrayList.add(currentJump.getXjump());
+                        mergedArrayList.add(currentJump.getYjump());
+                        reCompressionSize +=calcualteBitsForCodingJumpEmpty(currentJump.getXjump());
+                        reCompressionSize +=calcualteBitsForCodingJumpEmpty(currentJump.getYjump());
+                        if (nextMinJump > jumpSize(currentJump, allowedEpsilon)){
+                           nextMinJump = jumpSize(currentJump, allowedEpsilon);
+                        }
+                        currentJump  = nearestJump;
+
+                        //nearestJump = new Jump((int)approximatedPoints.get(i+2), (int)approximatedPoints.get(i+3),(int)approximatedPoints.get(i+1));
+
+                        i+=3;
+                    }
+                 }
+             }
+             
+         }
+         mergedArrayList.add(reCompressionSize);
+         return new Pair<ArrayList<Integer>, Integer>(mergedArrayList, nextMinJump);
+     }
+     
+     public int returnSizeOfList(ArrayList<Integer> approximateList){
+         int size = 0;
+         for (int i = 0; i < approximateList.size(); i++){
+             size +=calcualteBitsForCodingJumpEmpty(approximateList.get(i+2));
+             size +=calcualteBitsForCodingJumpEmpty(approximateList.get(i+3));
+             i+=3;
+         }
+         return size;
+     }
+     
+     /*
+      * Energy based calculation based on B_n
+      */
+     
+     public int epsilonForData(Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair, int allowableBytes){
+         int totalAllowedPoints = (allowableBytes*8)/4;
+         //System.out.println("total number of allowed points: "+totalAllowedPoints);
+         if (returningBinsWithPointsPair.getSecond().getFirst().size()<= totalAllowedPoints){
+             return 1;
+         }else{
+            HashMap<Integer, Integer> binsForAccurateCounting = returningBinsWithPointsPair.getFirst();
+            HashMap<Integer, Integer> binsForEmptyCounting= returningBinsWithPointsPair.getSecond().getSecond();
+            ArrayList<Integer> allKeys = new ArrayList<Integer>();
+            allKeys.addAll(binsForAccurateCounting.keySet());
+            Collections.sort(allKeys);
+            int epsilonMultiple = 0;
+            int i = 0;
+            int step = 0;
+            while (true){
+                int pointForThisMultiple = 0;
+                if (i < allKeys.size())
+                    pointForThisMultiple = binsForAccurateCounting.get(allKeys.get(i));
+                int emptyCount = 0;
+                ArrayList<Integer> allEmptyBinKeys = new ArrayList<Integer>();
+                allEmptyBinKeys.addAll(binsForEmptyCounting.keySet());
+                Collections.sort(allEmptyBinKeys);
+                for (int j = 0; j< allEmptyBinKeys.size(); j++){
+                    if (i < allKeys.size()){
+                       if (allEmptyBinKeys.get(j)>allKeys.get(i))
+                          emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
+                    }else{
+                        if (allEmptyBinKeys.get(j)>step)
+                          emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
+                    }
+                }
+                if ((pointForThisMultiple+emptyCount)<= totalAllowedPoints){
+                    if (i<(allKeys.size()-1))
+                       epsilonMultiple = allKeys.get(i);
+                    else
+                        epsilonMultiple = step;
+                    break;
+                }
+                i++;
+                step += 2;
+            }
+            return epsilonMultiple;
+         }
+     }
+     /*
+      * Enegy based epsilon calculation for B_n for DP
+      */
+     public Pair<ArrayList<GPSPoint>, Integer> allowedEpsilonAndPointsDouglas(ArrayList<GPSPoint> source, int allowedBytes, int allowedEpsilon){
+         int totalAllowedPoints = (allowedBytes*8)/(12*8);
+         //System.out.println("total number of allowed points douglas: "+totalAllowedPoints);
+         int i = 1;
+         ArrayList<GPSPoint> approximatedPoints;
+         while (true){
+             approximatedPoints = GDouglasPeuker.douglasPeucker (source,allowedEpsilon*i);
+             if (approximatedPoints.size()<=totalAllowedPoints)
+                 break;
+             i++;
+         }
+         return new Pair<ArrayList<GPSPoint>, Integer>(approximatedPoints, allowedEpsilon*i);
+     }
+     
+     
     /*
      * This funcrtion implements fixed sized based compression technique.
      */
@@ -892,193 +2131,41 @@ public class KGonCompression {
         }
         return resultantPoints;
     }
-    
-    Pair<Integer, GPSPoint> handleCodeBasedSteps(ArrayList<Integer> resultantPoints,GPSPoint sourcePoint, GPSPoint currentCentre, float epsilonTouse,String distanceType,String kGonType, int holdsSizeCode, int currentCode){
-        if(holdsSizeCode == currentCode){
-            GPSPoint tempCurrent = currentCentre;
-            currentCentre = calculateNewCentre(tempCurrent, sourcePoint, epsilonTouse, distanceType, kGonType);
-            addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
-        //}else if(holdsSizeCode == Constants.CODE_FOR_THIRD_SIZE){
-          //  resultantPoints.add(new Integer(0));
-        }else{
-            resultantPoints.add(new Integer(holdsSizeCode));
-            holdsSizeCode = currentCode;
-            resultantPoints.add(new Integer(holdsSizeCode));
-            GPSPoint tempCurrent = currentCentre;
-            currentCentre = calculateNewCentre(tempCurrent, sourcePoint, epsilonTouse, distanceType, kGonType);
-            addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);
-            //resultantPoints.add(new Integer(0));
 
-        }
-        return new Pair<Integer, GPSPoint>(holdsSizeCode, currentCentre);
-    }
-    
-    
-     public ArrayList<GPSPoint> performInterpolation(ArrayList<GPSPoint> source, int epsilon, String distanceType, ArrayList<GPSPoint> whileConstructing, String kGonType) {
-        ArrayList<GPSPoint> resultantPoints = new ArrayList<GPSPoint>();
+    /* 
+     * This function implements the basic GridCompression technique. 
+     * 
+     */
+    public ArrayList<Integer> performGridCompression(ArrayList<GPSPoint> source, int epsilon, String distanceType, String kGonType) {
+        ArrayList<Integer> resultantPoints = new ArrayList<Integer>();
         GPSPoint currentCentre = new GPSPoint();
-        
-        for (int i = 0; i < source.size(); i++) {//source.size(); i++) {
+        GPSPoint firstPoint;
+        GPSPoint firstPointForCalibration = null;
+
+        for (int i = 0; i < source.size(); i++) {
             //This if condition nominates the first centre point to be first point
             if (i == 0) {
                 currentCentre = source.get(i);
-                resultantPoints.add(source.get(i));
+                firstPoint = source.get(i);
+                firstPointForCalibration = new GPSPoint(firstPoint.getLongitude(), firstPoint.getLatitude());
             } else {//in this case either approximation on current centre is going to happen or new centre calculation
 
                 float distance = GeoHelper.getDistance(currentCentre, source.get(i));
                 double angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
+                
 
                 if (distance > getSideLengthToUse(epsilon, angle, distanceType)) {
-                    while(distance > getSideLengthToUse(epsilon, angle, distanceType)){
-                       currentCentre = GeoHelper.getPointWithPolarDistance(currentCentre, getSideLengthToUse(epsilon, angle, distanceType), angle);
-                       resultantPoints.add(currentCentre);
-                       
-                       distance = GeoHelper.getDistance(currentCentre, source.get(i));
-                       angle = GeoHelper.getGPSAngle(currentCentre, source.get(i));
-                    }   
+                    GPSPoint tempCurrent = currentCentre;
+                    currentCentre = calculateNewCentre(tempCurrent, source.get(i), epsilon, distanceType, kGonType);
+                    //System.out.println(GeoHelper.getDistance(tempCurrent, currentCentre));
+                    addCurrentPoint(resultantPoints, tempCurrent, currentCentre, kGonType);//This adds the current point to the compressed collection
+                    
+                }
+            }
+        }
 
-                    } else {
-                    resultantPoints.add(source.get(i));
-                }
-            }
-        
-        }
-        
-        
-        
         return resultantPoints;
-     }
-     
-     int getTimeCode(float distance){
-         
-         if (Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_FIRST_TIME_STEP){
-            return Constants.CODE_FOR_FIRST_TIME_SIZE;
-        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_SECOND_TIME_STEP){
-            return Constants.CODE_FOR_SECOND_TIME_SIZE;
-        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_THIRD_TIME_STEP){
-            return Constants.CODE_FOR_THIRD_TIME_SIZE;
-        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_FOURTH_TIME_STEP){
-            return Constants.CODE_FOR_FOURTH_TIME_SIZE;
-        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_FIFTH_TIME_STEP){
-            return Constants.CODE_FOR_FIFTH_TIME_SIZE;
-        }else if(Utility.roundedNumber((int)distance) == Constants.LIMIT_FOR_SIXTH_TIME_STEP){
-            return Constants.CODE_FOR_SIXTH_TIME_SIZE;
-        }
-         
-        
-         return 0;
-     }
+    }
     
-     int getNewTimeCode(float distance, float timeEpsilon){
-         
-         return 0;
-     }
-     
-     boolean isItThisCode(int timeCode, float distance){
-        if (distance >= timeCode-100 && distance <= timeCode+100){
-            return true;
-        }else{
-            return false;
-        }
-     }
-     
-     /*
-      * This is bin counter for recording the points which have empty hexagons
-      * in between two points.
-      */
-     void recordEmptyBinCount(int multipleOfEpsilon, HashMap<Integer, Integer> worstCaseMap){
-         int evenClosestBin;
-        evenClosestBin = (((multipleOfEpsilon)%2)==0)?multipleOfEpsilon:multipleOfEpsilon+1;
-         if (worstCaseMap.containsKey(new Integer(evenClosestBin))){
-             int temp = worstCaseMap.get(evenClosestBin);
-             worstCaseMap.put(new Integer(evenClosestBin), new Integer(temp+1));
-         }else{
-             worstCaseMap.put(new Integer(evenClosestBin), new Integer(1));
-         }
-         
-     }
-     
-     void recordConsecutivePointsCount(int consecutiveCount, HashMap<Integer, Integer> worstCaseMap){
-         int binDivisionStep = 2;
-         int binHeadStep = 2;
-         while(true){
-             int binDivisionResult = consecutiveCount/binDivisionStep;
-             if (binDivisionResult>0){
-                 binDivisionResult = (consecutiveCount%binDivisionStep)!=0?(consecutiveCount/binDivisionStep)+consecutiveCount%binDivisionStep:consecutiveCount/binDivisionStep;
-                 if (worstCaseMap.containsKey(new Integer(binHeadStep))){
-                    int temp = worstCaseMap.get(binHeadStep);
-                    worstCaseMap.put(new Integer(binHeadStep), new Integer(temp+(int)binDivisionResult));
-                }else{
-                    worstCaseMap.put(new Integer(binHeadStep), new Integer((int)binDivisionResult));
-                }
-                 binHeadStep +=2;
-                 binDivisionStep++;
-                         
-             }else{
-                 break;
-             }
-                 
-         }
-         
-     }
-     
-     public int epsilonForData(Pair<HashMap<Integer, Integer>, Pair<ArrayList<Double>, HashMap<Integer, Integer>>> returningBinsWithPointsPair, int allowableBytes){
-         int totalAllowedPoints = (allowableBytes*8)/4;
-         System.out.println("total number of allowed points: "+totalAllowedPoints);
-         if (returningBinsWithPointsPair.getSecond().getFirst().size()<= totalAllowedPoints){
-             return 1;
-         }else{
-            HashMap<Integer, Integer> binsForAccurateCounting = returningBinsWithPointsPair.getFirst();
-            HashMap<Integer, Integer> binsForEmptyCounting= returningBinsWithPointsPair.getSecond().getSecond();
-            ArrayList<Integer> allKeys = new ArrayList<Integer>();
-            allKeys.addAll(binsForAccurateCounting.keySet());
-            Collections.sort(allKeys);
-            int epsilonMultiple = 0;
-            int i = 0;
-            int step = 0;
-            while (true){
-                int pointForThisMultiple = 0;
-                if (i < allKeys.size())
-                    pointForThisMultiple = binsForAccurateCounting.get(allKeys.get(i));
-                int emptyCount = 0;
-                ArrayList<Integer> allEmptyBinKeys = new ArrayList<Integer>();
-                allEmptyBinKeys.addAll(binsForEmptyCounting.keySet());
-                Collections.sort(allEmptyBinKeys);
-                for (int j = 0; j< allEmptyBinKeys.size(); j++){
-                    if (i < allKeys.size()){
-                       if (allEmptyBinKeys.get(j)>allKeys.get(i))
-                          emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
-                    }else{
-                        if (allEmptyBinKeys.get(j)>step)
-                          emptyCount += binsForEmptyCounting.get(allEmptyBinKeys.get(j));
-                    }
-                }
-                if ((pointForThisMultiple+emptyCount)<= totalAllowedPoints){
-                    if (i<(allKeys.size()-1))
-                       epsilonMultiple = allKeys.get(i);
-                    else
-                        epsilonMultiple = step;
-                    break;
-                }
-                i++;
-                step += 2;
-            }
-            return epsilonMultiple;
-         }
-     }
-     
-     public Pair<ArrayList<GPSPoint>, Integer> allowedEpsilonAndPointsDouglas(ArrayList<GPSPoint> source, int allowedBytes, int allowedEpsilon){
-         int totalAllowedPoints = (allowedBytes*8)/64;
-         System.out.println("total number of allowed points douglas: "+totalAllowedPoints);
-         int i = 1;
-         ArrayList<GPSPoint> approximatedPoints;
-         while (true){
-             approximatedPoints = GDouglasPeuker.douglasPeucker (source,allowedEpsilon*i);
-             if (approximatedPoints.size()<=totalAllowedPoints)
-                 break;
-             i++;
-         }
-         return new Pair<ArrayList<GPSPoint>, Integer>(approximatedPoints, allowedEpsilon*i);
-     }
-     
+    
 }
