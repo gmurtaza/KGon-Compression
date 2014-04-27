@@ -546,7 +546,7 @@ public class KGonCompression {
     }
 
     
-    public Pair<HashMap<Integer, Integer>, Pair<ArrayList<Integer>, HashMap<Integer, Integer>>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<WorstBinCounter> binCounterArray, int timeEpsilon) {
+    public Pair<HashMap<Integer, Integer>, Pair<ArrayList<Integer>, HashMap<Integer, Integer>>> performGridCompressionCodedInterpolation(ArrayList<GPSPoint> source,ArrayList<GPSPoint> whileConstructing, int epsilon, String distanceType, String kGonType, ArrayList<WorstBinCounter> binCounterArray, int timeEpsilon, ArrayList<Double> looseIndividualDistanceList) {
         
         ArrayList<Integer> resultantPoints = new ArrayList<Integer>();
         int minJumpSize = 999999999;
@@ -573,7 +573,7 @@ public class KGonCompression {
                 
             } else {
                 
-                if (i==10){
+                if (i==760){
                     System.out.println("in 10th place");
                 }
                 
@@ -672,8 +672,9 @@ public class KGonCompression {
                     bitCounter += 9;
                 }
             }
-            
-            whileConstructing.add(currentCentre);
+            looseIndividualDistanceList.add((double)GeoHelper.getDistance(currentCentre, source.get(i)));
+            GPSPoint toAdd = (GPSPoint)Utility.copy(currentCentre);
+            whileConstructing.add(toAdd);
         }
         //printHashMap(jumpSizes);
         //System.out.println("Chases = "+chaseCounter);
@@ -835,7 +836,7 @@ public class KGonCompression {
         int horizontalHexagon = 0;
         double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
         //System.out.println("Converted Theeta: "+convertedTheeta);
-        System.out.println("Horizontal Distance: "+calculateAndReturnHorizontalDistance(distance, theeta));
+        //System.out.println("Horizontal Distance: "+calculateAndReturnHorizontalDistance(distance, theeta));
         int horizontalEpsilonMultiple = (int)Math.floor(calculateAndReturnHorizontalDistance(distance, theeta)/epsilon)-1;
         // case where it is odd number of hexagons
         if (horizontalEpsilonMultiple < 0)
@@ -879,7 +880,7 @@ public class KGonCompression {
         int verticalHexagon = 0;
         double convertedTheeta = Math.abs(theeta)>90?Math.abs(theeta)-90:Math.abs(theeta);
         
-        System.out.println("Vertical Distance: "+calculateAndReturnVerticalDistance(distance, theeta));
+        //System.out.println("Vertical Distance: "+calculateAndReturnVerticalDistance(distance, theeta));
         
        int verticalEpsilonMultiple = (int)Math.floor(calculateAndReturnVerticalDistance(distance, theeta)/epsilon);
        if (verticalEpsilonMultiple <= 0)

@@ -2,6 +2,7 @@ package GeoHelper;
 
 
 import GeoHelper.GPSPoint;
+import Helper.Utility;
 import java.util.ArrayList;
 
 /*
@@ -35,7 +36,38 @@ public class GeoHelper {
     int meterConversion = 1000;
     return new Float(d * meterConversion).floatValue();
   }
+   
+   static public ArrayList<Double> getDistanceListConverted(ArrayList<GPSPoint> convertedPoints,ArrayList<GPSPoint> originalPoints, int limit){
+       ArrayList<Double> consecDist = new ArrayList<Double>();
+       
+       for (int i = 0; i < originalPoints.size(); i++){
+           boolean thereCheck = false;
+           for (int j = 0; j < convertedPoints.size(); j++){
+               double dist =(double)getDistance(originalPoints.get(i), convertedPoints.get(j));
+               if(dist< limit){
+                   consecDist.add(dist);
+                   thereCheck = true;
+                   break;
+               }
+           }
+           if (!thereCheck)
+               consecDist.add((double)limit+50);
+           
+       }
+       return consecDist;
+   }
   
+   /*
+    * This function returns the distance between consecutive clusters
+    */
+   static public ArrayList<Double> getDistanceList(ArrayList<GPSPoint> clusteredPoints){
+       ArrayList<Double> consecDist = new ArrayList<Double>();
+       for (int i = 1; i < clusteredPoints.size(); i++){
+           consecDist.add((double)getDistance(clusteredPoints.get(i-1), clusteredPoints.get(i)));
+       }
+       return consecDist;
+   }
+   
   /*
    * This function gives the angle between two GPS points
    */
@@ -51,7 +83,7 @@ public class GeoHelper {
    */
   static public GPSPoint getPointWithPolarDistance(GPSPoint currentCentre, double r, double theeta){
     GPSPoint newCentre = new GPSPoint();
-    newCentre.setLatitude(currentCentre.getLatitude() + Math.toDegrees((r*Math.sin(Math.toRadians(theeta)))/6378137));
+        newCentre.setLatitude(currentCentre.getLatitude() + Math.toDegrees((r*Math.sin(Math.toRadians(theeta)))/6378137));
     newCentre.setLongitude(currentCentre.getLongitude() + Math.toDegrees((r*Math.cos(Math.toRadians(theeta)))/6378137/Math.cos(Math.toRadians(currentCentre.getLatitude()))));
     return newCentre;
   }
@@ -188,16 +220,79 @@ public class GeoHelper {
           for (int j = 0; j<secondSet.size(); j++){
               int diff = (int) Math.abs(firstSet.get(i).getTimeStamp().getTime()-secondSet.get(j).getTimeStamp().getTime());
               diff = diff/1000;
+              
               if(diff < minDistance){
                   minDistance = diff;
               }
+              if(diff == 2740){
+              System.out.println("min distance on threshold");
+            }
           }
+          
           if(minDistance>maxDist){
               maxDist = minDistance;
           } 
       }
       return maxDist;
   }
-
+  
+  public static double synchEuclideanDistance(GPSPoint currentPoint,GPSPoint predGPSPoints,GPSPoint succGPSPoints){
+        long diff = (succGPSPoints.getTimeStamp().getTime() - predGPSPoints.getTimeStamp().getTime())/1000;
+        float distance= GeoHelper.getDistance(predGPSPoints, succGPSPoints);
+        double angle = GeoHelper.getGPSAngle(predGPSPoints, succGPSPoints);
+        double speed = distance/diff;
+        double equivalentPointDistance = speed*((currentPoint.getTimeStamp().getTime() - predGPSPoints.getTimeStamp().getTime())/1000);
+        GPSPoint equivalentPoint = GeoHelper.getPointWithPolarDistance(predGPSPoints, equivalentPointDistance, angle);
+        return GeoHelper.getDistance(equivalentPoint, currentPoint);
+    }
+  
+  public static ArrayList<Double> speedWholeTrip(ArrayList<GPSPoint> originalPoints){
+      ArrayList<Double> speedPointList = new ArrayList<Double>();
+      for (int i = 0; i < originalPoints.size()-1; i++){
+          long diff = (originalPoints.get(i+1).getTimeStamp().getTime() - originalPoints.get(i).getTimeStamp().getTime())/1000;
+        double distance= GeoHelper.getDistance(originalPoints.get(i+1), originalPoints.get(i));
+        speedPointList.add( distance/diff);
+      }
+      return speedPointList;
+  }
+  
+  public static double totalSynchEuclideanDistance(ArrayList<GPSPoint> originalPoints, ArrayList<GPSPoint> approximatedPoints){
+        double totalSED = 0;
+        int j = 0;
+        for (int i = 0; i < approximatedPoints.size()-1; i++){
+            GPSPoint predPoint = approximatedPoints.get(i);
+            GPSPoint succPoint = approximatedPoints.get(i+1);
+            for (; j<originalPoints.size(); j++){
+                GPSPoint currentPoint = originalPoints.get(j);
+                if ((currentPoint.getTimeStamp().getTime())==(succPoint.getTimeStamp().getTime())){
+                    break;
+                }else{
+                    totalSED += GeoHelper.synchEuclideanDistance(currentPoint, predPoint, succPoint);
+                }
+            }
+        }
+        return totalSED;
+    }
+  
+  public static ArrayList<Double> pointWiseSynchEuclideanDistance(ArrayList<GPSPoint> originalPoints, ArrayList<GPSPoint> approximatedPoints){
+        ArrayList<Double> pointWiseSED = new ArrayList<Double>();
+        int j = 0;
+        for (int i = 0; i < approximatedPoints.size()-1; i++){
+            GPSPoint predPoint = approximatedPoints.get(i);
+            GPSPoint succPoint = approximatedPoints.get(i+1);
+            for (; j<originalPoints.size(); j++){
+                GPSPoint currentPoint = originalPoints.get(j);
+                if ((currentPoint.getTimeStamp().getTime())==(succPoint.getTimeStamp().getTime())){
+                    break;
+                }else{
+                    //System.out.println("SED "+GeoHelper.synchEuclideanDistance(currentPoint, predPoint, succPoint));
+                    pointWiseSED.add(GeoHelper.synchEuclideanDistance(currentPoint, predPoint, succPoint));
+                }
+            }
+        }
+        return pointWiseSED;
+    }
+  
+  
     
 }

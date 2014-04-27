@@ -2,6 +2,7 @@ package Helper;
 
 
 import Compression.SummarisedData;
+import GeoHelper.ClusterStructure;
 import GeoHelper.GPSPoint;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -56,6 +57,77 @@ public class IOHelper {
     }
   }
   
+  static public ArrayList<GPSPoint> getPositionDataGeoLife( String fileName, String separator) throws ParseException {
+    ArrayList<GPSPoint> testMessageList = new ArrayList<GPSPoint>();
+    int counter = 0;
+    
+    try {
+      InputStreamReader inp = new InputStreamReader(new FileInputStream(new File(fileName)));
+      BufferedReader bReader = new BufferedReader(inp);
+      String eachLine = bReader.readLine();
+      int i = 0;
+      while (eachLine != null) {
+        GPSPoint payload = new GPSPoint();
+        //System.out.println(eachLine);
+      	String[] lineTokens = eachLine.replaceAll(" +", " ").split(separator);
+        if (lineTokens.length > 2 && i>5){
+        //System.out.println(lineTokens.length);
+            Double latitude = (Double.parseDouble(lineTokens[0]));
+            Double longitude = (Double.parseDouble(lineTokens[1]));
+            Date dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lineTokens[5]+" " +lineTokens[6]);
+            if (!lineTokens[0].equals("0.0000000") && !lineTokens[1].equals("0.0000000")){
+              payload.setLongitude(longitude);
+              payload.setLatitude(latitude);
+              //System.out.println(dt.getTime());
+              payload.setTimeStamp(dt);
+              testMessageList.add(payload);
+            }
+            counter++;
+        }
+      	i++;
+        eachLine = bReader.readLine();
+      }
+    }
+    catch (IOException exception) {
+      System.err.println(exception);
+    }
+    return testMessageList;
+  }
+  
+    
+  static public void writeClusterGPSPointsWithsize(ArrayList<ClusterStructure> positionData, String fileName){
+    try{
+      
+      FileWriter fstream = new FileWriter(fileName);
+      BufferedWriter out = new BufferedWriter(fstream);
+      //System.out.println("total number of points: "+positionData.size());
+      for (int i = 0; i< positionData.size(); i++){
+        out.write(positionData.get(i).clusterCentre.getLatitude()+","+positionData.get(i).clusterCentre.getLongitude()+","+positionData.get(i).totalPoints+","+positionData.get(i).firstTimeStamp.getTime()+","+positionData.get(i).lastTimeStamp.getTime()+','+positionData.get(i).totalPoints+","+positionData.get(i).clusterRadius+"\n");   
+      }
+      out.close();
+    }catch (Exception e){//Catch exception if any
+      System.err.println("Error writeGridConvertedGPS: " + e.getMessage());
+    }
+  }
+  
+  static public ArrayList<String> getGeoLifeFiles( String folderPath) throws ParseException {
+      ArrayList<String> listFiles = new ArrayList<String>();
+      try{
+          File folder = new File(folderPath);
+          File[] listOfFiles = folder.listFiles(); 
+          for (int i = 0; i < listOfFiles.length; i++){
+              if (listOfFiles[i].isFile()) 
+              {
+                  if(!(folderPath+"/"+listOfFiles[i].getName()).equals("../../SensorClustering/Geo-Data/000/Trajectory/.DS_Store"))
+                    listFiles.add(folderPath+"/"+listOfFiles[i].getName());
+              }
+          }
+      }catch(Exception exception) {
+        System.err.println(exception);
+      }
+      return listFiles;
+  }
+  
   static public void writeGridConvertedGPS(ArrayList<GPSPoint> positionData, String fileName){
     try{
       
@@ -71,6 +143,20 @@ public class IOHelper {
     }
   }
   
+  static public void writeGridConvertedGPSThis(ArrayList<GPSPoint> positionData, String fileName){
+    try{
+      
+      FileWriter fstream = new FileWriter(fileName);
+      BufferedWriter out = new BufferedWriter(fstream);
+      //System.out.println("total number of points: "+positionData.size());
+      for (int i = 0; i< positionData.size(); i++){
+        out.write(positionData.get(i).getLatitude()+","+positionData.get(i).getLongitude()+","+positionData.get(i).getTimeStamp().getTime()+"\n");   
+      }
+      out.close();
+    }catch (Exception e){//Catch exception if any
+      System.err.println("Error writeGridConvertedGPS: " + e.getMessage());
+    }
+  }
   
   static public void writeGridPositionData(GPSPoint firstPosition, ArrayList<Integer> positionData, String fineName){
     try{
@@ -86,6 +172,21 @@ public class IOHelper {
     }
   }
   
+  static public void writeSpeedDataDouble(ArrayList<GPSPoint> positionData, ArrayList<Double> speedData,  String fineName){
+    try{
+      FileWriter fstream = new FileWriter(fineName);
+      BufferedWriter out = new BufferedWriter(fstream);
+      DecimalFormat df = new DecimalFormat("#");
+      for (int i = 0; i< speedData.size(); i++){
+              Date currentDate = positionData.get(i).getTimeStamp();
+              out.write(speedData.get(i)+"\t"+currentDate.getTime() +"\n");
+          
+      }
+      out.close();
+    } catch (Exception e){//Catch exception if any
+      System.err.println("Error writeGridPositionData: " + e.getMessage());
+    }
+  }
   static public void writeGridPositionDataDouble(GPSPoint firstPosition, ArrayList<Integer> positionData, String fineName){
     try{
       FileWriter fstream = new FileWriter(fineName);
@@ -98,6 +199,23 @@ public class IOHelper {
           }else{
               out.write(positionData.get(i)+"\n");
           }
+      }
+      out.close();
+    } catch (Exception e){//Catch exception if any
+      System.err.println("Error writeGridPositionData: " + e.getMessage());
+    }
+  }
+  
+  
+  static public void writeSEDDataDouble(ArrayList<Double> positionData, String fineName){
+    try{
+      FileWriter fstream = new FileWriter(fineName);
+      BufferedWriter out = new BufferedWriter(fstream);
+      DecimalFormat df = new DecimalFormat("#");
+      for (int i = 0; i< positionData.size(); i++){
+          
+              out.write(positionData.get(i)+"\n");
+          
       }
       out.close();
     } catch (Exception e){//Catch exception if any

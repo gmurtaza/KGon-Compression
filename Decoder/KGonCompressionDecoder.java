@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import GeoHelper.GPSPoint;
 import GeoHelper.GeoHelper;
 import Constants.Constants;
+import Helper.Utility;
 import java.util.Date;
 /*
  * To change this template, choose Tools | Templates
@@ -42,49 +43,65 @@ public class KGonCompressionDecoder {
         //GPSPoint constructedPoint = null;
         double epsilonToUse = 0;
         int goForCoded = 0;
-        boolean timeCheck = true;
+        boolean timeCheck = false;
         convertedListOfGPSPoints.add(firstPosition);
         Date currentTimeStamp = new Date(firstPosition.getTimeStamp().getTime());
         GPSPoint constructedPoint = new GPSPoint(firstPosition.getLongitude(), firstPosition.getLatitude(), firstPosition.getTimeStamp());
-        for (int i = 0; i< positionData.size()-2; i++){
+        for (int i = 0; i< positionData.size()-1; i++){
             if(goForCoded == 0){
                 if (positionData.get(i)==Constants.START_FINISH_OF_STEP_COUNT){
+                    
+                    if (timeCheck){
+                        GPSPoint toAdd = (GPSPoint)Utility.copy(constructedPoint);
+                        convertedListOfGPSPoints.add(toAdd);
+                        firstPosition = (GPSPoint)Utility.copy(constructedPoint);
+                    }
                     goForCoded = 3;
                     //constructedPoint = KGonCompression.calculateNewCentreWithMultiples(firstPosition, epsilon, positionData.get(i+2), positionData.get(i+3), positionData.get(i+1));
-                    GPSPoint newConstructedPoint = KGonCompression.calculateNewCentreWithHexagonMultiples(firstPosition, epsilon, (int)positionData.get(i+2), (int)positionData.get(i+3), (int)positionData.get(i+1));
+                    GPSPoint toPass = (GPSPoint)Utility.copy(firstPosition);
+                    GPSPoint newConstructedPoint = KGonCompression.calculateNewCentreWithHexagonMultiples(toPass, epsilon, (int)positionData.get(i+2), (int)positionData.get(i+3), (int)positionData.get(i+1));
                     //epsilonToUse = KGonCompression.getSideLengthToUse((float)epsilon, positionData.get(i+2), distanceType)*positionData.get(i+1);
-                    constructedPoint = new GPSPoint(newConstructedPoint.getLongitude(), newConstructedPoint.getLatitude());
+                    constructedPoint = new GPSPoint(newConstructedPoint.getLongitude(), newConstructedPoint.getLatitude(), toPass.getTimeStamp());
                     //constructedPoint.setTimeStamp(currentTimeStamp);
                     //constructedPoint = GeoHelper.getPointWithPolarDistance(firstPosition, (float)epsilonToUse, positionData.get(i+2));
-                    convertedListOfGPSPoints.add(constructedPoint);
-                    firstPosition = new GPSPoint(constructedPoint.getLongitude(), constructedPoint.getLatitude(), constructedPoint.getTimeStamp());
+                    //convertedListOfGPSPoints.add(constructedPoint);
+                    //firstPosition = (GPSPoint)Utility.copy(constructedPoint);
+                    timeCheck = true;
                     //timeCheck = false;
                 }else if (positionData.get(i)>=1 && positionData.get(i) < 7){
+                    if (timeCheck){
+                        GPSPoint toAdd = (GPSPoint)Utility.copy(constructedPoint);
+                        convertedListOfGPSPoints.add(toAdd);
+                        firstPosition = (GPSPoint)Utility.copy(constructedPoint);
+                    }
                     epsilonToUse = epsilon;
-                    constructedPoint = HexaGon.returnPointBasedOnCodeDouble(positionData.get(i), firstPosition, "exact", (float)epsilonToUse);
+                    GPSPoint toPass = (GPSPoint)Utility.copy(firstPosition);
+                    constructedPoint = HexaGon.returnPointBasedOnCodeDouble(positionData.get(i), toPass, "exact", (float)epsilonToUse);
                     constructedPoint.setTimeStamp(currentTimeStamp);
-                    convertedListOfGPSPoints.add(constructedPoint);
-                    firstPosition = new GPSPoint(constructedPoint.getLongitude(), constructedPoint.getLatitude(), constructedPoint.getTimeStamp());
+                    //convertedListOfGPSPoints.add(constructedPoint);
+                    //firstPosition = (GPSPoint)Utility.copy(constructedPoint);
+                    timeCheck = true;
                     //timeCheck = false;
                 }else if(positionData.get(i)==07){
                     long newDateTime = currentTimeStamp.getTime()+ 2*timeEpsilon;
                     currentTimeStamp = new Date(newDateTime);
-                    if (timeCheck){
-                        constructedPoint.setTimeStamp(currentTimeStamp);
-                        convertedListOfGPSPoints.add(constructedPoint);
+                    constructedPoint.setTimeStamp(currentTimeStamp);
+                    GPSPoint toAdd = (GPSPoint)Utility.copy(constructedPoint);
+                    convertedListOfGPSPoints.add(toAdd);
+                    firstPosition = (GPSPoint)Utility.copy(constructedPoint);
                         //constructedPoint = new GPSPoint();
-                    }
-                    timeCheck = true;
+                    
+                    timeCheck = false;
                 }else if(positionData.get(i)==70){
                     long timeToSet = currentTimeStamp.getTime()+ positionData.get(i+1)*timeEpsilon;
                     currentTimeStamp = new Date(timeToSet);
                     i+=1;
-                    if (timeCheck){
-                        constructedPoint.setTimeStamp(currentTimeStamp);
-                        convertedListOfGPSPoints.add(constructedPoint);
-                        //constructedPoint = new GPSPoint();
-                    }
-                    timeCheck = true;
+                    constructedPoint.setTimeStamp(currentTimeStamp);
+                    GPSPoint toAdd = (GPSPoint)Utility.copy(constructedPoint);
+                    convertedListOfGPSPoints.add(toAdd);
+                    firstPosition = (GPSPoint)Utility.copy(constructedPoint);
+                    //constructedPoint = new GPSPoint();
+                    timeCheck = false;
                 }
                 
                 
