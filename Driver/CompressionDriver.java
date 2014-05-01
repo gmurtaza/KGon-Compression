@@ -57,9 +57,10 @@ public class CompressionDriver {
 //    fileNameList.add("tag1938_gps.txt");
 //    fileNameList.add("tag1936_gps.txt");
 //    fileNameList.add("tag1937_gps.txt");
-//    fileNameList.add("162-gps-Sept.txt");
-//    fileNameList.add("163-gps-Sept.txt");
+    
     fileNameList = IOHelper.getGeoLifeFiles("../../SensorClustering/Geo-Data/000/Trajectory");
+    fileNameList.add("162-gps-Sept.txt");
+    fileNameList.add("163-gps-Sept.txt");
     if (args.length >= 3){
         
   	  if (args[0].equals("-e")){
@@ -112,8 +113,14 @@ public class CompressionDriver {
                     String[] tokens = fileName.split("/");
                     String folderAppender = fileName.split("/")[tokens.length-1];
                     
-                    allStreamingValues = IOHelper.getPositionDataGeoLife(fileName, ",");
+//                    allStreamingValues = IOHelper.getPositionDataGeoLife(fileName, ",");
 //                    allStreamingValues = IOHelper.getPositionDataLatest(fileName, ",");
+                    if (fileName.equals("162-gps-Sept.txt"))
+                        allStreamingValues = IOHelper.getPositionDataLatest(fileName, ",");
+                    else if (fileName.equals("163-gps-Sept.txt"))
+                        allStreamingValues = IOHelper.getPositionDataLatest(fileName, ",");
+                    else
+                        allStreamingValues = IOHelper.getPositionDataGeoLife(fileName, ",");
                     //allDateTimeValues = IOHelper.getTimeData(fileName, ","); 
                     System.out.println(fileName);
                     System.out.println(allStreamingValues.size());
@@ -377,10 +384,10 @@ public class CompressionDriver {
         IOHelper.writeSEDDataDouble(GeoHelper.getDistanceListConverted(clusteredGpsPointList,allStreamingValues,k), "Geo-life/data-"+foladerNameAppender+"/limited/ind/clustering-ind-"+k+".txt");
         
         //System.out.println(k+"\t"+looseHausdorff+"\t"+strictHausdorff+"\t"+douglasHausdorff+"\n");
-//        hausDorffDistanceLimited += k+"\t"+looseHausdorff/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusterHausdorff+"\n";
+        hausDorffDistanceLimited += k+"\t"+looseHausdorff/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusterHausdorff+"\n";
         
-//        hausDorffDistanceLimitedTime += timeEpsilon/1000+"\t"+looseHausdorffTime+"\t"+strictHausdorffTime+"\t"+douglasHausdorffTime+"\n";
-//        synchronizedEuclidDistance += k+"\t"+looseSED/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusteredSED+"\n";
+        hausDorffDistanceLimitedTime += timeEpsilon/1000+"\t"+looseHausdorffTime+"\t"+strictHausdorffTime+"\t"+douglasHausdorffTime+"\n";
+        synchronizedEuclidDistance += k+"\t"+looseSED/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusteredSED+"\n";
     }
     System.out.println("************ Total Points ************");
     System.out.println(resultOfBothLimited);

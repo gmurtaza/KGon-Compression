@@ -51,7 +51,7 @@ public class GeoHelper {
                }
            }
            if (!thereCheck)
-               consecDist.add((double)limit+50);
+               consecDist.add(-1.0);
            
        }
        return consecDist;
