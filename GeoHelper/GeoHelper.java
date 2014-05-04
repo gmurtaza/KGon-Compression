@@ -1,9 +1,12 @@
 package GeoHelper;
 
 
+import Compression.IndividualDistance;
 import GeoHelper.GPSPoint;
 import Helper.Utility;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 /*
  * To change this template, choose Tools | Templates
@@ -37,25 +40,56 @@ public class GeoHelper {
     return new Float(d * meterConversion).floatValue();
   }
    
-   static public ArrayList<Double> getDistanceListConverted(ArrayList<GPSPoint> convertedPoints,ArrayList<GPSPoint> originalPoints, int limit){
+   static public ArrayList<Double> getDistanceListConvertedCluster(ArrayList<IndividualDistance> convertedPoints,ArrayList<GPSPoint> originalPoints, int limit){
        ArrayList<Double> consecDist = new ArrayList<Double>();
-       
+        HashMap<Date, Double> allDistanceHash;
+       allDistanceHash = getDistaceMap(convertedPoints);
        for (int i = 0; i < originalPoints.size(); i++){
-           boolean thereCheck = false;
-           for (int j = 0; j < convertedPoints.size(); j++){
-               double dist =(double)getDistance(originalPoints.get(i), convertedPoints.get(j));
-               if(dist< limit){
-                   consecDist.add(dist);
-                   thereCheck = true;
-                   break;
-               }
-           }
-           if (!thereCheck)
-               consecDist.add(-1.0);
+           
+           if (allDistanceHash.containsKey(originalPoints.get(i).getTimeStamp()))
+               consecDist.add(allDistanceHash.get(originalPoints.get(i).getTimeStamp()));
+           else
+               consecDist.add((double)(limit+50));
            
        }
        return consecDist;
    }
+   
+   
+   static public ArrayList<Double> getDateClusterList(ArrayList<ClusterStructure> convertedPoints,ArrayList<GPSPoint> originalPoints){
+       ArrayList<Double> consecDist = new ArrayList<Double>();
+        HashMap<Date, GPSPoint> allDistanceHash;
+       allDistanceHash = getClusterMap(convertedPoints);
+       double totalCluster = 0;
+       for (int i = 0; i < originalPoints.size(); i++){
+           
+           if (allDistanceHash.containsKey(originalPoints.get(i).getTimeStamp()))
+               totalCluster++;
+           consecDist.add(totalCluster);
+           
+           
+       }
+       return consecDist;
+   }
+   
+   
+   static public ArrayList<Double> getDistanceListConverted(ArrayList<GPSPoint> convertedPoints,ArrayList<GPSPoint> originalPoints, int limit){
+       ArrayList<Double> consecDist = new ArrayList<Double>();
+        HashMap<Date, Double> allDistanceHash;
+       for (int i = 0; i < originalPoints.size(); i++){
+           
+           for (int j = 0; j < convertedPoints.size(); j++){
+               double dist = (double)getDistance(originalPoints.get(i), convertedPoints.get(j));
+               if (dist<=limit){
+                   consecDist.add(dist);
+                   break;
+                  }
+           }
+           
+       }
+       return consecDist;
+   }
+   
   
    /*
     * This function returns the distance between consecutive clusters
@@ -66,6 +100,23 @@ public class GeoHelper {
            consecDist.add((double)getDistance(clusteredPoints.get(i-1), clusteredPoints.get(i)));
        }
        return consecDist;
+   }
+   
+   static private  HashMap<Date, Double> getDistaceMap(ArrayList<IndividualDistance> clusteredPoints){
+       HashMap<Date, Double> allDistanceHash = new HashMap<Date, Double>();
+       for(int i = 0; i < clusteredPoints.size(); i++){
+           allDistanceHash.put(clusteredPoints.get(i).getDate(), clusteredPoints.get(i).getDistance());
+       }
+       return allDistanceHash;
+   }
+   
+   
+    static private  HashMap<Date, GPSPoint> getClusterMap(ArrayList<ClusterStructure> clusteredPoints){
+       HashMap<Date, GPSPoint> allDistanceHash = new HashMap<Date, GPSPoint>();
+       for(int i = 0; i < clusteredPoints.size(); i++){
+           allDistanceHash.put((Date)clusteredPoints.get(i).firstTimeStamp, clusteredPoints.get(i).clusterCentre);
+       }
+       return allDistanceHash;
    }
    
   /*

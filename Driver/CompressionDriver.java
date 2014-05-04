@@ -6,6 +6,7 @@ package Driver;
  */
 
 import Compression.GDouglasPeuker;
+import Compression.IndividualDistance;
 import Compression.SummarisedData;
 import Compression.WorstBinCounter;
 import GeoHelper.GeoHelper;
@@ -54,11 +55,11 @@ public class CompressionDriver {
     ArrayList<Date> allDateTimeValues = new ArrayList<Date>();
     ArrayList<String> fileNameList = new ArrayList<String>();
 //    fileNameList.add("tag1937_gps.txt");
-//    fileNameList.add("tag1938_gps.txt");
-//    fileNameList.add("tag1936_gps.txt");
-//    fileNameList.add("tag1937_gps.txt");
+    fileNameList.add("tag1938_gps.txt");
+    fileNameList.add("tag1936_gps.txt");
+    fileNameList.add("tag1937_gps.txt");
     
-    fileNameList = IOHelper.getGeoLifeFiles("../../SensorClustering/Geo-Data/000/Trajectory");
+//    fileNameList = IOHelper.getGeoLifeFiles("../../SensorClustering/Geo-Data/000/Trajectory");
     fileNameList.add("162-gps-Sept.txt");
     fileNameList.add("163-gps-Sept.txt");
     if (args.length >= 3){
@@ -115,10 +116,10 @@ public class CompressionDriver {
                     
 //                    allStreamingValues = IOHelper.getPositionDataGeoLife(fileName, ",");
 //                    allStreamingValues = IOHelper.getPositionDataLatest(fileName, ",");
-                    if (fileName.equals("162-gps-Sept.txt"))
+                    if (fileName.equals("162-gps-Sept.txt")||fileName.equals("163-gps-Sept.txt"))
                         allStreamingValues = IOHelper.getPositionDataLatest(fileName, ",");
-                    else if (fileName.equals("163-gps-Sept.txt"))
-                        allStreamingValues = IOHelper.getPositionDataLatest(fileName, ",");
+                    else if (fileName.equals("tag1938_gps.txt")||fileName.equals("tag1936_gps.txt")||fileName.equals("tag1937_gps.txt"))
+                        allStreamingValues = IOHelper.getPositionData(fileName, ",");
                     else
                         allStreamingValues = IOHelper.getPositionDataGeoLife(fileName, ",");
                     //allDateTimeValues = IOHelper.getTimeData(fileName, ","); 
@@ -266,7 +267,7 @@ public class CompressionDriver {
     ArrayList<WorstBinCounter> binCounterArray = new ArrayList<WorstBinCounter>();
     ArrayList<ClusterStructure> clusteredData = new ArrayList<ClusterStructure>();
     ArrayList<Double> looseIndividualDistanceList = new ArrayList<Double>();
-    ArrayList<Double> clusteringIndividualDistanceList = new ArrayList<Double>();
+    ArrayList<IndividualDistance> clusteringIndividualDistanceList = new ArrayList<IndividualDistance>();
     IOHelper.writeListToFile(allStreamingValues, "original-"+foladerNameAppender+".txt");
     String resultOfBothLimited = "";//Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\t"+"Cluster"+"\n";
     String resultSizeOfBothLimited = "";//Error Threshold"+"\t"+"Loose Hexagons"+"\t"+"Strict Hexagons"+"\t"+"Douglas"+"\t"+"Cluster"+"\n";
@@ -360,34 +361,36 @@ public class CompressionDriver {
               new File("Geo-life/data-"+foladerNameAppender+"/limited/inter/").mkdirs();
         IOHelper.writeSEDDataDouble(GeoHelper.getDistanceList(clusteredGpsPointList), "Geo-life/data-"+foladerNameAppender+"/limited/inter/cluster-inter-"+k+".txt");
         IOHelper.writeSEDDataDouble(GeoHelper.getDistanceList(looseConvertedPoints), "Geo-life/data-"+foladerNameAppender+"/limited/inter/loose-inter-"+k+".txt");
-        float looseHausdorff= GeoHelper.getHausdorffDistance(allStreamingValues, looseConvertedPoints);
-        float strictHausdorff= GeoHelper.getHausdorffDistance(allStreamingValues, convertedPoints);
-        float douglasHausdorff = GeoHelper.getHausdorffDistance(allStreamingValues, resultantValues);
-        float clusterHausdorff = GeoHelper.getHausdorffDistance(allStreamingValues, clusteredGpsPointList);
-        float looseHausdorffTime= GeoHelper.getHausdorffTimeDistance(allStreamingValues, looseConvertedPoints);
-        float strictHausdorffTime= GeoHelper.getHausdorffTimeDistance(allStreamingValues, convertedPoints);
-        float douglasHausdorffTime = GeoHelper.getHausdorffTimeDistance(allStreamingValues, resultantValues);
-        ArrayList<GPSPoint> equivalentGPSList = Utility.getEquivalentListCompressed(allStreamingValues, looseConvertedPoints);
-        IOHelper.writeGridConvertedGPSThis(equivalentGPSList, "Geo-life/data-"+foladerNameAppender+"/limited/location/loose-converted-equivalent"+k+".txt");
-        double looseSED = GeoHelper.totalSynchEuclideanDistance(allStreamingValues, equivalentGPSList);
-        double clusteredSED = GeoHelper.totalSynchEuclideanDistance(allStreamingValues, clusteredGpsPointList);
-        ArrayList<Double> looseSEDList = GeoHelper.pointWiseSynchEuclideanDistance(allStreamingValues, equivalentGPSList);
-        ArrayList<Double> clusteredSEDList = GeoHelper.pointWiseSynchEuclideanDistance(allStreamingValues, clusteredGpsPointList);
-        if (!new File("Geo-life/data-"+foladerNameAppender+"/limited/sed/").exists())
-              new File("Geo-life/data-"+foladerNameAppender+"/limited/sed/").mkdirs();
-        IOHelper.writeSEDDataDouble(looseSEDList, "Geo-life/data-"+foladerNameAppender+"/limited/sed/loose-grid-SED-"+k+".txt");
-        IOHelper.writeSEDDataDouble(clusteredSEDList, "Geo-life/data-"+foladerNameAppender+"/limited/sed/clustering-SED-"+k+".txt");
+        
+//        float looseHausdorff= GeoHelper.getHausdorffDistance(allStreamingValues, looseConvertedPoints);
+//        float strictHausdorff= GeoHelper.getHausdorffDistance(allStreamingValues, convertedPoints);
+//        float douglasHausdorff = GeoHelper.getHausdorffDistance(allStreamingValues, resultantValues);
+//        float clusterHausdorff = GeoHelper.getHausdorffDistance(allStreamingValues, clusteredGpsPointList);
+//        float looseHausdorffTime= GeoHelper.getHausdorffTimeDistance(allStreamingValues, looseConvertedPoints);
+//        float strictHausdorffTime= GeoHelper.getHausdorffTimeDistance(allStreamingValues, convertedPoints);
+//        float douglasHausdorffTime = GeoHelper.getHausdorffTimeDistance(allStreamingValues, resultantValues);
+//        ArrayList<GPSPoint> equivalentGPSList = Utility.getEquivalentListCompressed(allStreamingValues, looseConvertedPoints);
+//        IOHelper.writeGridConvertedGPSThis(equivalentGPSList, "Geo-life/data-"+foladerNameAppender+"/limited/location/loose-converted-equivalent"+k+".txt");
+//        double looseSED = GeoHelper.totalSynchEuclideanDistance(allStreamingValues, equivalentGPSList);
+//        double clusteredSED = GeoHelper.totalSynchEuclideanDistance(allStreamingValues, clusteredGpsPointList);
+//        ArrayList<Double> looseSEDList = GeoHelper.pointWiseSynchEuclideanDistance(allStreamingValues, equivalentGPSList);
+//        ArrayList<Double> clusteredSEDList = GeoHelper.pointWiseSynchEuclideanDistance(allStreamingValues, clusteredGpsPointList);
+//        if (!new File("Geo-life/data-"+foladerNameAppender+"/limited/sed/").exists())
+//              new File("Geo-life/data-"+foladerNameAppender+"/limited/sed/").mkdirs();
+//        IOHelper.writeSEDDataDouble(looseSEDList, "Geo-life/data-"+foladerNameAppender+"/limited/sed/loose-grid-SED-"+k+".txt");
+//        IOHelper.writeSEDDataDouble(clusteredSEDList, "Geo-life/data-"+foladerNameAppender+"/limited/sed/clustering-SED-"+k+".txt");
         
         if (!new File("Geo-life/data-"+foladerNameAppender+"/limited/ind/").exists())
               new File("Geo-life/data-"+foladerNameAppender+"/limited/ind/").mkdirs();
         IOHelper.writeSEDDataDouble(GeoHelper.getDistanceListConverted(looseConvertedPoints,allStreamingValues,k), "Geo-life/data-"+foladerNameAppender+"/limited/ind/loose-grid-ind-"+k+".txt");
-        IOHelper.writeSEDDataDouble(GeoHelper.getDistanceListConverted(clusteredGpsPointList,allStreamingValues,k), "Geo-life/data-"+foladerNameAppender+"/limited/ind/clustering-ind-"+k+".txt");
+        IOHelper.writeSEDDataDouble(GeoHelper.getDistanceListConvertedCluster(clusteringIndividualDistanceList,allStreamingValues,k), "Geo-life/data-"+foladerNameAppender+"/limited/ind/clustering-ind-"+k+".txt");
+        IOHelper.writeSEDDataDouble(GeoHelper.getDateClusterList(clusteredData,allStreamingValues), "Geo-life/data-"+foladerNameAppender+"/limited/ind/clustering-step-wise-"+k+".txt");
         
         //System.out.println(k+"\t"+looseHausdorff+"\t"+strictHausdorff+"\t"+douglasHausdorff+"\n");
-        hausDorffDistanceLimited += k+"\t"+looseHausdorff/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusterHausdorff+"\n";
-        
-        hausDorffDistanceLimitedTime += timeEpsilon/1000+"\t"+looseHausdorffTime+"\t"+strictHausdorffTime+"\t"+douglasHausdorffTime+"\n";
-        synchronizedEuclidDistance += k+"\t"+looseSED/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusteredSED+"\n";
+//        hausDorffDistanceLimited += k+"\t"+looseHausdorff/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusterHausdorff+"\n";
+//        
+//        hausDorffDistanceLimitedTime += timeEpsilon/1000+"\t"+looseHausdorffTime+"\t"+strictHausdorffTime+"\t"+douglasHausdorffTime+"\n";
+//        synchronizedEuclidDistance += k+"\t"+looseSED/*+"\t"+strictHausdorff+"\t"+douglasHausdorff*/+"\t"+clusteredSED+"\n";
     }
     System.out.println("************ Total Points ************");
     System.out.println(resultOfBothLimited);
@@ -405,8 +408,8 @@ public class CompressionDriver {
           }
     IOHelper.writeToFile(resultOfBothLimited, "Geo-life/data-"+foladerNameAppender+"/coded-interpolation-total-points-both-limited.txt");
     IOHelper.writeToFile(resultSizeOfBothLimited, "Geo-life/data-"+foladerNameAppender+"/coded-interpolation-total-size-both-limited.txt");
-    IOHelper.writeToFile(hausDorffDistanceLimited, "Geo-life/data-"+foladerNameAppender+"/coded-interpolation-hausdorff-both-limited.txt");
-    IOHelper.writeToFile(synchronizedEuclidDistance, "Geo-life/data-"+foladerNameAppender+"/coded-interpolation-SED-both-limited.txt");
+//    IOHelper.writeToFile(hausDorffDistanceLimited, "Geo-life/data-"+foladerNameAppender+"/coded-interpolation-hausdorff-both-limited.txt");
+//    IOHelper.writeToFile(synchronizedEuclidDistance, "Geo-life/data-"+foladerNameAppender+"/coded-interpolation-SED-both-limited.txt");
   }
   
   

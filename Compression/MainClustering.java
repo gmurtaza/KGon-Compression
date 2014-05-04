@@ -18,16 +18,16 @@ public class MainClustering {
     /*
      * Calls the actual clustering algorithm
      */
-    public ArrayList <ClusterStructure> LightClustering(ArrayList<GPSPoint> sourceGPSPoints, int n, int thresholdDistance, int bufferSize, int minClusteringPoints, ArrayList<Integer> unClusteredPointsCounter, ArrayList<Integer> removedPointsCounter, ArrayList<Double> clusteringIndividualDistanceList){
+    public ArrayList <ClusterStructure> LightClustering(ArrayList<GPSPoint> sourceGPSPoints, int n, int thresholdDistance, int bufferSize, int minClusteringPoints, ArrayList<Integer> unClusteredPointsCounter, ArrayList<Integer> removedPointsCounter, ArrayList<IndividualDistance> clusteringIndividualDistanceList){
         ArrayList <ClusterStructure> allClusters = new ArrayList <ClusterStructure>();
-        ArrayList<GPSPoint> initialPoints = new ArrayList<GPSPoint>();
+        //ArrayList<GPSPoint> initialPoints = new ArrayList<GPSPoint>();
         ArrayList<GPSPoint> currentBuffer = new ArrayList<GPSPoint>();
 //        ArrayList<Integer> unClusteredPointsCounter = new ArrayList<Integer>();
 //        ArrayList<Integer> removedPointsCounter = new ArrayList<Integer>();
         for (int i = 0; i < n; i++){
-            initialPoints.add( sourceGPSPoints.get(i));
+            currentBuffer.add( sourceGPSPoints.get(i));
         }
-        bufferClusteringPhase(allClusters,  thresholdDistance, minClusteringPoints, initialPoints, clusteringIndividualDistanceList);
+        bufferClusteringPhase(allClusters,  thresholdDistance, minClusteringPoints, currentBuffer, clusteringIndividualDistanceList);
         unClusteredPointsCounter.add(currentBuffer.size());
         int currentUnclustered = currentBuffer.size();
         //System.out.println("Initial clusters: "+allClusters.size());
@@ -148,7 +148,7 @@ public class MainClustering {
     /*
      * This function performs buffer clustering when size goes higher than limit
      */
-    public void bufferClusteringPhase(ArrayList <ClusterStructure> allClusters, int thresholdDistance, int minClusteringPoints, ArrayList<GPSPoint> currentBuffer, ArrayList<Double> clusteringIndividualDistanceList){
+    public void bufferClusteringPhase(ArrayList <ClusterStructure> allClusters, int thresholdDistance, int minClusteringPoints, ArrayList<GPSPoint> currentBuffer, ArrayList<IndividualDistance> clusteringIndividualDistanceList){
         
         for (int i = 0; i < currentBuffer.size(); i++){
             boolean notWithEarlyCluster = true;
@@ -157,6 +157,8 @@ public class MainClustering {
             for (int k = 0; k<allClusters.size();k++){
                 if (GeoDistance(currentPoint, allClusters.get(k).clusterCentre) <= thresholdDistance){
                     updateCluster(allClusters.get(k), currentPoint);
+                    double dist = (double)GeoHelper.GeoHelper.getDistance(allClusters.get(k).clusterCentre, currentPoint);
+                    clusteringIndividualDistanceList.add(new IndividualDistance(currentPoint.getTimeStamp(),dist));
                     notWithEarlyCluster = false;
                     currentBuffer.remove(i);
                     break;
@@ -174,16 +176,11 @@ public class MainClustering {
                     }
                 }
                 if (newCluster.totalPoints>minClusteringPoints){
-                    for (int h = 0; h<allClusters.size(); h++){
-                        if(GeoHelper.GeoHelper.getDistance(allClusters.get(h).clusterCentre, newCluster.clusterCentre) < thresholdDistance){
-                            System.out.println("bufferClusteringPhase: Distance is small");
-                        }
-                    }
-                    if(newCluster.clusterRadius<1)
-                        System.out.println("This is the one");
+                    
                     allClusters.add(newCluster);
                     for (int k = 0; k < pointsToRemove.size(); k++){
-                        clusteringIndividualDistanceList.add((double)GeoHelper.GeoHelper.getDistance(newCluster.clusterCentre, currentBuffer.get(pointsToRemove.get(k))));
+                        double dist = (double)GeoHelper.GeoHelper.getDistance(newCluster.clusterCentre, currentBuffer.get(pointsToRemove.get(k)));
+                        clusteringIndividualDistanceList.add(new IndividualDistance(currentBuffer.get(pointsToRemove.get(k)).getTimeStamp(),dist));
                         currentBuffer.remove(pointsToRemove.get(k));
                     }
                     currentBuffer.remove(i);
