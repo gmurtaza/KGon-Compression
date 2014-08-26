@@ -1493,6 +1493,8 @@ public class KGonCompression {
      public Jump convertSimpleJump(Jump simpleJump, int epsilonTimes)
      {
          Jump resultantJump = new Jump();
+         
+         // Here J_x is calculated for larger hexagon
          int newHorizontalHexagons = simpleJump.getXjump()/epsilonTimes;
          if(simpleJump.getXjump()%2 != 0){
             if (newHorizontalHexagons%2 !=0){
@@ -1503,6 +1505,7 @@ public class KGonCompression {
          }else{
              resultantJump.setXjump(newHorizontalHexagons);
          }
+         // Here J_y is calculated for larger hexagon
          int newVerticalHexagon = simpleJump.getYjump()/epsilonTimes;
          if (resultantJump.getXjump()%2 != 0){
              if (simpleJump.getYjump()%2 != 0){
@@ -1670,23 +1673,24 @@ public class KGonCompression {
              }else if(curentValue == Constants.START_FINISH_OF_STEP_COUNT){
                  Jump newJump = new Jump((int)approximatedPoints.get(i+2), (int)approximatedPoints.get(i+3),(int)approximatedPoints.get(i+1));
                  i+=3;
-                 if(jumpFromCentre == true){// This is the case where it is a simple jump conversion of one size to another
+                 if(!jumpFromCentre){// This is the case where it is a simple jump conversion of one size to another
                      //Jump epsilonMultipleJump = getEpsilonMultipleForRecompression(newJump);
-                     Jump resultantJump = convertSimpleJump(newJump, newEpsilon/oldEpsilon);
-                     int chaseJump = chaseForJump(resultantJump);
-                     if(chaseJump!=0){
-                         mergedArrayList.add(chaseJump);
-                         reCompressionSize +=3;
-                     }else{
-                         mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
-                         mergedArrayList.add(resultantJump.getQuadrant());
-                         mergedArrayList.add(resultantJump.getXjump());
-                         mergedArrayList.add(resultantJump.getYjump());
-                         reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getXjump());
-                         reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getYjump());
-                     }
-                     
-                 }else{
+                     //TODO: the problem is that reverseChaseCode has to be updated in case of jump conversion as wells
+//                     Jump resultantJump = convertSimpleJump(newJump, newEpsilon/oldEpsilon);
+//                     int chaseJump = chaseForJump(resultantJump);
+//                     if(chaseJump!=0){
+//                         mergedArrayList.add(chaseJump);
+//                         reCompressionSize +=3;
+//                     }else{
+//                         mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+//                         mergedArrayList.add(resultantJump.getQuadrant());
+//                         mergedArrayList.add(resultantJump.getXjump());
+//                         mergedArrayList.add(resultantJump.getYjump());
+//                         reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getXjump());
+//                         reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getYjump());
+//                     }
+//                     
+//                 }else{
                      if (reverseChaseCode==6){
                          if (newJump.getQuadrant() == 1){
                             newJump.setXjump(newJump.getXjump()-1);
@@ -1765,25 +1769,53 @@ public class KGonCompression {
                             newJump.setYjump(newJump.getYjump()+1);
                          }
                      }
+                 }
 //                    newJump.setXjump(newJump.getXjump()+1);
 //                    newJump.setYjump(newJump.getYjump()+1);
                     //Jump epsilonMultipleJump = getEpsilonMultipleForRecompression(newJump);
-                    Jump resultantJump = convertSimpleJump(newJump, newEpsilon/oldEpsilon);
-                    int chaseJump = chaseForJump(resultantJump);
-                    if(chaseJump!=0){
-                        mergedArrayList.add(chaseJump);
-                        reCompressionSize +=3;
+                Jump resultantJump = convertSimpleJump(newJump, newEpsilon/oldEpsilon);
+                int chaseJump = chaseForJump(resultantJump);
+                if(chaseJump!=0){
+                    mergedArrayList.add(chaseJump);
+                    reCompressionSize +=3;
+                }else{
+                    mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
+                    mergedArrayList.add(resultantJump.getQuadrant());
+                    mergedArrayList.add(resultantJump.getXjump());
+                    mergedArrayList.add(resultantJump.getYjump());
+                    reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getXjump());
+                    reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getYjump());
+                }
+                
+                if(newJump.getXjump()%2 != 0){
+                    if(newJump.getYjump()%2 == 0){
+                        reverseChaseCode = 3;
                     }else{
-                        mergedArrayList.add(Constants.START_FINISH_OF_STEP_COUNT);
-                        mergedArrayList.add(resultantJump.getQuadrant());
-                        mergedArrayList.add(resultantJump.getXjump());
-                        mergedArrayList.add(resultantJump.getYjump());
-                        reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getXjump());
-                        reCompressionSize +=calcualteBitsForCodingJumpEmpty(resultantJump.getYjump());
+                        reverseChaseCode = 2;
                     }
-                 }
-                 jumpFromCentre = true;
-                 chaseFromCentre = true;
+                    jumpFromCentre = false;
+                    chaseFromCentre = false;
+                }else if (newJump.getXjump()%4 == 0){
+                    if(newJump.getYjump()%2 == 0){
+                        jumpFromCentre = true;
+                        chaseFromCentre = true;
+                    }else{
+                        reverseChaseCode = 1;
+                        jumpFromCentre = false;
+                        chaseFromCentre = false;
+                    }
+                }else{
+                    if(newJump.getYjump()%2 != 0){
+                        jumpFromCentre = true;
+                        chaseFromCentre = true;
+                    }else{
+                        reverseChaseCode = 1;
+                        jumpFromCentre = false;
+                        chaseFromCentre = false;
+                    }
+                }
+                
+                 
              }
          }
          mergedArrayList.add(reCompressionSize);

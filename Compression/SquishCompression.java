@@ -19,7 +19,7 @@ public class SquishCompression {
     
     public ArrayList<GPSPoint> SquishCompressionTechnique(ArrayList<GPSPoint> sourceTrajectory, float compressionRatio, float minimumError){
         
-        HashMap <GPSPoint,Double> queueOfPoints = new HashMap<GPSPoint, Double>(); // actualy queue for compressed trajectory
+        HashMap <GPSPoint,Double> queueOfPoints = new HashMap<GPSPoint, Double>(); // actual queue for compressed trajectory
         HashMap <GPSPoint,Double> piQueueOfPoints = new HashMap<GPSPoint, Double>(); // Map storing, for each p_i the maximum of priority that neighbouring points of p_i had when removed from Q
         HashMap <GPSPoint,GPSPoint> predQueueOfPoints = new HashMap<GPSPoint, GPSPoint>();
         HashMap <GPSPoint,GPSPoint> succQueueOfPoints = new HashMap<GPSPoint, GPSPoint>();
